@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "picogl"
+version = "0.1.0"
+description = "A Python OpenGL library aiming to be simple, fully abstracted, with a modern API."
+readme = "README.md"
+authors = [
+    { name = "Mark Brooks", email = "mark.x.brooks@gmail.com" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "PyOpenGL",
+    "numpy",
+    "pyglm"
+]
+
+[project.urls]
+Homepage = "https://github.com/markxbrooks/picogl"
+Source = "https://github.com/markxbrooks/picogl"
+Issues = "https://github.com/markxbrooks/picogl/issues"
