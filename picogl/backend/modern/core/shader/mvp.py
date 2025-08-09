@@ -19,7 +19,7 @@ from numpy import ndarray
 
 from pyglm import glm
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from picogl.backend.legacy.core.camera.look_at import look_at
 from picogl.backend.modern.core.shader.rotation_matrix import create_rotation_matrix
 

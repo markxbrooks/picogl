@@ -8,7 +8,7 @@ import numpy as np
 from OpenGL._bytes import bytes
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from picogl.shaders.uniform.setters import (
     set_uniform_bool,
     set_uniform_float,

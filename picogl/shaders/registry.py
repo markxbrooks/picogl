@@ -31,7 +31,7 @@ from typing import Dict, Optional
 
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from picogl.backend.modern.core.shader.load import load_shader
 from picogl.shaders.type import ShaderType
 

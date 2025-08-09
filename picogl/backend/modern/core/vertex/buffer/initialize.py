@@ -4,7 +4,7 @@ Initialize VBOs
 
 from elmo.gl.backend.modern.entities.calpha.setup import setup_calpha_vaos
 from elmo.gl.backend.modern.primitives.ribbon.setup import setup_ribbons_vaos
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from elmo.pdb.three_dimensions.molecule import Molecule3D
 from elmo.gl.buffers.molecule.molecule import MolecularRenderBuffers
 

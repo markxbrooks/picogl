@@ -51,7 +51,7 @@ from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 from picogl.buffers.vao.draw import vao_draw_with_attributes
 
 from elmo.gl.backend.modern.entities.atoms.enable import enable_atom_rendering_state
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from picogl.safe import glGenSafe
 
 

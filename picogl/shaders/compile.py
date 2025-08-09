@@ -19,7 +19,7 @@ from OpenGL.raw.GL.VERSION.GL_2_0 import (
 )
 from PySide6.QtOpenGL import QOpenGLShader, QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from OpenGL.GL import glGetShaderiv
 from OpenGL.GL.shaders import compileProgram
 from picogl.shaders.load import DEFAULT_FRAGMENT_SHADER_SRC, DEFAULT_VERTEX_SHADER_SRC

@@ -4,7 +4,7 @@ import numpy as np
 from pyglm import glm
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from elmo.utils.shaderLoader import Shader
 from OpenGL.GL import *
 from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv

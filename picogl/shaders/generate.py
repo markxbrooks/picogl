@@ -2,7 +2,7 @@ from typing import Optional
 
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from picogl.shaders.compile import qt_compile_shaders
 
 

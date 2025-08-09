@@ -13,7 +13,7 @@ Dependencies:
 - numpy
 - PySide6 (Qt GUI and OpenGL modules)
 - OpenGL (PyOpenGL)
-- elmo.logger (custom logging utility)
+- picogl.logger (custom logging utility)
 
 Functions:
 ----------
@@ -54,7 +54,7 @@ from OpenGL.raw.GL.VERSION.GL_2_0 import glUniform1f, glUniform1i, glUniform3f
 from PySide6.QtGui import QOpenGLFunctions as gl
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from OpenGL.GL import *
 from OpenGL.GL import glUniformMatrix4fv
 

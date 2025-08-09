@@ -3,7 +3,7 @@ from PySide6.QtGui import QMatrix4x4
 from PySide6.QtGui import QOpenGLFunctions as gl
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from elmo.logger import Logger as log
+from picogl.logger import Logger as log
 from OpenGL.GL import glUniformMatrix4fv
 from OpenGL.GL.shaders import GL_FALSE
 from picogl.error import check_errors
