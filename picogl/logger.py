@@ -8,7 +8,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any, Optional
 
-from elmo.project import __project__
+from picogl.project import __project__
 
 NOW = datetime.now()
 DATE_STRING = NOW.strftime("%d%b%Y")

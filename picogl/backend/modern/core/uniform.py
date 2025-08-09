@@ -1,13 +1,13 @@
 from typing import Union
 
 import numpy as np
+from elmo.utils.shaderLoader import Shader
+from OpenGL.GL import *
+from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
 from pyglm import glm
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
 from picogl.logger import Logger as log
-from elmo.utils.shaderLoader import Shader
-from OpenGL.GL import *
-from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
 
 
 def set_uniform_value(

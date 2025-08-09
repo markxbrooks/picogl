@@ -21,9 +21,6 @@ Features:
 Dependencies:
 - numpy
 - PyOpenGL (OpenGL.GL and OpenGL.raw.GL)
-- elmo.picogl.backend.modern.core.vertex.base
-- elmo.picogl.backend.modern.core.vertex.buffer_object
-- elmo.picogl.backend.modern.core.vertex.element_buffer_object (used indirectly)
 
 Example usage:
 ==============
@@ -39,18 +36,17 @@ import ctypes
 
 import numpy as np
 
+from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
 from OpenGL.raw.GL._types import GL_FLOAT, GL_UNSIGNED_INT
+from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS
 from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW
-from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
-from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 
+from picogl.backend.modern.core.vertex.array.helpers import enable_points_rendering_state
 from picogl.backend.modern.core.vertex.base import VertexBase
 from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 from picogl.buffers.vao.draw import vao_draw_with_attributes
-
-from elmo.gl.backend.modern.entities.atoms.enable import enable_atom_rendering_state
 from picogl.logger import Logger as log
 from picogl.safe import glGenSafe
 
@@ -225,5 +221,5 @@ class VertexArrayObject(VertexBase):
         :return: None
         """
         atom_count = index_count or self.index_count
-        enable_atom_rendering_state()
+        enable_points_rendering_state()
         vao_draw_with_attributes(self.attributes, atom_count, mode)

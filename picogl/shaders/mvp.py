@@ -1,12 +1,12 @@
 import numpy as np
+from OpenGL.GL import glUniformMatrix4fv
+from OpenGL.GL.shaders import GL_FALSE
 from PySide6.QtGui import QMatrix4x4
 from PySide6.QtGui import QOpenGLFunctions as gl
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from picogl.logger import Logger as log
-from OpenGL.GL import glUniformMatrix4fv
-from OpenGL.GL.shaders import GL_FALSE
 from picogl.error import check_errors
+from picogl.logger import Logger as log
 
 
 def use_non_qt_shader_with_mvp(shader_program: int, mvp_matrix: np.ndarray):

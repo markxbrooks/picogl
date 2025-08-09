@@ -31,8 +31,8 @@ from typing import Dict, Optional
 
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
-from picogl.logger import Logger as log
 from picogl.backend.modern.core.shader.load import load_shader
+from picogl.logger import Logger as log
 from picogl.shaders.type import ShaderType
 
 

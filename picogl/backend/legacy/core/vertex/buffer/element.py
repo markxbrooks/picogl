@@ -1,9 +1,9 @@
 import ctypes
 
 import numpy as np
+from OpenGL.GL import glDrawElements
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_LINES, GL_UNSIGNED_INT
 from OpenGL.raw.GL.VERSION.GL_1_5 import GL_ELEMENT_ARRAY_BUFFER
-from OpenGL.GL import glDrawElements
 
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 

@@ -11,18 +11,16 @@ Example Usage:
 
 from typing import Optional
 
-from OpenGL.raw.GL.VERSION.GL_2_0 import (
-    GL_COMPILE_STATUS,
-    GL_FRAGMENT_SHADER,
-    GL_VERTEX_SHADER,
-    glGetShaderInfoLog,
-)
+from OpenGL.GL import glGetShaderiv
+from OpenGL.GL.shaders import compileProgram
+from OpenGL.raw.GL.VERSION.GL_2_0 import (GL_COMPILE_STATUS,
+                                          GL_FRAGMENT_SHADER, GL_VERTEX_SHADER,
+                                          glGetShaderInfoLog)
 from PySide6.QtOpenGL import QOpenGLShader, QOpenGLShaderProgram
 
 from picogl.logger import Logger as log
-from OpenGL.GL import glGetShaderiv
-from OpenGL.GL.shaders import compileProgram
-from picogl.shaders.load import DEFAULT_FRAGMENT_SHADER_SRC, DEFAULT_VERTEX_SHADER_SRC
+from picogl.shaders.load import (DEFAULT_FRAGMENT_SHADER_SRC,
+                                 DEFAULT_VERTEX_SHADER_SRC)
 
 VERTEX_SHADER_SRC_HARDCODED_TEST = """#version 330 core
 

@@ -22,14 +22,11 @@ Example usage:
 """
 
 import numpy as np
-from OpenGL.raw.GL.VERSION.GL_1_5 import (
-    GL_ELEMENT_ARRAY_BUFFER,
-    GL_STATIC_DRAW,
-    glBindBuffer,
-    glDeleteBuffers,
-)
-
 from OpenGL.GL import glBufferData, glGenBuffers
+from OpenGL.raw.GL.VERSION.GL_1_5 import (GL_ELEMENT_ARRAY_BUFFER,
+                                          GL_STATIC_DRAW, glBindBuffer,
+                                          glDeleteBuffers)
+
 from picogl.backend.modern.core.vertex.base import VertexBase
 
 

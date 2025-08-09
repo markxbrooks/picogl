@@ -49,14 +49,14 @@ Usage Example:
 
 import numpy as np
 from OpenGL._bytes import bytes
+from OpenGL.GL import *
+from OpenGL.GL import glUniformMatrix4fv
 from OpenGL.raw.GL._types import GL_FALSE
 from OpenGL.raw.GL.VERSION.GL_2_0 import glUniform1f, glUniform1i, glUniform3f
 from PySide6.QtGui import QOpenGLFunctions as gl
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
 from picogl.logger import Logger as log
-from OpenGL.GL import *
-from OpenGL.GL import glUniformMatrix4fv
 
 
 def set_render_uniforms(shader_program: int) -> None:

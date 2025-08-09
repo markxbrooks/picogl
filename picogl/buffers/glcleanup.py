@@ -40,7 +40,7 @@ Usage Example:
 
 from typing import Dict, Optional
 
-from OpenGL.GL import glDeleteVertexArrays, glDeleteBuffers
+from OpenGL.GL import glDeleteBuffers, glDeleteVertexArrays
 
 from picogl.backend.modern.core.vertex.base import VertexBase
 

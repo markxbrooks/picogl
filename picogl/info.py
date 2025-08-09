@@ -1,7 +1,6 @@
+from OpenGL.GL import glGetString
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_RENDERER, GL_VENDOR, GL_VERSION
 from OpenGL.raw.GL.VERSION.GL_2_0 import GL_SHADING_LANGUAGE_VERSION
-
-from OpenGL.GL import glGetString
 
 
 def get_gl_info():

@@ -9,12 +9,10 @@ from OpenGL._bytes import bytes
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
 from picogl.logger import Logger as log
-from picogl.shaders.uniform.setters import (
-    set_uniform_bool,
-    set_uniform_float,
-    set_uniform_matrix,
-    set_uniform_vec3,
-)
+from picogl.shaders.uniform.setters import (set_uniform_bool,
+                                            set_uniform_float,
+                                            set_uniform_matrix,
+                                            set_uniform_vec3)
 
 
 def set_common_shader_uniforms(

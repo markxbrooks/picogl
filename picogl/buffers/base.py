@@ -48,7 +48,6 @@ from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 
 
-
 @dataclass
 class RenderBuffersBase:
     """OpenGL render buffer base class"""

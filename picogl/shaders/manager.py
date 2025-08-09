@@ -40,8 +40,9 @@ import numpy as np
 from pyglm import glm
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
+from picogl.backend.modern.core.uniform import (set_uniform_value,
+                                                shader_uniform_set_mvp)
 from picogl.logger import Logger as log
-from picogl.backend.modern.core.uniform import set_uniform_value, shader_uniform_set_mvp
 from picogl.shaders.compile import qt_compile_shaders
 from picogl.shaders.generate import generate_shader_programs
 from picogl.shaders.load import load_fragment_and_vertex_for_shader_type

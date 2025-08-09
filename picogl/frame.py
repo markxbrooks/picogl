@@ -1,14 +1,9 @@
 import platform
 
-from OpenGL.raw.GL.VERSION.GL_1_0 import (
-    GL_COLOR_BUFFER_BIT,
-    GL_DEPTH_BUFFER_BIT,
-    GL_DEPTH_TEST,
-    glClear,
-    glClearColor,
-    glEnable,
-    glViewport,
-)
+from OpenGL.raw.GL.VERSION.GL_1_0 import (GL_COLOR_BUFFER_BIT,
+                                          GL_DEPTH_BUFFER_BIT, GL_DEPTH_TEST,
+                                          glClear, glClearColor, glEnable,
+                                          glViewport)
 from OpenGL.raw.GL.VERSION.GL_3_2 import GL_PROGRAM_POINT_SIZE
 
 

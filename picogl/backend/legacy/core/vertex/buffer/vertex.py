@@ -1,9 +1,10 @@
 import ctypes
 
 import numpy as np
-
 from OpenGL.GL import *
+
 from picogl.backend.modern.core.vertex.base import VertexBase
+
 
 class LegacyVBO(VertexBase):
     """Legacy OpenGL Vertex Buffer Object (VBO) or Element Buffer Object (EBO)."""

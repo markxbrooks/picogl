@@ -1,6 +1,5 @@
-from OpenGL.raw.GL.VERSION.GL_2_0 import glUseProgram
-
 from elmo.utils.shaderLoader import Shader
+from OpenGL.raw.GL.VERSION.GL_2_0 import glUseProgram
 
 
 def bind_shader(shader: Shader = None) -> None:

@@ -1,8 +1,8 @@
 """Modern VBO"""
 
 import numpy as np
-from OpenGL.raw.GL.VERSION.GL_1_5 import GL_ARRAY_BUFFER
 from OpenGL.GL import glGenBuffers
+from OpenGL.raw.GL.VERSION.GL_1_5 import GL_ARRAY_BUFFER
 
 from picogl.backend.modern.core.vertex.base import VertexBase
 

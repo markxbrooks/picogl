@@ -1,5 +1,4 @@
 import numpy as np
-
 from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
 from OpenGL.GL.shaders import GL_TRUE
 

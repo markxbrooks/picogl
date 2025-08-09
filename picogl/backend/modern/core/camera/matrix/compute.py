@@ -32,10 +32,11 @@ Usage example:
 """
 
 import numpy as np
-
 from elmo.ui.state.ui import UiState
-from picogl.backend.modern.core.camera.matrix.update import update_camera_matrix
+
 from picogl.backend.legacy.core.camera.look_at import look_at, perspective
+from picogl.backend.modern.core.camera.matrix.update import \
+    update_camera_matrix
 
 
 def compute_camera_matrices(

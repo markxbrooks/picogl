@@ -1,6 +1,6 @@
 import numpy as np
-
 from OpenGL.GL import glColorPointer
+
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 
 

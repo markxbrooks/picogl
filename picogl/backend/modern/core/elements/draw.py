@@ -1,8 +1,7 @@
+from OpenGL.GL import glDrawElements
 from OpenGL.raw.GL._types import GL_UNSIGNED_INT
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_LINES
 from OpenGL.raw.GL.VERSION.GL_3_0 import glBindVertexArray
-
-from OpenGL.GL import glDrawElements
 
 
 def draw_elements(

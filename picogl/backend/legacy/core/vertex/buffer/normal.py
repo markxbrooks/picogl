@@ -1,7 +1,7 @@
 import numpy as np
+from OpenGL.GL import glNormalPointer
 from OpenGL.raw.GL._types import GL_FLOAT
 
-from OpenGL.GL import glNormalPointer
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 
 
