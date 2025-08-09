@@ -1,6 +1,6 @@
 from typing import Union
 
-import numpy as npE
+import numpy as np
 from pyglm import glm
 from PySide6.QtOpenGL import QOpenGLShaderProgram
 
