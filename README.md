@@ -19,4 +19,11 @@ Whether you’re building interactive visualizations, scientific simulations, or
 ## 🚀 Installation
 
 ```bash
-pip install picogl
+    pip install picogl
+```
+or for an editable version:
+
+```bash
+    pip install -e picogl
+```
+
