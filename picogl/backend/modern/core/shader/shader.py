@@ -2,7 +2,7 @@
 import os
 from OpenGL import GL as gl
 
-from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, compile_shader, read_shader_sources
+from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, compile_shader, read_shader_source
 from picogl.logger import Logger as log
 
 
@@ -16,8 +16,30 @@ class PicoGLShader:
         self.fragment_shader = None
         self.program = None
 
+    def __enter__(self):
+        self.bind()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.unbind()
+
     def program_id(self):
         return self.program
+
+    def init_shader_from_glsl_files(self,
+                              vertex_source_file: str,
+                              fragment_source_file: str,
+                              base_dir: str = None) -> None:
+        """
+        init_shader_from_glsl_files
+
+        :param base_dir: directory containing vertex shaders
+        :param vertex_source_file: list of paths to vertex shaders
+        :param fragment_source_file: list of paths to fragment shaders
+        :return: None
+        """
+        vertex_sources = read_shader_source(vertex_source_file, base_dir=base_dir)
+        fragment_sources = read_shader_source(fragment_source_file, base_dir=base_dir)
+        self.init_shader_from_glsl(vertex_sources, fragment_sources)
 
     def init_shader_from_glsl(self,
                               vertex_sources: str,
@@ -94,6 +116,9 @@ class PicoGLShader:
         """ begin"""
         gl.glUseProgram(self.program)
         log_gl_error()
+
+    def unbind(self):
+        gl.glUseProgram(0)
 
     def release(self):
         gl.glUseProgram(0)
