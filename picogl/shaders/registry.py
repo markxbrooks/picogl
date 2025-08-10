@@ -29,9 +29,8 @@ bonds_frag.glsl
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
-from PySide6.QtOpenGL import QOpenGLShaderProgram
-
 from picogl.backend.modern.core.shader.load import load_shader
+from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.logger import Logger as log
 from picogl.shaders.type import ShaderType
 
@@ -40,9 +39,9 @@ from picogl.shaders.type import ShaderType
 class ShaderRegistry:
     """ShaderRegistry"""
 
-    shaders: Dict[ShaderType, QOpenGLShaderProgram] = field(default_factory=dict)
+    shaders: Dict[ShaderType, PicoGLShader] = field(default_factory=dict)
 
-    def load_and_add(self, shader_type: ShaderType) -> Optional[QOpenGLShaderProgram]:
+    def load_and_add(self, shader_type: ShaderType) -> Optional[PicoGLShader]:
         """
         Load, compile, and register a shader_manager.current_shader_program for the given ShaderType.
         """
@@ -59,7 +58,7 @@ class ShaderRegistry:
             )
             return None
 
-    def get(self, shader_type: ShaderType) -> Optional[QOpenGLShaderProgram]:
+    def get(self, shader_type: ShaderType) -> Optional[PicoGLShader]:
         return self.shaders.get(shader_type)
 
     def has(self, shader_type: ShaderType) -> bool:

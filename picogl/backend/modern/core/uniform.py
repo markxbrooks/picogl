@@ -1,17 +1,16 @@
 from typing import Union
 
 import numpy as np
-from elmo.utils.shaderLoader import Shader
 from OpenGL.GL import *
 from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
 from pyglm import glm
-from PySide6.QtOpenGL import QOpenGLShaderProgram
 
+from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.logger import Logger as log
 
 
 def set_uniform_value(
-    qt_shader_program: QOpenGLShaderProgram,
+    shader_program: int,
     uniform_name: str,
     uniform_value: Union[
         float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray
@@ -20,13 +19,13 @@ def set_uniform_value(
     """
     set_uniform_value
 
-    :param qt_shader_program: QOpenGLShaderProgram
+    :param shader_program: int
     :param uniform_name: Name of the uniform variable
     :param uniform_value: Value to set (supports float, int, vec2, vec3, vec4, mat4, or np.ndarray)
 
     Set a uniform variable in a shader program
     """
-    location = glGetUniformLocation(qt_shader_program.programId(), uniform_name)
+    location = glGetUniformLocation(shader_program, uniform_name)
     if location == -1:
         log.warning(f"Uniform '{uniform_name}' not found in shader.")
         return
@@ -63,17 +62,17 @@ def set_uniform_value(
         )
 
 
-def shader_uniform_set_mvp(
-    qt_shader_program: QOpenGLShaderProgram, mvp_matrix: np.ndarray | glm.mat4
+def shader_uniform_set_mvp(shader_program: int,
+                           mvp_matrix: np.ndarray | glm.mat4
 ):
     """
     shader_uniform_set_mvp
 
     :param mvp_matrix: np.ndarray or glm.mat4 - Model-View-Projection matrix
-    :param qt_shader_program: QOpenGLShaderProgram
+    :param shader_program: int
     :return: None
     """
-    mvp_loc = glGetUniformLocation(qt_shader_program.programId(), "mvp")
+    mvp_loc = glGetUniformLocation(shader_program, "mvp")
     if mvp_loc == -1:
         log.warning("Uniform 'mvp' not found in shader.")
     else:
@@ -86,7 +85,7 @@ def shader_uniform_set_mvp(
             glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm.value_ptr(mvp_matrix))
 
 
-def set_mvp_uniform(shader: Shader = None, mvp: glm.mat4 = None) -> None:
+def set_mvp_uniform(shader: PicoGLShader = None, mvp: glm.mat4 = None) -> None:
     """
     set_mvp_uniform
 

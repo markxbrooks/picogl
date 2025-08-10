@@ -11,7 +11,6 @@ Dependencies:
 -------------
 - numpy
 - PyOpenGL
-- elmo.gl (custom rendering state management)
 - picogl (legacy and modern OpenGL buffer abstractions)
 
 Classes:

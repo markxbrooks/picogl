@@ -38,12 +38,12 @@ from typing import Dict, Optional, Union
 
 import numpy as np
 from pyglm import glm
-from PySide6.QtOpenGL import QOpenGLShaderProgram
 
+from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.backend.modern.core.uniform import (set_uniform_value,
                                                 shader_uniform_set_mvp)
 from picogl.logger import Logger as log
-from picogl.shaders.compile import qt_compile_shaders
+from picogl.shaders.compile import compile_shaders
 from picogl.shaders.generate import generate_shader_programs
 from picogl.shaders.load import load_fragment_and_vertex_for_shader_type
 from picogl.shaders.type import ShaderType
@@ -51,20 +51,21 @@ from picogl.shaders.type import ShaderType
 
 @dataclass
 class ShaderManager:
-    shaders: Dict[ShaderType, QOpenGLShaderProgram] = field(default_factory=dict)
-    fallback_shader: Optional[QOpenGLShaderProgram] = None
+    shaders: Dict[ShaderType, PicoGLShader] = field(default_factory=dict)
+    fallback_shader: Optional[PicoGLShader] = None
     default_shader_type: ShaderType = ShaderType.DEFAULT
     current_shader_type: ShaderType = ShaderType.DEFAULT
-    current_shader: Optional[QOpenGLShaderProgram] = None
+    current_shader: Optional[PicoGLShader] = None
     current_shader_program: Optional[int] = None
     initialized: bool = False
     shader_directory: str = ""
+    fallback_shader_directory: str = ""
 
-    def use_shader_program(self, shader_program: QOpenGLShaderProgram) -> None:
+    def use_shader_program(self, shader_program: PicoGLShader) -> None:
         """
         use_shader_program
 
-        :param shader_program: QOpenGLShaderProgram
+        :param shader_program: PicoGLShader
         :return: None
         Bind the given shader shader_program and update current_shader/shader_program ID
         """
@@ -75,13 +76,13 @@ class ShaderManager:
         try:
             shader_program.bind()
             self.current_shader = shader_program
-            self.current_shader_program = shader_program.programId()
+            self.current_shader_program = shader_program.program_id()
         except Exception as ex:
             log.error(f"❌ Failed to bind shader shader_program: {ex}")
 
     def get_shader_type(
         self, shader_type: ShaderType
-    ) -> Optional[QOpenGLShaderProgram]:
+    ) -> Optional[PicoGLShader|PicoGLShader]:
         """
         Return the shader shader_program for the given ShaderType, loading if necessary.
         """
@@ -124,7 +125,7 @@ class ShaderManager:
         :return: None
         """
         shader_uniform_set_mvp(
-            qt_shader_program=self.current_shader, mvp_matrix=mvp_matrix
+            shader_program=self.current_shader.program_id(), mvp_matrix=mvp_matrix
         )
 
     def set_uniform_value(
@@ -142,7 +143,7 @@ class ShaderManager:
         :return: None
         """
         set_uniform_value(
-            qt_shader_program=self.current_shader,
+            shader_program=self.current_shader.program_id(),
             uniform_name=uniform_name,
             uniform_value=uniform_value,
         )
@@ -159,14 +160,14 @@ class ShaderManager:
             shader_type=self.default_shader_type, mvp_matrix=mvp_matrix
         )
 
-    def initialize_shaders(self):
+    def initialize_shaders(self, shader_dir: str = None):
         """Initialize src and mark GL state as ready."""
         # Load src into the manager
-        self.shader_directory = os.path.dirname(os.path.abspath(__file__))
+        self.shader_directory = shader_dir
 
         failed = []
         for shader_type in ShaderType:
-            log.message(f"Loading shader type: '{shader_type.value}'")
+            log.message(f"Loading shader type: '{shader_type.value} from {self.shader_directory}'")
             self.load_shader(shader_type)
             if self.shaders[shader_type] is self.fallback_shader:
                 failed.append(shader_type)
@@ -179,7 +180,7 @@ class ShaderManager:
         self.initialized = True
         log.message("✅ GLState initialized and src loaded (including fallback).")
         self.use_default_shader()
-        self.current_shader_program = self.current_shader.programId()
+        self.current_shader_program = self.current_shader.program_id()
         self.current_shader.bind()
 
     def load_shader(self, shader_type: ShaderType) -> None:
@@ -194,10 +195,10 @@ class ShaderManager:
             fragment_src, vertex_src = load_fragment_and_vertex_for_shader_type(
                 shader_type.value, self.shader_directory
             )
-            program = generate_shader_programs(vertex_src, fragment_src, shader_type)
-            if program:
+            picogl_shader_program = generate_shader_programs(vertex_src, fragment_src, shader_type)
+            if picogl_shader_program:
                 log.message(f"✅ Shader type {shader_type} registered")
-                self.shaders[shader_type] = program
+                self.shaders[shader_type] = picogl_shader_program
             else:
                 log.warning(f"⚠️ Falling back for {shader_type}")
                 self._ensure_fallback()
@@ -218,7 +219,7 @@ class ShaderManager:
                 vert, frag = load_fragment_and_vertex_for_shader_type(
                     "fragment", self.shader_directory
                 )
-                self.fallback_shader = qt_compile_shaders(vert, frag, "fallback")
+                self.fallback_shader = compile_shaders(vert, frag, "fallback")
                 log.message(
                     "✅ Fallback shader_manager.current_shader_program compiled"
                 )
@@ -227,7 +228,7 @@ class ShaderManager:
                     f"❌ Fallback shader_manager.current_shader_program setup failed: {ex}"
                 )
 
-    def get(self, shader_type: ShaderType) -> Optional[QOpenGLShaderProgram]:
+    def get(self, shader_type: ShaderType) -> Optional[PicoGLShader|PicoGLShader]:
         return self.shaders.get(shader_type)
 
     def release_shaders(self):

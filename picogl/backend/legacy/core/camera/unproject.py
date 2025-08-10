@@ -5,9 +5,9 @@ Unproject
 from typing import Optional, Tuple
 import numpy as np
 
-from OpenGL.GL import glGetDoublev
+from OpenGL.GL import glGetDoublev, glGetIntegerv
 from OpenGL.GLU import gluUnProject
-from OpenGL.raw.GL.VERSION.GL_1_0 import GL_MODELVIEW_MATRIX, GL_PROJECTION_MATRIX, glGetIntegerv, GL_VIEWPORT, \
+from OpenGL.raw.GL.VERSION.GL_1_0 import GL_MODELVIEW_MATRIX, GL_PROJECTION_MATRIX, GL_VIEWPORT, \
     glIsEnabled, GL_DEPTH_TEST, glFlush, glReadPixels, GL_DEPTH_COMPONENT
 from OpenGL.raw.GL._types import GL_FLOAT
 

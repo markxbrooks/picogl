@@ -73,7 +73,7 @@ def normalize_device_coordinates(depth, viewport, x, y):
     # Normalize device coordinates
     ndc_x = (x - viewport[0]) / viewport[2] * 2.0 - 1.0
     ndc_y = (y - viewport[1]) / viewport[3] * 2.0 - 1.0
-    ndc_y = -ndc_y  # Flip Y axis (OpenGL vs screen coordinates)
+    ndc_y = -ndc_y  # Flip Y axis (OpenGL vertex_shader screen coordinates)
     ndc_z = depth * 2.0 - 1.0
     return ndc_x, ndc_y, ndc_z
 

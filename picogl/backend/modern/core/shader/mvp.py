@@ -12,6 +12,7 @@ Set up Model View Projection (MVP) matrix for 3D rendering.
 
         mvp = setup_mvp(angle_x=0.5, angle_y=1.0, zoom=1.2, aspect=16/9)
 """
+
 import numpy as np
 from numpy import ndarray
 from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv

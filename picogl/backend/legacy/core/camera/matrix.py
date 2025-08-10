@@ -11,7 +11,6 @@ Dependencies:
 -------------
 - numpy
 - PyOpenGL
-- elmo.ui.parameter.camera (CameraParameterZoom)
 
 Functions:
 ----------

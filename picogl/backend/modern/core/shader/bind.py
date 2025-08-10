@@ -1,8 +1,8 @@
-from elmo.utils.shaderLoader import Shader
+from elmo.utils.shaderLoader import PicoGLShader
 from OpenGL.raw.GL.VERSION.GL_2_0 import glUseProgram
 
 
-def bind_shader(shader: Shader = None) -> None:
+def bind_shader(shader: PicoGLShader = None) -> None:
     """
     bind_shader
 
