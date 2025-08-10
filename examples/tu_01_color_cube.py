@@ -1,18 +1,18 @@
-# import os,sys
-# sys.path.append(os.path.abspath(os.path.dirname(__file__)))
-import os
-from typing import Any
+"""
+Illustrating the use of PicoGL to draw a cube in OpenGL
+"""
 
-import numpy as np
+import os
 
 from OpenGL.GL import *  # pylint: disable=W0614
 from pyglm import glm
 
 from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
+from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.shaders.mvp import calculate_mvp_matrix, set_mvp_matrix_to_uniform_id
 from picogl.shaders.uniform import get_uniform_location
 from picogl.logger import setup_logging, Logger as log
+from picogl.utils.reshape import to_float32_row
 from utils.glutWindow import GlutWindow
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
 
@@ -20,15 +20,6 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
 setup_logging()
 
-
-def to_float32_row(array_like: Any) -> np.ndarray:
-    """
-    Reshape input to a single row and convert to np.float32.
-
-    :param array_like: Any array-like object (list, tuple, np.ndarray).
-    :return: A NumPy array of shape (1, N) with dtype np.float32.
-    """
-    return np.reshape(array_like, (1, -1)).astype(np.float32)
 
 class CubeWindow(GlutWindow):
 
@@ -43,6 +34,10 @@ class CubeWindow(GlutWindow):
         self.context = None
 
     def initializeGL(self):
+        """
+        initializeGL
+        :return:
+        """
         glClearColor(0.0,0,0.4,0)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
@@ -60,13 +55,6 @@ class CubeWindow(GlutWindow):
                                            base_dir=GLSL_DIR)
         self.context.mvp_id = get_uniform_location(shader_program=shader.program,
                                                    uniform_name="mvp_matrix")
-        self.context.vbo = ModernVBO()
-        self.context.vbo.bind()
-        self.context.vbo.set_data(data=self.cube_data_positions)
-
-        self.context.cbo = ModernVBO()
-        self.context.cbo.bind()
-        self.context.cbo.set_data(data=self.cube_color_data)
 
     def resizeGL(self, width: int, height: int):
         """
@@ -88,19 +76,12 @@ class CubeWindow(GlutWindow):
         with self.shader:
             set_mvp_matrix_to_uniform_id(self.context.mvp_id,
                                          self.context.mvp_matrix)
-
-            glEnableVertexAttribArray(0)
-            glBindBuffer(GL_ARRAY_BUFFER, self.context.vbo.handle)
-            glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,None)
-
-            glEnableVertexAttribArray(1)
-            glBindBuffer(GL_ARRAY_BUFFER, self.context.cbo.handle)
-            glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,0,None)
-
-            glDrawArrays(GL_TRIANGLES, 0, 12*3) # 12*3 indices starting at 0 -> 12 triangles
-
-            glDisableVertexAttribArray(0)
-            glDisableVertexAttribArray(1)
+            cube_vao = VertexArrayObject()
+            self.context.vertex_buffer_object = cube_vao.add_vbo(index=0, data=self.cube_data_positions, size=3)
+            self.context.color_buffer_object = cube_vao.add_vbo(index=1, data=self.cube_color_data, size=3)
+            with cube_vao:
+                #cube_vao.draw(mode=GL_TRIANGLES, index_count=12 * 3)
+                glDrawArrays(GL_TRIANGLES, 0, 12 * 3)
 
 
 if __name__ == "__main__":
