@@ -20,16 +20,16 @@ class PicoGLShader:
         return self.program
 
     def init_shader_from_glsl(self,
-                              vertex_sources: str,
-                              fragment_sources: str) -> None:
+                              vertex_source: str,
+                              fragment_source: str) -> None:
         """
         init_shader_from_glsl
 
-        :param vertex_sources: list of paths to vertex shaders
-        :param fragment_sources: list of paths to fragment shaders
+        :param vertex_source: list of paths to vertex shaders
+        :param fragment_source: list of paths to fragment shaders
         :return: None
         """
-        self.init_shader(vertex_sources, fragment_sources)
+        self.init_shader(vertex_source, fragment_source)
 
     def init_shader(self,
                     vertex_source: str,
