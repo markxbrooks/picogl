@@ -2,7 +2,7 @@
 import os
 from OpenGL import GL as gl
 
-
+from picogl.shaders.uniform import get_uniform_location
 from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, read_shader_source
 from picogl.logger import Logger as log
 
