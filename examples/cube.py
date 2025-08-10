@@ -1,5 +1,7 @@
 """
 Illustrating the use of PicoGL to draw a cube in OpenGL
+
+compare to tu_01_color_cube
 """
 
 import os
@@ -41,7 +43,7 @@ class BasicObjectRenderer(RendererBase):
             shader_program=self.context.shader.program,
             uniform_name="mvp_matrix"
         )
-        log.parameter("MVP uniform ID", self.context.mvp_id)
+        log.parameter("MVP uniform ID: ", self.context.mvp_id)
 
     def initialize_rendering_buffers(self):
         """Create VAO and VBOs once."""

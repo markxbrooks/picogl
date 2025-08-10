@@ -1,91 +1,84 @@
-"""
-Illustrating the use of PicoGL to draw a cube in OpenGL
-"""
 
-import os
 
 from OpenGL.GL import *  # pylint: disable=W0614
+
 from pyglm import glm
 
-from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
-from picogl.shaders.mvp import calculate_mvp_matrix, set_mvp_matrix_to_uniform_id
-from picogl.shaders.uniform import get_uniform_location
-from picogl.logger import setup_logging, Logger as log
-from picogl.utils.reshape import to_float32_row
-from utils.glutWindow import GlutWindow
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
-
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
-setup_logging()
+from utils.glutWindow import GlutWindow
+from utils.shaderLoader import Shader
 
 
-class CubeWindow(GlutWindow):
+class Tu01Win(GlutWindow):
 
     class GLContext(object):
         pass
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.cube_data_positions = to_float32_row(g_vertex_buffer_data)
-        self.cube_color_data = to_float32_row(g_color_buffer_data)
-        self.shader = None
-        self.context = None
-
     def initializeGL(self):
-        """
-        initializeGL
-        :return:
-        """
         glClearColor(0.0,0,0.4,0)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_CULL_FACE)
 
-    def initialize_buffers(self):
-        """
-        initialize_buffers
-        """
+    def init_context(self):
         self.context = self.GLContext()
-        self.shader = shader = PicoGLShader()
+        self.shader = shader = Shader()
+        shader.initShaderFromGLSL(["glsl/tu01/vertex.glsl"],["glsl/tu01/fragment.glsl"])
+        self.context.MVP_ID   = glGetUniformLocation(shader.program,"MVP")
 
-        shader.init_shader_from_glsl_files("vertex.glsl",
-                                           "fragment.glsl",
-                                           base_dir=GLSL_DIR)
-        self.context.mvp_id = get_uniform_location(shader_program=shader.program,
-                                                   uniform_name="mvp_matrix")
+        self.context.vertexbuffer  = glGenBuffers(1)
+        glBindBuffer(GL_ARRAY_BUFFER,self.context.vertexbuffer)
+        glBufferData(GL_ARRAY_BUFFER,len(g_vertex_buffer_data)*4,(GLfloat * len(g_vertex_buffer_data))(*g_vertex_buffer_data),GL_STATIC_DRAW)
 
-    def resizeGL(self, width: int, height: int):
-        """
-        resizeGL
 
-        :param width: int
-        :param height: int
-        """
-        glViewport(0, 0, width, height)
-        calculate_mvp_matrix(self.context, width, height)
+        self.context.colorbuffer  = glGenBuffers(1)
+        glBindBuffer(GL_ARRAY_BUFFER,self.context.colorbuffer)
+        glBufferData(GL_ARRAY_BUFFER,len(g_color_buffer_data)*4,(GLfloat * len(g_color_buffer_data))(*g_color_buffer_data),GL_STATIC_DRAW)
+
+    def calc_MVP(self,width=1920,height=1080):
+
+        self.context.Projection = glm.perspective(glm.radians(45.0),float(width)/float(height),0.1,1000.0)
+        self.context.View =  glm.lookAt(glm.vec3(4,3,-3), # Camera is at (4,3,-3), in World Space
+                        glm.vec3(0,0,0), #and looks at the (0.0.0))
+                        glm.vec3(0,1,0) ) #Head is up (set to 0,-1,0 to look upside-down)
+
+        self.context.Model=  glm.mat4(1.0)
+
+        self.context.MVP =  self.context.Projection * self.context.View * self.context.Model
+
+    def resizeGL(self,Width,Height):
+
+        glViewport(0, 0, Width, Height)
+        self.calc_MVP(Width,Height)
 
     def paintGL(self):
-        """
-        paintGL
-        """
-        log.message("paintGL")
+
+        print("draw++")
+        #print self.context.MVP
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        with self.shader:
-            set_mvp_matrix_to_uniform_id(self.context.mvp_id,
-                                         self.context.mvp_matrix)
-            cube_vao = VertexArrayObject()
-            self.context.vertex_buffer_object = cube_vao.add_vbo(index=0, data=self.cube_data_positions, size=3)
-            self.context.color_buffer_object = cube_vao.add_vbo(index=1, data=self.cube_color_data, size=3)
-            with cube_vao:
-                index_count=12 * 3
-                cube_vao.draw(mode=GL_TRIANGLES, index_count=index_count)
+
+        self.shader.begin()
+        glUniformMatrix4fv(self.context.MVP_ID,1,GL_FALSE,glm.value_ptr(self.context.MVP))
+
+        glEnableVertexAttribArray(0)
+        glBindBuffer(GL_ARRAY_BUFFER, self.context.vertexbuffer)
+        glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,None)
+
+        glEnableVertexAttribArray(1)
+        glBindBuffer(GL_ARRAY_BUFFER, self.context.colorbuffer)
+        glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,0,None)
+
+
+        glDrawArrays(GL_TRIANGLES, 0, 12*3) # 12*3 indices starting at 0 -> 12 triangles
+
+        glDisableVertexAttribArray(0)
+        glDisableVertexAttribArray(1)
+        self.shader.end()
 
 
 if __name__ == "__main__":
 
-    win = CubeWindow()
+    win = Tu01Win()
     win.initializeGL()
-    win.initialize_buffers()
+    win.init_context()
     win.run()
