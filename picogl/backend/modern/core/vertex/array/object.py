@@ -37,6 +37,7 @@ import ctypes
 import numpy as np
 
 from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
+from OpenGL.raw.GL.VERSION.GL_1_1 import glDrawArrays
 from OpenGL.raw.GL._types import GL_FLOAT, GL_UNSIGNED_INT
 from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS
@@ -222,4 +223,5 @@ class VertexArrayObject(VertexBase):
         """
         atom_count = index_count or self.index_count
         enable_points_rendering_state()
-        vao_draw_with_attributes(self.attributes, atom_count, mode)
+        glDrawArrays(mode, 0, atom_count)
+        #vao_draw_with_attributes(self.attributes, atom_count, mode)
