@@ -1,25 +1,34 @@
 # import os,sys
 # sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 import os
+from typing import Any
 
 import numpy as np
-from OpenGL.GL import *  # pylint: disable=W0614
 
+from OpenGL.GL import *  # pylint: disable=W0614
 from pyglm import glm
 
 from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
-from picogl.shaders.mvp import calculate_mvp_matrix
+from picogl.shaders.mvp import calculate_mvp_matrix, set_mvp_matrix_to_uniform_id
 from picogl.shaders.uniform import get_uniform_location
-from utils.glutWindow import GlutWindow
-
 from picogl.logger import setup_logging, Logger as log
+from utils.glutWindow import GlutWindow
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
+GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
 setup_logging()
 
+
+def to_float32_row(array_like: Any) -> np.ndarray:
+    """
+    Reshape input to a single row and convert to np.float32.
+
+    :param array_like: Any array-like object (list, tuple, np.ndarray).
+    :return: A NumPy array of shape (1, N) with dtype np.float32.
+    """
+    return np.reshape(array_like, (1, -1)).astype(np.float32)
 
 class CubeWindow(GlutWindow):
 
@@ -28,8 +37,8 @@ class CubeWindow(GlutWindow):
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
-        self.cube_color_data = None
-        self.cube_data_positions = None
+        self.cube_data_positions = to_float32_row(g_vertex_buffer_data)
+        self.cube_color_data = to_float32_row(g_color_buffer_data)
         self.shader = None
         self.context = None
 
@@ -45,12 +54,10 @@ class CubeWindow(GlutWindow):
         """
         self.context = self.GLContext()
         self.shader = shader = PicoGLShader()
-        self.cube_data_positions = np.reshape(g_vertex_buffer_data, (1, -1)).astype(np.float32)
-        self.cube_color_data = np.reshape(g_color_buffer_data, (1, -1)).astype(np.float32)
 
-        shader.init_shader_from_glsl_files("glsl/tu01/vertex.glsl",
-                                           "glsl/tu01/fragment.glsl",
-                                           base_dir=CURRENT_DIR)
+        shader.init_shader_from_glsl_files("vertex.glsl",
+                                           "fragment.glsl",
+                                           base_dir=GLSL_DIR)
         self.context.mvp_id = get_uniform_location(shader_program=shader.program,
                                                    uniform_name="mvp_matrix")
         self.context.vbo = ModernVBO()
@@ -79,8 +86,8 @@ class CubeWindow(GlutWindow):
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         with self.shader:
-            self.set_mvp_matrix_to_uniform_id(self.context.mvp_id,
-                                              self.context.mvp_matrix)
+            set_mvp_matrix_to_uniform_id(self.context.mvp_id,
+                                         self.context.mvp_matrix)
 
             glEnableVertexAttribArray(0)
             glBindBuffer(GL_ARRAY_BUFFER, self.context.vbo.handle)
@@ -94,9 +101,6 @@ class CubeWindow(GlutWindow):
 
             glDisableVertexAttribArray(0)
             glDisableVertexAttribArray(1)
-
-    def set_mvp_matrix_to_uniform_id(self, mvp_id: int, mvp_matrix: np.ndarray):
-        glUniformMatrix4fv(mvp_id, 1, GL_FALSE, glm.value_ptr(mvp_matrix))
 
 
 if __name__ == "__main__":
