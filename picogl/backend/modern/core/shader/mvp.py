@@ -1,5 +1,5 @@
 """
-Set up Model View Projection (MVP) matrix for 3D rendering.
+Set up model view projection (MVP) matrix for 3D rendering.
 
     This function constructs a combined projection and view matrix based on camera orbit angles,
     zoom level, and viewport aspect ratio. It simulates a camera orbiting around the origin
@@ -48,7 +48,7 @@ def setup_mvp(angle_x: float,
     center = glm.vec3(0, 0, 0)
     up = glm.vec3(0, 1, 0)
 
-    # View and projection matrices
+    # view and projection matrices
     view = glm.lookAt(eye, center, up)
 
     # Apply orbit rotation (same as Rx * Ry in numpy)

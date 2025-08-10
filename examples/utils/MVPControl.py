@@ -18,7 +18,7 @@ class MVPControl:
         self.XAngle = 4
         #Initial vertical angle : none
         self.YAngle = - 0.6
-        # Initial Field of View
+        # Initial Field of view
         self.ZAngle = 0.0
         self.Fov = 60.0
         self.computeMatrices()

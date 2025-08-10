@@ -70,7 +70,7 @@ class MeshViewWindow(GlutWindow):
         glutAddMenuEntry("UV MAP",1)
         glutAddMenuEntry("WireFrame Mode",2)
         glutAddMenuEntry("GL_FILL Mode",4)
-        glutAddMenuEntry("Reset View",3)
+        glutAddMenuEntry("Reset view",3)
         glutAttachMenu(GLUT_RIGHT_BUTTON)
         return self
 

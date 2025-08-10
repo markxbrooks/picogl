@@ -68,7 +68,7 @@ def shader_uniform_set_mvp(shader_program: int,
     """
     shader_uniform_set_mvp
 
-    :param mvp_matrix: np.ndarray or glm.mat4 - Model-View-Projection matrix
+    :param mvp_matrix: np.ndarray or glm.mat4 - model-view-projection matrix
     :param shader_program: int
     :return: None
     """
