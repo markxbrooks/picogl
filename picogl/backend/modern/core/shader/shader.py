@@ -125,6 +125,13 @@ class PicoGLShader:
             err = gl.glGetProgramInfoLog(self.program)
             raise RuntimeError(f"Shader link failed: {err}")
         log_gl_error()
+    
+    def get_uniform_location(self, uniform_name):
+        """get_uniform_location"""
+        mvp_id = get_uniform_location(
+        shader_program=self.program,
+        uniform_name=uniform_name)
+        return mvp_id
 
     def begin(self):
         """ begin"""
