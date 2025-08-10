@@ -36,7 +36,8 @@ class Tu01Win(GlutWindow):
 		shader.init_shader_from_glsl_files("glsl/tu01/vertex.glsl",
 										   "glsl/tu01/fragment.glsl",
 										   base_dir=CURRENT_DIR)
-		self.context.mvp_id = self.get_uniform_location(shader)
+		self.context.mvp_id = self.get_uniform_location(shader=shader,
+														uniform_name="mvp_matrix")
 		self.context.vertex_buffer = glGenBuffers(1)
 		glBindBuffer(GL_ARRAY_BUFFER, self.context.vertex_buffer)
 		glBufferData(GL_ARRAY_BUFFER, len(g_vertex_buffer_data) * 4, (GLfloat * len(
@@ -46,8 +47,8 @@ class Tu01Win(GlutWindow):
 		glBufferData(GL_ARRAY_BUFFER, len(g_color_buffer_data) * 4, (GLfloat * len(
 			g_color_buffer_data))(*g_color_buffer_data), GL_STATIC_DRAW)
 
-	def get_uniform_location(self, shader):
-		mvp_id = glGetUniformLocation(shader.program, "mvp_matrix")
+	def get_uniform_location(self, shader, uniform_name):
+		mvp_id = glGetUniformLocation(shader.program, uniform_name)
 		return mvp_id
 
 	def calculate_mvp_matrix(self, width=1920, height=1080):
@@ -61,10 +62,10 @@ class Tu01Win(GlutWindow):
 
 		self.context.mvp_matrix = self.context.projection * self.context.view * self.context.model
 
-	def resize(self,Width,Height):
+	def resize(self, width, height):
 
-		glViewport(0, 0, Width, Height)
-		self.calculate_mvp_matrix(Width, Height)
+		glViewport(0, 0, width, height)
+		self.calculate_mvp_matrix(width, height)
 
 	def ogl_draw(self):
 
