@@ -6,7 +6,7 @@ from pyglm import glm
 
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.shaders.uniform import get_uniform_location
+from picogl.shaders.uniform import get_pgl_shader_uniform_location
 from picogl.utils.glut import GlutWindow
 from picogl.logger import setup_logging, Logger as log
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
@@ -52,7 +52,7 @@ class CubeWindow(GlutWindow):
         self.shader = PicoGLShader()
         self.shader.init_shader_from_glsl_files("glsl/cube/vertex.glsl", "glsl/cube/fragment.glsl",
                                                 base_dir=CURRENT_DIR)
-        self.context.mvp_id = get_uniform_location(self.shader, "mvp_matrix")
+        self.context.mvp_id = get_pgl_shader_uniform_location(self.shader, "mvp_matrix")
         self.cube_data = np.reshape(g_vertex_buffer_data, (1, -1)).astype(np.float32)
         self.cube_color_data = np.reshape(g_color_buffer_data, (1, -1)).astype(np.float32)
 
