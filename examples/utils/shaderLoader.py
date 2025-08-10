@@ -38,30 +38,30 @@ class Shader(object):
 
         # vertex shader
         #print('compile vertex shader...')
-        self.vs = gl.glCreateShader(gl.GL_VERTEX_SHADER) # pylint: disable=E1111
-        gl.glShaderSource(self.vs, vertex_shader_source_list)
-        gl.glCompileShader(self.vs)
-        if(gl.GL_TRUE!=gl.glGetShaderiv(self.vs, gl.GL_COMPILE_STATUS)):
-            err =  gl.glGetShaderInfoLog(self.vs)
+        self.vertex_shader = gl.glCreateShader(gl.GL_VERTEX_SHADER) # pylint: disable=E1111
+        gl.glShaderSource(self.vertex_shader, vertex_shader_source_list)
+        gl.glCompileShader(self.vertex_shader)
+        if(gl.GL_TRUE!=gl.glGetShaderiv(self.vertex_shader, gl.GL_COMPILE_STATUS)):
+            err =  gl.glGetShaderInfoLog(self.vertex_shader)
             raise Exception(err)  
-        gl.glAttachShader(self.program, self.vs)
+        gl.glAttachShader(self.program, self.vertex_shader)
         printOpenGLError()
 
         # fragment shader
         #print('compile fragment shader...')
-        self.fs = gl.glCreateShader(gl.GL_FRAGMENT_SHADER) # pylint: disable=E1111
-        gl.glShaderSource(self.fs, fragment_shader_source_list)
-        gl.glCompileShader(self.fs)
-        if(gl.GL_TRUE!=gl.glGetShaderiv(self.fs, gl.GL_COMPILE_STATUS)):
-            err =  gl.glGetShaderInfoLog(self.fs)
+        self.fragment_shader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER) # pylint: disable=E1111
+        gl.glShaderSource(self.fragment_shader, fragment_shader_source_list)
+        gl.glCompileShader(self.fragment_shader)
+        if(gl.GL_TRUE!=gl.glGetShaderiv(self.fragment_shader, gl.GL_COMPILE_STATUS)):
+            err =  gl.glGetShaderInfoLog(self.fragment_shader)
             raise Exception(err)       
-        gl.glAttachShader(self.program, self.fs)
+        gl.glAttachShader(self.program, self.fragment_shader)
         printOpenGLError()
 
         #print('link...')
         gl.glLinkProgram(self.program)
         if(gl.GL_TRUE!=gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS)):
-            err =  gl.glGetShaderInfoLog(self.vs)
+            err =  gl.glGetShaderInfoLog(self.vertex_shader)
             raise Exception(err)          
         printOpenGLError()
 

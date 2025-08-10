@@ -2,8 +2,30 @@
 import os
 from OpenGL import GL as gl
 
-from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, compile_shader, read_shader_source
+
+from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, read_shader_source
 from picogl.logger import Logger as log
+
+
+def compile_shader(shader_program: int,
+                   shader_type: int,
+                   source: str):
+    """
+    compile_vertex_shader
+
+    :param shader_program: int shader program
+    :param shader_type: int shader type e.g. GL_VERTEX_SHADER GL_FRAGMENT_SHADER
+    :param source: shader source string
+    """
+    shader = gl.glCreateShader(shader_type)  # pylint: disable=E1111
+    gl.glShaderSource(shader, source)
+    gl.glCompileShader(shader)
+    if gl.GL_TRUE != gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS):
+        err = gl.glGetShaderInfoLog(shader)
+        raise Exception(err)
+    gl.glAttachShader(shader_program, shader)
+    log_gl_error()
+    return shader
 
 
 class PicoGLShader:
@@ -66,23 +88,12 @@ class PicoGLShader:
         Create, compile, and link shaders into a program.
         """
         self.create_shader_program()
-        self.vertex_shader = self._compile_shader(gl.GL_VERTEX_SHADER, vertex_source)
-        self.fragment_shader = self._compile_shader(gl.GL_FRAGMENT_SHADER, fragment_source)
+        log.parameter("self.program", self.program)
+        log.parameter("vertex_source", vertex_source)
+        log.parameter("fragment_source", fragment_source)
+        self.vertex_shader = compile_shader(self.program, gl.GL_VERTEX_SHADER, vertex_source)
+        self.fragment_shader = compile_shader(self.program, gl.GL_FRAGMENT_SHADER, fragment_source)
         self.link_shader_program()
-
-    def _compile_shader(self,
-                        shader_type,
-                        source: str):
-        """
-        compile_vertex_shader
-
-        :param shader_type: shader type
-        :param source: list of paths to shader sources
-        """
-        shader = gl.glCreateShader(shader_type)
-        compile_shader(self.program, shader, source)
-        log_gl_error()
-        return shader
 
     def create_shader_program(self):
         """

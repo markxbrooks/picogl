@@ -5,12 +5,12 @@ import OpenGL.GL as gl
 import OpenGL.GLU as glu
 class GlutWindow(object):
 
-    def init_opengl(self):
+    def initializeGL(self):
         gl.glClearColor(0.0 ,0 ,0.4 ,0)
         gl.glDepthFunc(gl.GL_LESS)
         gl.glEnable(gl.GL_DEPTH_TEST)
 
-    def ogl_draw(self):
+    def paintGL(self):
         gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
 
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
@@ -22,16 +22,16 @@ class GlutWindow(object):
         print("please overrider ogl_draw")
 
     def display(self):
-        self.ogl_draw()
+        self.paintGL()
         oglut.glutSwapBuffers()
 
     def idle(self):
         pass
 
-    def resize(self,Width ,Height):
+    def resizeGL(self, width, height):
         print("please overrider resize")
-        gl.glViewport(0, 0, Width, Height)
-        glu.gluPerspective(45.0, float(Width ) /float(Height), 0.1, 1000.0)
+        gl.glViewport(0, 0, width, height)
+        glu.gluPerspective(45.0, float(width) / float(height), 0.1, 1000.0)
 
     def on_keyboard(self ,key ,x ,y):
         if self.controller is not None:
@@ -63,7 +63,7 @@ class GlutWindow(object):
         self.window = oglut.glutCreateWindow(b"window")
         oglut.glutDisplayFunc(self.display)
         # oglut.glutIdleFunc(self.display)
-        oglut.glutReshapeFunc(self.resize)
+        oglut.glutReshapeFunc(self.resizeGL)
         oglut.glutKeyboardFunc(self.on_keyboard)
         oglut.glutSpecialFunc(self.on_special_key)
         oglut.glutMouseFunc(self.on_mouse)

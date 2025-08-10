@@ -30,17 +30,18 @@ def compile_shader(program: int, shader: int, shader_source_list: str):
     gl.glAttachShader(program, shader)
 
 
-def read_shader_sources(shader_paths: list) -> list:
+def read_shader_source(shader_file_name: str, base_dir: str) -> str:
     """
-    read_shader_sources
-    :param shader_paths: list
+    read_shader_source
+
+    :param base_dir: str
+    :param shader_file_name: str
 
     Read shader source from shader_paths
     """
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    sources = []
-    for path in shader_paths:
-        abs_path = os.path.join(base_dir, path)
-        with open(abs_path, 'rb') as f:
-            sources.append(f.read())
-    return sources
+    if not base_dir:
+        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    abs_path = os.path.join(base_dir, shader_file_name)
+    with open(abs_path, 'r') as f:
+        source =f.read()
+    return source
