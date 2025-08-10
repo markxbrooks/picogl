@@ -72,7 +72,6 @@ class CubeWindow(GlutWindow):
         """
         log.message("paintGL")
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-
         with self.shader:
             set_mvp_matrix_to_uniform_id(self.context.mvp_id,
                                          self.context.mvp_matrix)
@@ -80,8 +79,8 @@ class CubeWindow(GlutWindow):
             self.context.vertex_buffer_object = cube_vao.add_vbo(index=0, data=self.cube_data_positions, size=3)
             self.context.color_buffer_object = cube_vao.add_vbo(index=1, data=self.cube_color_data, size=3)
             with cube_vao:
-                #cube_vao.draw(mode=GL_TRIANGLES, index_count=12 * 3)
-                glDrawArrays(GL_TRIANGLES, 0, 12 * 3)
+                index_count=12 * 3
+                cube_vao.draw(mode=GL_TRIANGLES, index_count=index_count)
 
 
 if __name__ == "__main__":

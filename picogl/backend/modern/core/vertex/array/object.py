@@ -222,6 +222,7 @@ class VertexArrayObject(VertexBase):
         :return: None
         """
         atom_count = index_count or self.index_count
-        enable_points_rendering_state()
+        if mode == GL_POINTS:
+            enable_points_rendering_state()
         glDrawArrays(mode, 0, atom_count)
         #vao_draw_with_attributes(self.attributes, atom_count, mode)

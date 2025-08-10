@@ -34,10 +34,10 @@ class MeshViewWindow(GlutWindow):
         # self.ViewPtr = glm.value_ptr(self.controller.ViewMatrix)
         # self.ProjectionPtr = glm.value_ptr(self.controller.ProjectionMatrix)
 
-    def resizeGL(self, Width, Height):
+    def resizeGL(self, width, height):
         print "resize"      
-        glViewport(0, 0, Width, Height)
-        self.calc_MVP(Width,Height)
+        glViewport(0, 0, width, height)
+        self.calc_MVP(width, height)
 
     def paintGL(self):
         print "draw"    

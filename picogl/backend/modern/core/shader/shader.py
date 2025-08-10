@@ -31,12 +31,24 @@ def compile_shader(shader_program: int,
 class PicoGLShader:
     """OpenGL Shader program manager for vertex and fragment shaders."""
 
-    def __init__(self, shader_name: str = None):
+    def __init__(self,
+                 shader_name: str = None,
+                 vertex_source_file: str = None,
+                 fragment_source_file: str = None,
+                 base_dir: str = None):
         """ constructor """
         self.shader_name = shader_name
+        self.vertex_source_file = vertex_source_file
+        self.fragment_source_file = fragment_source_file
+        self.base_dir = base_dir
         self.vertex_shader = None
         self.fragment_shader = None
         self.program = None
+
+        if vertex_source_file is not None and vertex_source_file is not None:
+            self.init_shader_from_glsl_files(vertex_source_file=vertex_source_file,
+                                             fragment_source_file=fragment_source_file,
+                                             base_dir=base_dir)
 
     def __enter__(self):
         self.bind()
