@@ -12,7 +12,7 @@ from utils.shaderLoader import Shader
 class MeshViewWindow(GlutWindow):
 
 
-    def init_opengl(self):
+    def initializeGL(self):
         glClearColor(0.1, 0.1, 0.1, 0.8)
         glDepthFunc(GL_LESS)
         glEnable(GL_DEPTH_TEST)
@@ -34,12 +34,12 @@ class MeshViewWindow(GlutWindow):
         # self.ViewPtr = glm.value_ptr(self.controller.ViewMatrix)
         # self.ProjectionPtr = glm.value_ptr(self.controller.ProjectionMatrix)
 
-    def resize(self,Width,Height):  
+    def resizeGL(self, Width, Height):
         print "resize"      
         glViewport(0, 0, Width, Height)
         self.calc_MVP(Width,Height)
 
-    def ogl_draw(self):     
+    def paintGL(self):
         print "draw"    
         self.calc_MVP()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -63,7 +63,7 @@ class MeshViewWindow(GlutWindow):
     def init_default(self):
         from worldsheet import worldSheet
         self.controller = MVPController(self.update_if)
-        self.init_opengl()
+        self.initializeGL()
         self.init_context()    
         self.add_mesh(worldSheet())
         self.menu = glutCreateMenu(self.processMenuEvents)
