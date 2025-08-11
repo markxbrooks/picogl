@@ -6,15 +6,12 @@ compare to tu_01_color_cube
 
 import os
 from OpenGL.GL import *  # pylint: disable=W0614
-import OpenGL.GLUT
-from OpenGL.raw.GLUT import glutSolidTeapot
 from pyglm import glm
 
 from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.renderer.base import RendererBase
 from picogl.shaders.mvp import calculate_mvp_matrix, set_mvp_matrix_to_uniform_id
-from picogl.shaders.uniform import get_uniform_location
 from picogl.logger import setup_logging, Logger as log
 from picogl.utils.gl_init import init_gl_context, gl_init_list
 from picogl.utils.reshape import to_float32_row
@@ -39,10 +36,7 @@ class BasicObjectRenderer(RendererBase):
         self.context.shader = PicoGLShader(vertex_source_file="vertex.glsl",
                                    fragment_source_file="fragment.glsl",
                                    base_dir=GLSL_DIR)
-        self.context.mvp_id = get_uniform_location(
-            shader_program=self.context.shader.program,
-            uniform_name="mvp_matrix"
-        )
+        self.context.mvp_id = self.context.shader.get_uniform_location(uniform_name="mvp_matrix")
         log.parameter("MVP uniform ID: ", self.context.mvp_id)
 
     def initialize_rendering_buffers(self):
