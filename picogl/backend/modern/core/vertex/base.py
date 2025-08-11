@@ -69,10 +69,11 @@ class VertexBase(AbstractVertexBuffer):
         size: int = 3,
         stride: int = 0,
         dtype: int = GL_FLOAT,
+        index: int = None,
         pointer: ctypes.c_void_p = ctypes.c_void_p(0)
     ):
         super().__init__(handle=handle)
-        self.index = None
+        self.index = index
         self.normalized = False
         self.target = target
         self.size = size

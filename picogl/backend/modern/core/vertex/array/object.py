@@ -103,10 +103,12 @@ class VertexArrayObject(VertexBase):
         size: int,
         dtype: int = GL_FLOAT,
         name: str = None,
+        handle: int = None,
     ) -> ModernVBO:
         """
         Add a Vertex Buffer Object (VBO) to the VAO and set its attributes.
 
+        :param handle:
         :param index: VAO attribute index
         :param data: Vertex data
         :param size: Size per vertex (e.g., 3 for vec3)
@@ -114,7 +116,7 @@ class VertexArrayObject(VertexBase):
         :param name: Optional semantic name (e.g., "position", "color")
         :return: OpenGL buffer handle (GLuint)
         """
-        vbo = ModernVBO()
+        vbo = ModernVBO(handle=handle)
         vbo.bind()
         vbo.set_data(data)
         vbo.set_vertex_attributes(index=index, data=data, size=size, dtype=dtype)

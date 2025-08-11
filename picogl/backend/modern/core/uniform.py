@@ -29,7 +29,19 @@ def set_uniform_value(
     if location == -1:
         log.warning(f"Uniform '{uniform_name}' not found in shader.")
         return
+    set_uniform_location_value(location, uniform_value)
 
+def set_uniform_location_value(location: int, uniform_value: Union[
+        float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray
+    ]):
+    """
+    set_uniform_value
+
+    :param uniform location:  int
+    :param uniform_value: Value to set (supports float, int, vec2, vec3, vec4, mat4, or np.ndarray)
+
+    Set a uniform variable in a shader program
+    """
     # Handle types
     if isinstance(uniform_value, float):
         glUniform1f(location, uniform_value)
@@ -54,11 +66,11 @@ def set_uniform_value(
             glUniform4fv(location, 1, uniform_value.astype(np.float32))
         else:
             log.warning(
-                f"Unsupported ndarray shape {uniform_value.shape} for uniform '{uniform_name}'"
+                f"Unsupported ndarray shape {uniform_value.shape} for uniform '{location}'"
             )
     else:
         log.warning(
-            f"Unsupported uniform type for '{uniform_name}': {type(uniform_value)}"
+            f"Unsupported uniform type for '{location}': {type(uniform_value)}"
         )
 
 

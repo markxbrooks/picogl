@@ -16,8 +16,9 @@ class ModernVBO(VertexBase):
         data: np.ndarray = None,
         size: int = 3,
         target: int = GL_ARRAY_BUFFER,
+        index: int = None,
     ):
         """ """
         if handle is None:
             handle = glGenBuffers(1)
-        super().__init__(handle=handle, size=size, data=data, target=target)
+        super().__init__(handle=handle, size=size, data=data, target=target, index=index)
