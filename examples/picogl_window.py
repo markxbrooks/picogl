@@ -50,7 +50,7 @@ class PicoGLWindow(GlutWindow):
     def paintGL(self):
         """paintGL"""
         print("paintgl")
-        nit_gl_context(paintgl_list)
+        init_gl_context(paintgl_list)
         self.renderer.render()
 
     def update_mvp_matrix(self):
