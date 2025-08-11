@@ -3,7 +3,6 @@ Demonstrating the use of textures in PicoGL
 
 compare to tu02_texture_without_normal.py
 """
-
 import os
 
 from pyglm import glm
