@@ -26,7 +26,7 @@ class TextureObjectRenderer(RendererBase):
     def initialize_shaders(self):
         """Load and compile shaders."""
         log.message("Loading shaders...")
-        from examples.tu_02_texture_without_normal import GLSL_DIR
+        from examples.texture import GLSL_DIR
         self.context.shader = shader = PicoGLShader(vertex_source_file="vertex.glsl",
                                    fragment_source_file="fragment.glsl",
                                    base_dir=GLSL_DIR)
