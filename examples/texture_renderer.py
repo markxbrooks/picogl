@@ -1,5 +1,5 @@
 from pyglm import glm
-from OpenGL.raw.GL.VERSION.GL_1_0 import glClear, GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_TRIANGLES
+from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from examples.data import g_vertex_buffer_data, g_uv_buffer_data
 from examples.utils.textureLoader import textureLoader
@@ -9,6 +9,7 @@ from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer.base import RendererBase
 from picogl.shaders.mvp import set_mvp_matrix_to_uniform_id
+from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
 from picogl.utils.reshape import to_float32_row
 from picogl.utils.texture import bind_texture_array
 
@@ -58,7 +59,7 @@ class TextureObjectRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model"""
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        execute_gl_tasks(paintgl_list)
         with self.context.shader, self.context.cube_vao:
             set_mvp_matrix_to_uniform_id(self.context.mvp_id, self.context.mvp_matrix)
             bind_texture_array(self.context.texture_glid)

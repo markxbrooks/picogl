@@ -5,11 +5,11 @@ compare to tu_01_color_cube
 """
 
 import os
-from OpenGL.GL import *  # pylint: disable=W0614
 from pyglm import glm
 
 from examples.object_renderer import BasicObjectRenderer
 from examples.picogl_window import PicoGLWindow
+from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
@@ -38,7 +38,7 @@ class CubeWindow(PicoGLWindow):
 
     def paintGL(self):
         """Render the scene."""
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        execute_gl_tasks(paintgl_list)
         self.renderer.render()
 
     def update(self):
