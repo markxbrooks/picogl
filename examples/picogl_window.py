@@ -3,7 +3,7 @@ from OpenGL.raw.GL.VERSION.GL_1_0 import glViewport
 
 from examples.utils.glutWindow import GlutWindow
 from picogl.logger import setup_logging, Logger as log
-from picogl.utils.gl_init import init_gl_context, gl_init_list
+from picogl.utils.gl_init import init_gl_context, gl_init_list, paintgl_list
 
 
 class PicoGLWindow(GlutWindow):
@@ -50,6 +50,7 @@ class PicoGLWindow(GlutWindow):
     def paintGL(self):
         """paintGL"""
         print("paintgl")
+        nit_gl_context(paintgl_list)
         self.renderer.render()
 
     def update_mvp_matrix(self):
