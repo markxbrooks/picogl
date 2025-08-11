@@ -1,4 +1,4 @@
-from OpenGL.raw.GL.VERSION.GL_1_0 import glClearColor, glDepthFunc, GL_LESS, glEnable, GL_DEPTH_TEST, GL_CULL_FACE
+from OpenGL.raw.GL.VERSION.GL_1_0 import glClearColor, glDepthFunc, GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_LESS, glEnable, GL_DEPTH_TEST, GL_CULL_FACE
 
 from picogl.logger import Logger as log
 
@@ -26,3 +26,8 @@ gl_init_list = [
     ("Enabling depth test", lambda: glEnable(GL_DEPTH_TEST)),
     ("Enabling face culling", lambda: glEnable(GL_CULL_FACE)),
 ]
+
+paintgl_list = [
+    ("Initialising PaintGl", lambda: glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)),
+]
+
