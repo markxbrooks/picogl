@@ -10,14 +10,13 @@ from pyglm import glm
 
 from examples.utils.textureLoader import textureLoader
 from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.renderer.base import RendererBase
 from picogl.shaders.mvp import calculate_mvp_matrix, set_mvp_matrix_to_uniform_id
 from picogl.logger import setup_logging, Logger as log
 from picogl.utils.gl_init import init_gl_context, gl_init_list
 from picogl.utils.reshape import to_float32_row
 from utils.glutWindow import GlutWindow
-from examples.data import g_vertex_buffer_data, g_color_buffer_data, g_uv_buffer_data
+from examples.data import g_vertex_buffer_data, g_uv_buffer_data
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
@@ -43,7 +42,7 @@ class BasicObjectRenderer(RendererBase):
     def initialize_rendering_buffers(self):
         """Create VAO and VBOs once."""
         log.message("CreatingTextures, VAO and VBOs...")
-        self.context.TextureID = self.context.shader.get_uniform_location("myTextureSampler")
+        self.context.texture_id = self.context.shader.get_uniform_location("myTextureSampler")
         texture = textureLoader("resources/tu02/uvtemplate.tga")
         self.context.textureGLID = texture.textureGLID
         self.context.vertex_buffer = glGenBuffers(1)
@@ -77,7 +76,7 @@ class BasicObjectRenderer(RendererBase):
             set_mvp_matrix_to_uniform_id(self.context.mvp_id, self.context.mvp_matrix)
             glActiveTexture(GL_TEXTURE0)
             glBindTexture(GL_TEXTURE_2D, self.context.textureGLID)
-            glUniform1i(self.context.TextureID, 0)
+            glUniform1i(self.context.texture_id, 0)
 
             glEnableVertexAttribArray(0)
             glBindBuffer(GL_ARRAY_BUFFER, self.context.vertex_buffer)

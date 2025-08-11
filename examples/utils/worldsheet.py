@@ -11,7 +11,7 @@ class worldSheet(meshWithRender):
     def loadShader(self):
         self.shader = Shader()
         self.shader.initShaderFromGLSL(["glsl/utils/worldsheet/vertex.glsl"],["glsl/utils/worldsheet/fragment.glsl"])
-        self.MVP_ID   = glGetUniformLocation(self.shader.program,"MVP")
+        self.mvp_id   = glGetUniformLocation(self.shader.program, "MVP")
         
     def loadObject(self):
 
@@ -40,7 +40,7 @@ class worldSheet(meshWithRender):
     
     def rendering(self,MVP,View,Projection):
         self.shader.begin()
-        glUniformMatrix4fv(self.MVP_ID,1,GL_FALSE,glm.value_ptr(MVP))
+        glUniformMatrix4fv(self.mvp_id, 1, GL_FALSE, glm.value_ptr(MVP))
         glEnableVertexAttribArray(0)
         glBindBuffer(GL_ARRAY_BUFFER, self.linebuffer)
         glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,None)
