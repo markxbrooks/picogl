@@ -1,7 +1,13 @@
 from typing import Callable
 
-from OpenGL.raw.GL.VERSION.GL_1_0 import glClear, glClearColor, glDepthFunc, GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, GL_LESS, glEnable, GL_DEPTH_TEST, GL_CULL_FACE
+from OpenGL.raw.GL.VERSION.GL_1_0 import glClear, glClearColor, glDepthFunc, GL_COLOR_BUFFER_BIT, GL_DEPTH_BUFFER_BIT, \
+    GL_LESS, glEnable, GL_DEPTH_TEST, GL_CULL_FACE, glViewport
+from OpenGL.raw.GL.VERSION.GL_1_3 import GL_MULTISAMPLE
 
+from picogl.backend.legacy.core.camera.lighting import setup_lighting
+from picogl.backend.legacy.core.camera.setup import setup_materials, enable_smoothing, enable_blending, \
+    enable_depth_test
+from picogl.info import get_gl_info
 from picogl.logger import Logger as log
 
 def execute_gl_tasks(task_list: list[tuple[str, Callable]]):
@@ -49,32 +55,24 @@ def execute_gl_tasks(task_list: list[tuple[str, Callable]]):
             log.error(f"Error in task #{i} ({message or 'no message'}): {ex}", exc_info=True)
             raise
 
-
-def execute_gl_tasks_old(checklist: list[tuple[str, callable]]):
-    """
-    Run a sequence of OpenGL initialization steps from a checklist.
-
-    Parameters
-    ----------
-    checklist : list of (message, func)
-        Each tuple contains:
-        - message (str): A log message describing the step
-        - func (callable): A callable that runs the OpenGL step
-    """
-    for message, func in checklist:
-        log.message(message)
-        func()
-
-
 gl_init_list = [
-    ("Initializing OpenGL context...", lambda: None),  # Message only
-    ("Setting clear color", lambda: glClearColor(0.0, 0.0, 0.4, 0.0)),
-    ("Setting depth function", lambda: glDepthFunc(GL_LESS)),
-    ("Enabling depth test", lambda: glEnable(GL_DEPTH_TEST)),
-    ("Enabling face culling", lambda: glEnable(GL_CULL_FACE)),
+    ("✅ Initializing OpenGL context...", lambda: None),  # Message only
+    ("✅ Setting clear color", lambda: glClearColor(0.0, 0.0, 0.4, 0.0)),
+    ("✅ Setting depth function", lambda: glDepthFunc(GL_LESS)),
+    ("✅ Enabling depth test", lambda: glEnable(GL_DEPTH_TEST)),
+    ("✅ Enabling face culling", lambda: glEnable(GL_CULL_FACE)),
 ]
 
 paintgl_list = [
     ("Initialising PaintGl", lambda: glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)),
 ]
 
+initialize_gl_list = [
+            ("✅ Enabling multisampling", lambda: glEnable(GL_MULTISAMPLE)),
+            ("✅ Enabling depth test", enable_depth_test),
+            ("✅ Enabling blending", enable_blending),
+            ("✅ Enabling smoothing", enable_smoothing),
+            ("✅ Setting up materials", setup_materials),
+            ("✅ Setting up lighting", setup_lighting),
+            (None, lambda: print(get_gl_info())),
+        ]

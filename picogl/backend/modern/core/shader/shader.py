@@ -100,9 +100,9 @@ class PicoGLShader:
         Create, compile, and link shaders into a program.
         """
         self.create_shader_program()
-        log.parameter("self.program", self.program)
-        log.parameter("vertex_source", vertex_source)
-        log.parameter("fragment_source", fragment_source)
+        log.parameter("self.program", self.program, silent=True)
+        log.parameter("vertex_source", vertex_source, silent=True)
+        log.parameter("fragment_source", fragment_source, silent=True)
         self.vertex_shader = compile_shader(self.program, gl.GL_VERTEX_SHADER, vertex_source)
         self.fragment_shader = compile_shader(self.program, gl.GL_FRAGMENT_SHADER, fragment_source)
         self.link_shader_program()
@@ -112,14 +112,14 @@ class PicoGLShader:
         create_shader_program
         """
         self.program = gl.glCreateProgram()
-        log.message('Created shader program', self.program)
+        log.message(f"Created shader program {self.program}", silent=True)
         log_gl_error()
 
     def link_shader_program(self):
         """
         link_shader_program
         """
-        log.message('Linking shader program...')
+        log.message('Linking shader program...', silent=True)
         gl.glLinkProgram(self.program)
         if gl.GL_TRUE != gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS):
             err = gl.glGetProgramInfoLog(self.program)

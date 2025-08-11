@@ -166,9 +166,9 @@ class ShaderManager:
         self.shader_directory = shader_dir
 
         failed = []
-        for shader_type in ShaderType:
-            log.message(f"Loading shader type: '{shader_type.value} from {self.shader_directory}'")
-            self.load_shader(shader_type)
+        for shader_number, shader_type in enumerate(ShaderType):
+            log.message(f"Loading shader type: '{shader_type.value} from {self.shader_directory}'", silent=True)
+            self.load_shader(shader_type, shader_number)
             if self.shaders[shader_type] is self.fallback_shader:
                 failed.append(shader_type)
 
@@ -183,7 +183,7 @@ class ShaderManager:
         self.current_shader_program = self.current_shader.program_id()
         self.current_shader.bind()
 
-    def load_shader(self, shader_type: ShaderType) -> None:
+    def load_shader(self, shader_type: str, shader_number: int) -> None:
         """
         load_shader
 
@@ -191,13 +191,13 @@ class ShaderManager:
         :return: None
         """
         try:
-            log.message(f"Loading shaders from {self.shader_directory}")
+            log.message(f"Loading shaders from {self.shader_directory}", silent=True)
             fragment_src, vertex_src = load_fragment_and_vertex_for_shader_type(
                 shader_type.value, self.shader_directory
             )
             picogl_shader_program = generate_shader_programs(vertex_src, fragment_src, shader_type)
             if picogl_shader_program:
-                log.message(f"✅ Shader type {shader_type} registered")
+                log.message(f"[{shader_number}/{len(ShaderType)}] ✅ Shader type `{shader_type}` compiled and registered")
                 self.shaders[shader_type] = picogl_shader_program
             else:
                 log.warning(f"⚠️ Falling back for {shader_type}")

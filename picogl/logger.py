@@ -93,7 +93,7 @@ def get_qc_tag(msg: str) -> str:
     msg = f"{msg}".lower()
     if "success rate" in msg:
         return "📊"
-    if "updat" in msg or "success" in msg or "passed" in msg:
+    if "updat" in msg or "success" in msg or "passed" in msg or "Enabl" in msg or "Setting up" in msg:
         return "✅"
     if "fail" in msg or "error" in msg:
         return "❌"
