@@ -26,7 +26,6 @@ class CubeWindow(PicoGLWindow):
         self.renderer = BasicObjectRenderer(self.context)
         self.renderer.show_model = True # set here whether or not to show the cube
 
-
     def initializeGL(self):
         """Initial OpenGL configuration."""
         super().initializeGL()
@@ -49,8 +48,6 @@ class CubeWindow(PicoGLWindow):
     def run_app(self):
         """Encapsulates initialization before main loop."""
         self.initializeGL()
-        self.renderer.initialize_shaders()
-        self.renderer.initialize_rendering_buffers()
         self.run()
 
 
