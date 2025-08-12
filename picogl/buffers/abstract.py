@@ -20,7 +20,7 @@ class LayoutDescriptor:
     attributes: List[AttributeSpec]
     
     
-Public façade
+#Public façade
 class VertexArrayGroup(ABC):
     @abstractmethod
     def bind(self) -> None:
