@@ -2,7 +2,24 @@
 Abstract render atoms_buffers class
 """
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from typing import List, Optional
 
+
+@dataclass
+class AttributeSpec:
+    index: int          # attribute location
+    size: int           # number of components (e.g., 3 for vec3)
+    type: int           # GL_FLOAT, GL_INT, etc.
+    normalized: bool
+    stride: int
+    offset: int
+
+@dataclass
+class LayoutDescriptor:
+    attributes: List[AttributeSpec]
+    
+    
 Public façade
 class VertexArrayGroup(ABC):
     @abstractmethod
