@@ -91,20 +91,25 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
         self.ebo = ebo
 
     def set_layout(self, layout: LayoutDescriptor) -> None:
-        self.layout = layout
+        """
+        set_layout
         
-"""
-In legacy path, we configure attributes on bind (no real VAO)
-Keep layout stored for reapplication on bind.
-"""
+        In legacy path, we configure attributes on bind (no real VAO)
+        Keep layout stored for reapplication on bind.
+        """
+        self.layout = layout
 
     def bind(self) -> None:
-#Bind buffers and re-upload attribute pointers per stored layout
+        """
+        bind
+        
+        Bind buffers and re-upload attribute pointers per stored layout
+        """
         if self.vbo is not None:
             glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
         if self.cbo is not None:
             glBindBuffer(GL_ARRAY_BUFFER, getattr(self.cbo, "_id", self.cbo))
-#In practice, you choose which buffer binds to GL_ARRAY_BUFFER per attribute
+        #TODO: choose which buffer binds to GL_ARRAY_BUFFER per attribute
         if self.layout:
             for attr in self.layout.attributes:
                 glEnableVertexAttribArray(attr.index)
@@ -120,12 +125,16 @@ Keep layout stored for reapplication on bind.
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
 
     def unbind(self) -> None:
-#Optional: disable attributes or reset state
+        """
+        unbind
+        
+        Optional: disable attributes or reset state
+        """
         if self.layout:
             for attr in self.layout.attributes:
                 glDisableVertexAttribArray(attr.index)
 
-#In legacy, there’s no VAO to unbind; you may unbind buffers as needed
+        #In legacy, there’s no VAO to unbind; you may unbind buffers as needed
         glBindBuffer(GL_ARRAY_BUFFER, 0)
 
     def delete(self) -> None:
@@ -136,8 +145,9 @@ Keep layout stored for reapplication on bind.
         self.nbo = self.cbo = self.vbo = self.ebo = None
         self.layout = None
 
-#Modern backend (uses a real VAO)
+
 class ModernVertexArrayGroup(VertexArrayGroup):
+    """Modern backend (uses a real VAO)"""
     def init(self):
         self.vao = glGenVertexArrays(1)
         self.nbo = None
@@ -154,18 +164,22 @@ class ModernVertexArrayGroup(VertexArrayGroup):
         self.ebo = ebo
 
     def set_layout(self, layout: LayoutDescriptor) -> None:
+        """
+        set_layout
+        
+        :param layout: LayoutDescriptor
+        :return: None
+        
+        Bind the buffers and set up attributes; this state is stored in the VAO
+        Bind a canonical index for the VBO that holds vertex data for this layout
+        This example assumes a single VBO holds all position data, but you can adapt.
+        """
         self.layout = layout
         glBindVertexArray(self.vao)
-        
-"""
-Bind the buffers and set up attributes; this state is stored in the VAO
-Bind a canonical index for the VBO that holds vertex data for this layout
-This example assumes a single VBO holds all position data, but you can adapt.
-"""
         if self.vbo is not None:
             glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
         if self.nbo is not None:
-#If you have multiple buffers, bind as needed per attribute
+            #TODO: If you have multiple buffers, bind as needed per attribute
             pass  # adapt as needed
 
         if self.layout:
