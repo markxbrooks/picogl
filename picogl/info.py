@@ -11,9 +11,9 @@ def get_gl_info():
         OpenGL Version: {2}
         Shader Version: {3}
         """.format(
-        glGetString(GL_VENDOR),
-        glGetString(GL_RENDERER),
-        glGetString(GL_VERSION),
-        glGetString(GL_SHADING_LANGUAGE_VERSION),
+        glGetString(GL_VENDOR).decode(),
+        glGetString(GL_RENDERER).decode(),
+        glGetString(GL_VERSION).decode(),
+        glGetString(GL_SHADING_LANGUAGE_VERSION).decode(),
     )
     return info
