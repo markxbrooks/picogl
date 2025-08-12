@@ -5,6 +5,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Optional
 
+from OpenGL.GL import glGenVertexArrays, glBindVertexArray, glDeleteVertexArrays, glBindBuffer, glEnableVertexAttribArray, glVertexAttribPointer, glDisableVertexAttribArray, GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_FLOAT
+from OpenGL.arrays import vbo
 
 @dataclass
 class AttributeSpec:
@@ -72,3 +74,131 @@ class AbstractVertexBuffer:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.unbind()
+        
+        
+class LegacyVertexArrayGroup(VertexArrayGroup):
+    def init(self):
+        self.nbo = None  # Normal Vertex Buffer Object
+        self.cbo = None  # Color Vertex Buffer Object
+        self.vbo = None  # Atom Vertex Buffer Object
+        self.ebo = None  # Bond Index Buffer Object
+        self.layout: Optional[LayoutDescriptor] = None
+
+    def attach_buffers(self, nbo=None, cbo=None, vbo=None, ebo=None) -> None:
+        self.nbo = nbo
+        self.cbo = cbo
+        self.vbo = vbo
+        self.ebo = ebo
+
+    def set_layout(self, layout: LayoutDescriptor) -> None:
+        self.layout = layout
+        
+"""
+In legacy path, we configure attributes on bind (no real VAO)
+Keep layout stored for reapplication on bind.
+"""
+
+    def bind(self) -> None:
+#Bind buffers and re-upload attribute pointers per stored layout
+        if self.vbo is not None:
+            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
+        if self.cbo is not None:
+            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.cbo, "_id", self.cbo))
+#In practice, you choose which buffer binds to GL_ARRAY_BUFFER per attribute
+        if self.layout:
+            for attr in self.layout.attributes:
+                glEnableVertexAttribArray(attr.index)
+                glVertexAttribPointer(
+                    attr.index,
+                    attr.size,
+                    attr.type,
+                    attr.normalized,
+                    attr.stride,
+                    ctypes.c_void_p(attr.offset)
+                )
+        if self.ebo is not None:
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
+
+    def unbind(self) -> None:
+#Optional: disable attributes or reset state
+        if self.layout:
+            for attr in self.layout.attributes:
+                glDisableVertexAttribArray(attr.index)
+
+#In legacy, there’s no VAO to unbind; you may unbind buffers as needed
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+    def delete(self) -> None:
+        delete_buffer(self.nbo)
+        delete_buffer(self.cbo)
+        delete_buffer(self.vbo)
+        delete_buffer(self.ebo)
+        self.nbo = self.cbo = self.vbo = self.ebo = None
+        self.layout = None
+
+#Modern backend (uses a real VAO)
+class ModernVertexArrayGroup(VertexArrayGroup):
+    def init(self):
+        self.vao = glGenVertexArrays(1)
+        self.nbo = None
+        self.cbo = None
+        self.vbo = None
+        self.ebo = None
+        self.layout: Optional[LayoutDescriptor] = None
+        self._configured = False
+
+    def attach_buffers(self, nbo=None, cbo=None, vbo=None, ebo=None) -> None:
+        self.nbo = nbo
+        self.cbo = cbo
+        self.vbo = vbo
+        self.ebo = ebo
+
+    def set_layout(self, layout: LayoutDescriptor) -> None:
+        self.layout = layout
+        glBindVertexArray(self.vao)
+        
+"""
+Bind the buffers and set up attributes; this state is stored in the VAO
+Bind a canonical index for the VBO that holds vertex data for this layout
+This example assumes a single VBO holds all position data, but you can adapt.
+"""
+        if self.vbo is not None:
+            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
+        if self.nbo is not None:
+#If you have multiple buffers, bind as needed per attribute
+            pass  # adapt as needed
+
+        if self.layout:
+            for attr in self.layout.attributes:
+                glEnableVertexAttribArray(attr.index)
+                glVertexAttribPointer(
+                    attr.index,
+                    attr.size,
+                    attr.type,
+                    attr.normalized,
+                    attr.stride,
+                    ctypes.c_void_p(attr.offset)
+                )
+        if self.ebo is not None:
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
+
+        glBindVertexArray(0)
+        self._configured = True
+
+    def bind(self) -> None:
+        glBindVertexArray(self.vao)
+
+    def unbind(self) -> None:
+        glBindVertexArray(0)
+
+    def delete(self) -> None:
+        if self.vao:
+            glDeleteVertexArrays([self.vao])
+            self.vao = 0
+        delete_buffer(self.nbo)
+        delete_buffer(self.cbo)
+        delete_buffer(self.vbo)
+        delete_buffer(self.ebo)
+        self.nbo = self.cbo = self.vbo = self.ebo = None
+        self.layout = None
+        self._configured = False
