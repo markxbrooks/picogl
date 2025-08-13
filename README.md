@@ -21,13 +21,16 @@ Whether you’re building interactive visualizations, scientific simulations, or
 ## 🚀 Installation
 
 ```bash
-    pip install picogl
+    git clone https://github.com/markxbrooks/PicoGL.git
+    cd PicoGL
+    pip install .
 ```
 or for an editable version:
 
 ```bash
-    pip install -e picogl
+    pip install -e .
 ```
+PyPi version coming soon!
 
 ##  Example usage to show a cube:
 Found in the Examples directory, with mouse control
@@ -89,7 +92,6 @@ class ObjectRenderer(RendererBase):
 
     def initialize_shaders(self):
         """Load and compile shaders."""
-        from picogl.backend.modern.core.shader.program import ShaderProgram
         self.context.create_shader_program(vertex_source_file="vertex.glsl",
                                            fragment_source_file="fragment.glsl",
                                            base_dir=self.base_dir)
