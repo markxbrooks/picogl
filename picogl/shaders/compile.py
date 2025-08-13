@@ -5,16 +5,9 @@ Open GL shader_manager.current_shader_program compilation
 
 from typing import Optional
 
-from OpenGL.GL import glGetShaderiv
-from OpenGL.GL.shaders import compileProgram
-from OpenGL.raw.GL.VERSION.GL_2_0 import (GL_COMPILE_STATUS,
-                                          GL_FRAGMENT_SHADER, GL_VERTEX_SHADER,
-                                          glGetShaderInfoLog)
 
-from picogl.backend.modern.core.shader.shader import PicoGLShader
+from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.logger import Logger as log
-from picogl.shaders.load import (DEFAULT_FRAGMENT_SHADER_SRC,
-                                 DEFAULT_VERTEX_SHADER_SRC)
 
 VERTEX_SHADER_SRC_HARDCODED_TEST = """#version 330 core
 
@@ -36,7 +29,7 @@ void main() {
 
 def compile_shaders(
     vertex_src: str, fragment_src: str, shader_name: Optional[str]
-) -> Optional[PicoGLShader]:
+) -> Optional[ShaderProgram]:
     """
     Compiles and links a vertex + fragment shader_manager.current_shader_program shader_program using Qt's OpenGL API.
 
@@ -46,7 +39,7 @@ def compile_shaders(
     :return: Linked PicoGLShader or None on failure.
     """
     
-    picogl_program = PicoGLShader(shader_name=shader_name)
+    picogl_program = ShaderProgram(shader_name=shader_name)
     picogl_program.init_shader_from_glsl(vertex_src, fragment_src)
     return picogl_program
 

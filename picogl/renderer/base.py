@@ -18,6 +18,7 @@ class RendererBase:
         self.parent = parent
         self.initialized = False
 
+
     @property
     def dispatch_list(self):
         dispatch_list = [
@@ -50,13 +51,17 @@ class RendererBase:
 
         self._finalize_render()
 
-    def initialize_rendering_buffers(self) -> None:
+    def initialize_buffers(self) -> None:
         """
         initialize_rendering_buffers
 
         :return:
         """
         raise NotImplementedError("Subclasses must implement the method.")
+
+    def initialize_rendering_buffers(self):
+        """ For back compatibility"""
+        self.initialize_buffers()
 
     def _finalize_render(self):
         """

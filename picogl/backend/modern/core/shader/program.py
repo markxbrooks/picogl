@@ -1,34 +1,14 @@
 
-import os
 from OpenGL import GL as gl
 
+from picogl.backend.modern.core.shader.compile import compile_shader
+from picogl.backend.modern.core.uniform.location_value import set_uniform_location_value
 from picogl.shaders.uniform import get_uniform_location
-from picogl.backend.modern.core.shader.shader_helpers import log_gl_error, read_shader_source
+from picogl.backend.modern.core.shader.helpers import log_gl_error, read_shader_source
 from picogl.logger import Logger as log
 
 
-def compile_shader(shader_program: int,
-                   shader_type: int,
-                   source: str):
-    """
-    compile_vertex_shader
-
-    :param shader_program: int shader program
-    :param shader_type: int shader type e.g. GL_VERTEX_SHADER GL_FRAGMENT_SHADER
-    :param source: shader source string
-    """
-    shader = gl.glCreateShader(shader_type)  # pylint: disable=E1111
-    gl.glShaderSource(shader, source)
-    gl.glCompileShader(shader)
-    if gl.GL_TRUE != gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS):
-        err = gl.glGetShaderInfoLog(shader)
-        raise Exception(err)
-    gl.glAttachShader(shader_program, shader)
-    log_gl_error()
-    return shader
-
-
-class PicoGLShader:
+class ShaderProgram:
     """OpenGL Shader program manager for vertex and fragment shaders."""
 
     def __init__(self,
@@ -44,11 +24,15 @@ class PicoGLShader:
         self.vertex_shader = None
         self.fragment_shader = None
         self.program = None
+        self.uniforms = {}
 
         if vertex_source_file is not None and vertex_source_file is not None:
             self.init_shader_from_glsl_files(vertex_source_file=vertex_source_file,
                                              fragment_source_file=fragment_source_file,
                                              base_dir=base_dir)
+
+    def __str__(self):
+        return f"PicoGLShader(name={self.shader_name}, program={self.program})"
 
     def __enter__(self):
         self.bind()
@@ -60,9 +44,9 @@ class PicoGLShader:
         return self.program
 
     def init_shader_from_glsl_files(self,
-                              vertex_source_file: str,
-                              fragment_source_file: str,
-                              base_dir: str = None) -> None:
+                                    vertex_source_file: str,
+                                    fragment_source_file: str,
+                                    base_dir: str = None) -> None:
         """
         init_shader_from_glsl_files
 
@@ -107,6 +91,21 @@ class PicoGLShader:
         self.fragment_shader = compile_shader(self.program, gl.GL_FRAGMENT_SHADER, fragment_source)
         self.link_shader_program()
 
+
+    def uniform(self, name: str, value):
+        """
+        uniform
+
+        :param name: str - uniform name
+        :param value: value to set (float, int, vec2, vec3, vec4, mat4, or np.ndarray)
+        :return: self - for chaining
+        Set uniform value (auto-detect type)
+        """
+        loc = self.uniforms.get(name) or self.get_uniform_location(name)
+        self.uniforms[name] = loc
+        set_uniform_location_value(loc, value)
+        return self  # allow chaining
+
     def create_shader_program(self):
         """
         create_shader_program
@@ -125,12 +124,12 @@ class PicoGLShader:
             err = gl.glGetProgramInfoLog(self.program)
             raise RuntimeError(f"Shader link failed: {err}")
         log_gl_error()
-    
+
     def get_uniform_location(self, uniform_name):
         """get_uniform_location"""
         mvp_id = get_uniform_location(
-        shader_program=self.program,
-        uniform_name=uniform_name)
+            shader_program=self.program,
+            uniform_name=uniform_name)
         return mvp_id
 
     def begin(self):

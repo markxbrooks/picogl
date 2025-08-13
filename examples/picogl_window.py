@@ -11,7 +11,6 @@ class PicoGLWindow(GlutWindow):
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.renderer = None
-        self.context = self.GLContext()
         self.width = width
         self.height = height
         # Mouse interaction state
@@ -21,13 +20,12 @@ class PicoGLWindow(GlutWindow):
         self.rotation_y = 0.0
         setup_logging()
 
-    class GLContext(object):
-        pass
-
     def initializeGL(self):
         """Initial OpenGL configuration."""
         log.message("Initializing OpenGL context...")
         execute_gl_tasks(gl_init_list)
+        self.renderer.initialize_shaders()
+        self.renderer.initialize_buffers()
 
     def calculate_mvp_matrix(self, width=1920, height=1080):
         """calculate_mvp_matrix"""

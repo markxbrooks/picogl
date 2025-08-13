@@ -32,16 +32,15 @@ bonds_vert.glsl
 bonds_frag.glsl
 """
 
-import os
 from dataclasses import dataclass, field
 from typing import Dict, Optional, Union
 
 import numpy as np
 from pyglm import glm
 
-from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.uniform import (set_uniform_value,
-                                                shader_uniform_set_mvp)
+from picogl.backend.modern.core.shader.program import ShaderProgram
+from picogl.backend.modern.core.uniform.mvp import shader_uniform_set_mvp
+from picogl.backend.modern.core.uniform.set_location import set_uniform_name_value
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 from picogl.shaders.generate import generate_shader_programs
@@ -51,17 +50,17 @@ from picogl.shaders.type import ShaderType
 
 @dataclass
 class ShaderManager:
-    shaders: Dict[ShaderType, PicoGLShader] = field(default_factory=dict)
-    fallback_shader: Optional[PicoGLShader] = None
+    shaders: Dict[ShaderType, ShaderProgram] = field(default_factory=dict)
+    fallback_shader: Optional[ShaderProgram] = None
     default_shader_type: ShaderType = ShaderType.DEFAULT
     current_shader_type: ShaderType = ShaderType.DEFAULT
-    current_shader: Optional[PicoGLShader] = None
+    current_shader: Optional[ShaderProgram] = None
     current_shader_program: Optional[int] = None
     initialized: bool = False
     shader_directory: str = ""
     fallback_shader_directory: str = ""
 
-    def use_shader_program(self, shader_program: PicoGLShader) -> None:
+    def use_shader_program(self, shader_program: ShaderProgram) -> None:
         """
         use_shader_program
 
@@ -82,7 +81,7 @@ class ShaderManager:
 
     def get_shader_type(
         self, shader_type: ShaderType
-    ) -> Optional[PicoGLShader|PicoGLShader]:
+    ) -> Optional[ShaderProgram | ShaderProgram]:
         """
         Return the shader shader_program for the given ShaderType, loading if necessary.
         """
@@ -142,7 +141,7 @@ class ShaderManager:
         :param uniform_value: Union[float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray]
         :return: None
         """
-        set_uniform_value(
+        set_uniform_name_value(
             shader_program=self.current_shader.program_id(),
             uniform_name=uniform_name,
             uniform_value=uniform_value,
@@ -228,7 +227,7 @@ class ShaderManager:
                     f"❌ Fallback shader_manager.current_shader_program setup failed: {ex}"
                 )
 
-    def get(self, shader_type: ShaderType) -> Optional[PicoGLShader|PicoGLShader]:
+    def get(self, shader_type: ShaderType) -> Optional[ShaderProgram | ShaderProgram]:
         return self.shaders.get(shader_type)
 
     def release_shaders(self):
