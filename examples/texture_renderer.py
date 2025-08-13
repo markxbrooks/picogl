@@ -3,7 +3,7 @@ from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
-from picogl.renderer import RendererBase, GLData, GLContext
+from picogl.renderer import RendererBase, MeshData, GLContext
 from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
 from picogl.utils.texture import bind_texture_array
 from examples import g_uv_buffer_data
@@ -13,11 +13,11 @@ from examples.utils.textureLoader import textureLoader
 class TextureRenderer(RendererBase):
     """Basic renderer class"""
 
-    def __init__(self, context: GLContext, data: GLData, base_dir: str = None):
+    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None):
         super().__init__()
         self.context = context
         self.data = data
-        self.data.vertex_count = len(self.data.positions.flatten()) // 3
+        self.data.vertex_count = len(self.data.vbo.flatten()) // 3
         self.show_model = True
         self.base_dir = base_dir
 
@@ -37,8 +37,8 @@ class TextureRenderer(RendererBase):
                 if index % 2:
                     g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]
         self.context.vertex_array = VertexArrayObject()
-        self.context.vertex_array.add_vbo(index=0, data=self.data.positions, size=3)
-        self.context.vertex_array.add_vbo(index=1, data=self.data.uv_buffers, size=2)
+        self.context.vertex_array.add_vbo(index=0, data=self.data.vbo, size=3)
+        self.context.vertex_array.add_vbo(index=1, data=self.data.uvs, size=2)
 
     def render(self) -> None:
         """render/dispatcher"""

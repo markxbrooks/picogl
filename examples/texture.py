@@ -4,7 +4,7 @@ Demonstrating textures - compare to tu02_texture_without_normal.py
 
 import os
 
-from picogl.renderer import GLContext, GLData
+from picogl.renderer import GLContext, MeshData
 from picogl.utils.reshape import float32_row
 from examples import (
     g_vertex_buffer_data,
@@ -24,7 +24,7 @@ class TextureWindow(PicoGLWindow):
         positions = float32_row(g_vertex_buffer_data)
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
-        self.data = GLData(positions=positions, uv_buffers=uv_buffers)
+        self.data = MeshData(vbo=positions, uvs=uv_buffers)
         print(self.context)
         print(self.data)
 

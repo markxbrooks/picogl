@@ -1,3 +1,3 @@
-from .gldata import GLData
+from .meshdata import MeshData
 from .glcontext import GLContext
 from .base import RendererBase

@@ -34,24 +34,25 @@ Found in the Examples directory, with mouse control
 
 ![cube](cube.png)
 
-
 ```python
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
 import os
-from picogl.renderer import GLContext, GLData
+from picogl.renderer import GLContext, MeshData
 from picogl.utils.reshape import float32_row
 from examples.object_renderer import ObjectRenderer
 from examples.picogl_window import PicoGLWindow
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
+
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
+
 
 class CubeWindow(PicoGLWindow):
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(width, height, *args, **kwargs)
         self.context = GLContext()
-        self.data = GLData(
-            positions=float32_row(g_vertex_buffer_data),
-            colors=float32_row(g_color_buffer_data),
+        self.data = MeshData(
+            vbo=float32_row(g_vertex_buffer_data),
+            cbo=float32_row(g_color_buffer_data),
         )
         self.renderer = ObjectRenderer(
             context=self.context,
@@ -59,6 +60,7 @@ class CubeWindow(PicoGLWindow):
             base_dir=GLSL_DIR
         )
         self.renderer.show_model = True  # set here whether to show the cube
+
 
 win = CubeWindow(width=800, height=600)
 win.initializeGL()
@@ -69,7 +71,7 @@ win.run()
 ```python
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from picogl.renderer import RendererBase, GLContext, GLData
+from picogl.renderer import RendererBase, GLContext, MeshData
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 
 
@@ -78,7 +80,7 @@ class ObjectRenderer(RendererBase):
 
     def __init__(self,
                  context: GLContext,
-                 data: GLData,
+                 data: MeshData,
                  base_dir: str):
         super().__init__()
         self.context, self.data = context, data
@@ -89,14 +91,14 @@ class ObjectRenderer(RendererBase):
         """Load and compile shaders."""
         from picogl.backend.modern.core.shader.program import ShaderProgram
         self.context.create_shader_program(vertex_source_file="vertex.glsl",
-                                            fragment_source_file="fragment.glsl",
-                                            base_dir=self.base_dir)
+                                           fragment_source_file="fragment.glsl",
+                                           base_dir=self.base_dir)
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""
         self.context.vertex_array = cube_vao = VertexArrayObject()
-        cube_vao.add_vbo(index=0, data=self.data.positions, size=3)
-        cube_vao.add_vbo(index=1, data=self.data.colors, size=3)
+        cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
+        cube_vao.add_vbo(index=1, data=self.data.cbo, size=3)
 
     def render(self) -> None:
         """

@@ -1,6 +1,6 @@
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
 import os
-from picogl.renderer import GLContext, GLData
+from picogl.renderer import GLContext, MeshData
 from picogl.utils.reshape import float32_row
 from examples.object_renderer import ObjectRenderer
 from examples.picogl_window import PicoGLWindow
@@ -11,9 +11,9 @@ class CubeWindow(PicoGLWindow):
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(width, height, *args, **kwargs)
         self.context = GLContext()
-        self.data = GLData(
-            positions=float32_row(g_vertex_buffer_data),
-            colors=float32_row(g_color_buffer_data),
+        self.data = MeshData(
+            vbo=float32_row(g_vertex_buffer_data),
+            cbo=float32_row(g_color_buffer_data),
         )
         self.renderer = ObjectRenderer(
             context=self.context,

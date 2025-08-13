@@ -1,5 +1,5 @@
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
-from picogl.renderer import RendererBase, GLContext, GLData
+from picogl.renderer import RendererBase, GLContext, MeshData
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 
 
@@ -8,7 +8,7 @@ class ObjectRenderer(RendererBase):
 
     def __init__(self,
                  context: GLContext,
-                 data: GLData,
+                 data: MeshData,
                  base_dir: str):
         super().__init__()
         self.context, self.data = context, data
@@ -24,8 +24,8 @@ class ObjectRenderer(RendererBase):
     def initialize_buffers(self):
         """Create VAO and VBOs once."""
         self.context.vertex_array = cube_vao = VertexArrayObject()
-        cube_vao.add_vbo(index=0, data=self.data.positions, size=3)
-        cube_vao.add_vbo(index=1, data=self.data.colors, size=3)
+        cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
+        cube_vao.add_vbo(index=1, data=self.data.cbo, size=3)
 
     def render(self) -> None:
         """
