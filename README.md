@@ -101,7 +101,6 @@ class ObjectRenderer(RendererBase):
     def render(self) -> None:
         """
         render dispatcher
-        :return: None
         """
         if self.show_model:
             self._draw_model()
