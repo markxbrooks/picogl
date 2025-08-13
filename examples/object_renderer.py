@@ -1,7 +1,6 @@
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
-# from picogl.backend.modern.core.shader.shader import PicoGLShader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer.base import RendererBase
@@ -23,6 +22,7 @@ class BasicObjectRenderer(RendererBase):
         """Load and compile shaders."""
         log.message("Loading shaders...")
         from examples.cube import GLSL_DIR
+        from picogl.backend.modern.core.shader.shader import PicoGLShader
         self.context.shader = PicoGLShader(vertex_source_file="vertex.glsl",
                                            fragment_source_file="fragment.glsl",
                                            base_dir=GLSL_DIR)
@@ -51,6 +51,5 @@ class BasicObjectRenderer(RendererBase):
     def _draw_model(self):
         """Draw the model"""
         with self.context.shader, self.context.cube_vao:
-            self.context.shader.uniform(self.context.mvp_id, self.context.mvp_matrix)
-            # set_mvp_matrix_to_uniform_id(self.context.mvp_id, self.context.mvp_matrix)
+            self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
             self.context.cube_vao.draw(mode=GL_TRIANGLES, index_count=self.context.vertex_count)

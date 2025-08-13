@@ -32,7 +32,6 @@ bonds_vert.glsl
 bonds_frag.glsl
 """
 
-import os
 from dataclasses import dataclass, field
 from typing import Dict, Optional, Union
 
@@ -40,8 +39,8 @@ import numpy as np
 from pyglm import glm
 
 from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.uniform import (set_uniform_value,
-                                                shader_uniform_set_mvp)
+from picogl.backend.modern.core.uniform import (shader_uniform_set_mvp)
+from picogl.backend.modern.core.uniform.set_location import set_uniform_name_value
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 from picogl.shaders.generate import generate_shader_programs
@@ -142,7 +141,7 @@ class ShaderManager:
         :param uniform_value: Union[float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray]
         :return: None
         """
-        set_uniform_value(
+        set_uniform_name_value(
             shader_program=self.current_shader.program_id(),
             uniform_name=uniform_name,
             uniform_value=uniform_value,
