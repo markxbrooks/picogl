@@ -1,3 +1,4 @@
+import sys
 from abc import ABC, abstractmethod
 from typing import Optional
 
@@ -23,7 +24,7 @@ from OpenGL.GLUT import (
 from OpenGL import GL as gl
 from OpenGL.GLU import gluPerspective  # if you need it in resizeGL
 
-class GlutWindow(ABC):
+class AbstractGlutWindow(ABC):
     """
     A strict ABC base class for a GLUT/OpenGL window.
 

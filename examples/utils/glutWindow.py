@@ -1,31 +1,49 @@
 
 
-import OpenGL.GLUT as oglut
+import OpenGL.GLUT as GLUT
 import sys
-import OpenGL.GL as gl
-import OpenGL.GLU as glu
+import OpenGL.GL as GL
+import OpenGL.GLU as GLU
+
+
 class GlutWindow(object):
 
+    def __init__(self,*args,**kwargs):
+
+        self.init_glut()
+        self.controller = None
+        self.update_if = GLUT.glutPostRedisplay
+
+    def init_glut(self):
+        GLUT.glutInit(sys.argv)
+        GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA | GLUT.GLUT_DOUBLE | GLUT.GLUT_DEPTH)
+        GLUT.glutInitWindowSize(800, 480)
+        self.window = GLUT.glutCreateWindow(b"window")
+        GLUT.glutDisplayFunc(self.display)
+        GLUT.glutReshapeFunc(self.resizeGL)
+        GLUT.glutKeyboardFunc(self.on_keyboard)
+        GLUT.glutSpecialFunc(self.on_special_key)
+        GLUT.glutMouseFunc(self.on_mouse)
+        GLUT.glutMotionFunc(self.on_mousemove)
+
     def initializeGL(self):
-        gl.glClearColor(0.0,0,0.4,0)
-        gl.glDepthFunc(gl.GL_LESS)
-        gl.glEnable(gl.GL_DEPTH_TEST)
+        GL.glClearColor(0.0, 0, 0.4, 0)
+        GL.glDepthFunc(GL.GL_LESS)
+        GL.glEnable(GL.GL_DEPTH_TEST)
         
     def paintGL(self):
-        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE)
-
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
-        oglut.GLUT_KEY_UP
-        glu.gluLookAt(4.0,3.0,-3.0, 
-                0.0,0.0,0.0,
-                0.0,1.0,0.0)
+        GL.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINES)
+        GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
+        GLU.gluLookAt(4.0, 3.0, -3.0,
+                      0.0, 0.0, 0.0,
+                      0.0, 1.0, 0.0)
         #built in model
-        oglut.glutSolidTeapot(1)
-        print("please overrider paintGL")
+        GLUT.glutSolidTeapot(1)
+        print("please override paintGL")
 
     def display(self):    
         self.paintGL()
-        oglut.glutSwapBuffers()
+        GLUT.glutSwapBuffers()
 
     def idle(self):
         pass
@@ -34,8 +52,8 @@ class GlutWindow(object):
         print("please overrider resize")
         self.width = width
         self.height = height
-        gl.glViewport(0, 0, width, height)
-        glu.gluPerspective(45.0, float(width) / float(height), 0.1, 1000.0)
+        GL.glViewport(0, 0, width, height)
+        GLU.gluPerspective(45.0, float(width) / float(height), 0.1, 1000.0)
 
     def on_keyboard(self,key,x,y):     
         if(self.controller!=None):
@@ -60,26 +78,9 @@ class GlutWindow(object):
               self.controller.on_mousemove(*args,**kwargs)
         else:                
             print("please overrider on_mousemove")
-                
-    def __init__(self,*args,**kwargs):
-
-        oglut.glutInit(sys.argv)
-        oglut.glutInitDisplayMode(oglut.GLUT_RGBA | oglut.GLUT_DOUBLE | oglut.GLUT_DEPTH)
-        oglut.glutInitWindowSize(800, 480)
-        self.window = oglut.glutCreateWindow(b"window")
-        oglut.glutDisplayFunc(self.display)
-        #oglut.glutIdleFunc(self.display) 
-        oglut.glutReshapeFunc(self.resizeGL)
-        oglut.glutKeyboardFunc(self.on_keyboard)   
-        oglut.glutSpecialFunc(self.on_special_key)  
-        oglut.glutMouseFunc(self.on_mouse)
-        oglut.glutMotionFunc(self.on_mousemove)
-        self.controller = None
-        self.update_if = oglut.glutPostRedisplay
 
     def run(self):
-        oglut.glutMainLoop()
-
+        GLUT.glutMainLoop()
 
 
 if __name__ == "__main__":

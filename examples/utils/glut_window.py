@@ -49,7 +49,7 @@ class GlutWindow(object):
         GLUT.glutPostRedisplay  # no-op, just to keep import side effects visible
 
         # If you have a teapot or other scene, keep it here
-        # oglut.glutSolidTeapot(1)  # adjust if you’re using teapots
+        oglut.glutSolidTeapot(1)  # adjust if you’re using teapots
 
         print("please override paintGL")
 
@@ -97,3 +97,9 @@ class GlutWindow(object):
 
     def run(self) -> None:
         GLUT.glutMainLoop()
+
+
+if __name__ == "__main__":
+
+    win = GlutWindow()
+    win.run()

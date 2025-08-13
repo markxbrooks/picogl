@@ -75,7 +75,7 @@ class ShaderUniform:
         If location < 0 (GL returns -1 when not found/used), this is a no-op.
 
         - gl_module: optional OpenGL.GL-like module. If None, will try to import PyOpenGL
-          (from OpenGL import GL as gl) at call time.
+          (from OpenGL import GL as GL) at call time.
         """
         # Resolve GL module (PyOpenGL)
         if gl_module is None:

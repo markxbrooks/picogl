@@ -1,9 +1,10 @@
 import sys
 from OpenGL.GLUT import GLUT_DOUBLE
 from OpenGL import GL as gl
-from ABC_window import GlutWindow
+from ABC_window import AbstractGlutWindow
 
-class MyWindow(GlutWindow):
+class GLWindow(AbstractGlutWindow):
+    """ GLWindow """
     def initializeGL(self) -> None:
         gl.glClearColor(0.0, 0.0, 0.0, 1.0)
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -16,7 +17,7 @@ class MyWindow(GlutWindow):
         self.width, self.height = w, h
         gl.glViewport(0, 0, w, h)
         # If you use a projection matrix, update it here
-        # glu.gluPerspective(...)
+        # GLU.gluPerspective(...)
 
     def on_keyboard(self, key, x, y) -> None:
         if key == b'\x1b':  # Escape
@@ -32,5 +33,5 @@ class MyWindow(GlutWindow):
         pass
 
 if __name__ == "__main__":
-    win = MyWindow()
+    win = GLWindow()
     win.run()
