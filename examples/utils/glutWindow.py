@@ -1,20 +1,29 @@
-
+"""
+Glut Window
+"""
 
 import OpenGL.GLUT as GLUT
 import sys
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 
+from picogl.ui.abc_window import AbstractGlutWindow
 
-class GlutWindow(object):
 
-    def __init__(self,*args,**kwargs):
+class GlutWindow(AbstractGlutWindow):
 
+    def __init__(self, *args, **kwargs):
+        """__init__"""
+        super().__init__()
+        self.window = None
+        self.width = None
+        self.height = None
         self.init_glut()
         self.controller = None
         self.update_if = GLUT.glutPostRedisplay
 
     def init_glut(self):
+        """init_glut"""
         GLUT.glutInit(sys.argv)
         GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA | GLUT.GLUT_DOUBLE | GLUT.GLUT_DEPTH)
         GLUT.glutInitWindowSize(800, 480)
@@ -27,59 +36,67 @@ class GlutWindow(object):
         GLUT.glutMotionFunc(self.on_mousemove)
 
     def initializeGL(self):
+        """initialize_gl"""
         GL.glClearColor(0.0, 0, 0.4, 0)
         GL.glDepthFunc(GL.GL_LESS)
         GL.glEnable(GL.GL_DEPTH_TEST)
-        
+
     def paintGL(self):
-        GL.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINES)
+        """paintGL"""
+        GL.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-        GLU.gluLookAt(4.0, 3.0, -3.0,
-                      0.0, 0.0, 0.0,
-                      0.0, 1.0, 0.0)
-        #built in model
+        GLU.gluLookAt(4.0, 3.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+        # built in model
         GLUT.glutSolidTeapot(1)
         print("please override paintGL")
 
-    def display(self):    
+    def display(self):
+        """display"""
         self.paintGL()
         GLUT.glutSwapBuffers()
 
     def idle(self):
+        """idle"""
         pass
 
-    def resizeGL(self, width, height):
-        print("please overrider resize")
+    def resizeGL(self, width: int, height: int):
+        """resize"""
+        print("please override resize")
         self.width = width
         self.height = height
         GL.glViewport(0, 0, width, height)
         GLU.gluPerspective(45.0, float(width) / float(height), 0.1, 1000.0)
 
-    def on_keyboard(self,key,x,y):     
-        if(self.controller!=None):
-              self.controller.on_keyboard(key,x,y)
+    def on_keyboard(self, key, x, y):
+        """on_keyboard"""
+        if self.controller is not None:
+            self.controller.on_keyboard(key, x, y)
         else:
             print("please overrider on_keyboard")
 
-    def on_special_key(self,key,x,y):     
-        if(self.controller!=None):
-              self.controller.on_special_key(key,x,y)
+    def on_special_key(self, key, x, y):
+        """on_special_key"""
+        if self.controller is not None:
+            self.controller.on_special_key(key, x, y)
         else:
             print("please overrider on_keyboard")
-        
-    def on_mouse(self,*args,**kwargs):
-        if(self.controller!=None):
-              self.controller.on_mouse(*args,**kwargs)
-        else:        
+
+    def on_mouse(self, *args, **kwargs):
+        """on_mouse"""
+        if self.controller is not None:
+            self.controller.on_mouse(*args, **kwargs)
+        else:
             print("please overrider on_mouse")
 
-    def on_mousemove(self,*args,**kwargs):
-        if(self.controller!=None):
-              self.controller.on_mousemove(*args,**kwargs)
-        else:                
+    def on_mousemove(self, *args, **kwargs):
+        """ on_mousemove"""
+        if self.controller is not None:
+            self.controller.on_mousemove(*args, **kwargs)
+        else:
             print("please overrider on_mousemove")
 
     def run(self):
+        """ run """
         GLUT.glutMainLoop()
 
 

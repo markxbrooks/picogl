@@ -86,3 +86,9 @@ class PicoGLWindow(GlutWindow):
 
     def get_size(self):
         return self.width, self.height
+
+
+if __name__ == "__main__":
+
+    win = PicoGLWindow(width=1024, height=768)
+    win.run()

@@ -1,7 +1,6 @@
 import sys
-from OpenGL.GLUT import GLUT_DOUBLE
 from OpenGL import GL as gl
-from ABC_window import AbstractGlutWindow
+from picogl.ui.abc_window import AbstractGlutWindow
 
 class GLWindow(AbstractGlutWindow):
     """ GLWindow """

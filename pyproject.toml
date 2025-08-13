@@ -5,9 +5,8 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["picogl"]
 
-[tool.setuptools]
-packages = ["picogl"]
-
+#[tool.setuptools]
+#packages = ["picogl"]
 
 [project]
 name = "picogl"
