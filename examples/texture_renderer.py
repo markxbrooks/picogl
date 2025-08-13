@@ -36,9 +36,11 @@ class TextureRenderer(RendererBase):
             for index, _ in enumerate(g_uv_buffer_data):
                 if index % 2:
                     g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]
-        self.context.vertex_array = VertexArrayObject()
-        self.context.vertex_array.add_vbo(index=0, data=self.data.vbo, size=3)
-        self.context.vertex_array.add_vbo(index=1, data=self.data.uvs, size=2)
+        if self.context.vaos is None:
+            self.context.vaos = {}
+        self.context.vaos["cube"] = cube_vao = VertexArrayObject()
+        cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
+        cube_vao.add_vbo(index=1, data=self.data.uvs, size=2)
 
     def render(self) -> None:
         """render/dispatcher"""
@@ -50,11 +52,13 @@ class TextureRenderer(RendererBase):
     def _draw_model(self):
         """Draw the model"""
         execute_gl_tasks(paintgl_list)
-        with self.context.shader, self.context.vertex_array:
-            self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
+        cube_vao = self.context.vaos["cube"]
+        shader = self.context.shader
+        with shader, cube_vao:
+            shader.uniform("mvp_matrix", self.context.mvp_matrix)
             bind_texture_array(self.context.texture_id)
-            self.context.shader.uniform("myTextureSampler", 0)
-            self.context.vertex_array.draw(
+            shader.uniform("myTextureSampler", 0)
+            cube_vao.draw(
                 mode=GL_TRIANGLES, index_count=self.data.vertex_count
             )
 

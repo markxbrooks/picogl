@@ -23,7 +23,9 @@ class ObjectRenderer(RendererBase):
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""
-        self.context.vertex_array = cube_vao = VertexArrayObject()
+        if self.context.vaos is None:
+            self.context.vaos = {}
+        self.context.vaos["cube"] = cube_vao = VertexArrayObject()
         cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
         cube_vao.add_vbo(index=1, data=self.data.cbo, size=3)
 
@@ -39,6 +41,6 @@ class ObjectRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model"""
-        with self.context.shader, self.context.vertex_array:
+        with self.context.shader, self.context.vaos["cube"]:
             self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
-            self.context.vertex_array.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
+            self.context.vaos["cube"].draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)

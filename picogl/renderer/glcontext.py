@@ -17,6 +17,7 @@ class GLContext:
     Stores dynamic OpenGL-related state (VAO, shader, texture handles, etc.).
     Does NOT store raw vertex data.
     """
+    vaos: dict[str, VertexArrayObject] = field(default_factory=dict)
     vertex_array: Optional[VertexArrayObject] = None
     shader: Optional[ShaderProgram] = None
     texture_id: Optional[int] = None
