@@ -29,9 +29,10 @@ class TextureObjectRenderer(RendererBase):
         self.context.shader = shader = PicoGLShader(vertex_source_file="vertex.glsl",
                                    fragment_source_file="fragment.glsl",
                                    base_dir=GLSL_DIR)
-        self.context.texture_id =  shader.get_uniform_location("myTextureSampler")
-        self.context.mvp_id = shader.get_uniform_location(uniform_name="mvp_matrix")
-        log.parameter("MVP uniform ID: ", self.context.mvp_id)
+        shader.uniforms["myTextureSampler"] = shader.get_uniform_location("myTextureSampler")
+        shader.uniforms["mvp_matrix"] = shader.get_uniform_location("mvp_matrix")
+        log.parameter("Texture ID: ", shader.uniforms["myTextureSampler"])
+        log.parameter("MVP uniform ID: ", shader.uniforms["mvp_matrix"])
 
     def initialize_rendering_buffers(self):
         """initialize buffers"""

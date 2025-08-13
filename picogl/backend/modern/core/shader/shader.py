@@ -111,6 +111,7 @@ class PicoGLShader:
         self.fragment_shader = compile_shader(self.program, gl.GL_FRAGMENT_SHADER, fragment_source)
         self.link_shader_program()
 
+
     def uniform(self, name: str, value):
         """
         uniform
