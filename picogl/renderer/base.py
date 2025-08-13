@@ -18,6 +18,7 @@ class RendererBase:
         self.parent = parent
         self.initialized = False
 
+
     @property
     def dispatch_list(self):
         dispatch_list = [

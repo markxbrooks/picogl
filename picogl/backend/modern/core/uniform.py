@@ -31,6 +31,7 @@ def set_uniform_value(
         return
     set_uniform_location_value(location, uniform_value)
 
+
 def set_uniform_location_value(location: int, uniform_value: Union[
         float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray
     ]):
