@@ -1,24 +1,20 @@
-from pyglm import glm
+""" Texture Renderer class """
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from picogl.renderer.glcontext import GLContext
 from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
-from picogl.renderer.base import RendererBase
+from picogl.renderer import RendererBase, GLData, GLContext
 from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
 from picogl.utils.texture import bind_texture_array
-from picogl.renderer.gldata import GLData
-from examples.data import g_uv_buffer_data
+from examples import g_uv_buffer_data
 from examples.utils.textureLoader import textureLoader
 
 
-class TextureObjectRenderer(RendererBase):
-    """ Basic renderer class """
-    def __init__(self,
-                 context: GLContext,
-                 data: GLData,
-                 base_dir: str = None):
+class TextureRenderer(RendererBase):
+    """Basic renderer class"""
+
+    def __init__(self, context: GLContext, data: GLData, base_dir: str = None):
         super().__init__()
         self.context = context
         self.data = data
@@ -29,20 +25,18 @@ class TextureObjectRenderer(RendererBase):
     def initialize_shaders(self):
         """Load and compile shaders."""
         log.message("Loading shaders...")
-        self.context.shader = shader = PicoGLShader(vertex_source_file="vertex.glsl",
-                                   fragment_source_file="fragment.glsl",
-                                   base_dir=self.base_dir,)
-        shader.uniforms["myTextureSampler"] = shader.get_uniform_location("myTextureSampler")
-        shader.uniforms["mvp_matrix"] = shader.get_uniform_location("mvp_matrix")
-        log.parameter("Texture ID: ", shader.uniforms["myTextureSampler"])
-        log.parameter("MVP uniform ID: ", shader.uniforms["mvp_matrix"])
+        self.context.shader = PicoGLShader(
+            vertex_source_file="vertex.glsl",
+            fragment_source_file="fragment.glsl",
+            base_dir=self.base_dir,
+        )
 
     def initialize_buffers(self):
         """initialize buffers"""
         texture = textureLoader("resources/tu02/uvtemplate.tga")
         self.context.texture_id = texture.textureGLID
         if texture.inversedVCoords:
-            for index in range(0,len(g_uv_buffer_data)):
+            for index, _ in enumerate(g_uv_buffer_data):
                 if index % 2:
                     g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]
         self.context.vertex_array = VertexArrayObject()
@@ -50,10 +44,7 @@ class TextureObjectRenderer(RendererBase):
         self.context.vertex_array.add_vbo(index=1, data=self.data.uv_buffers, size=2)
 
     def render(self) -> None:
-        """
-        render dispatcher
-        :return: None
-        """
+        """render/dispatcher"""
         if self.show_model:
             self._draw_model()
         # Add more conditions and corresponding draw functions as needed
@@ -66,4 +57,9 @@ class TextureObjectRenderer(RendererBase):
             self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
             bind_texture_array(self.context.texture_id)
             self.context.shader.uniform("myTextureSampler", 0)
-            self.context.vertex_array.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
+            self.context.vertex_array.draw(
+                mode=GL_TRIANGLES, index_count=self.data.vertex_count
+            )
+
+    def _draw_selection(self):
+        """Draw selection"""

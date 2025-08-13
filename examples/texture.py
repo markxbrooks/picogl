@@ -1,38 +1,37 @@
 """
-Demonstrating the use of textures in PicoGL
-
-compare to tu02_texture_without_normal.py
+Demonstrating textures - compare to tu02_texture_without_normal.py
 """
+
 import os
 
-from pyglm import glm
-
-from picogl.renderer.glcontext import GLContext
-from picogl.renderer.gldata import GLData
-from examples.data import g_vertex_buffer_data, g_uv_buffer_data
-from examples.picogl_window import PicoGLWindow
-from examples.texture_renderer import TextureObjectRenderer
+from picogl.renderer import GLContext, GLData
 from picogl.utils.reshape import float32_row
+from examples import (
+    g_vertex_buffer_data,
+    g_uv_buffer_data,
+    PicoGLWindow,
+    TextureRenderer,
+)
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
 
 
 class TextureWindow(PicoGLWindow):
-    """ file with stubs for actions """
+    """file with stubs for actions"""
+
     def __init__(self, width, height, *args, **kwargs):
         positions = float32_row(g_vertex_buffer_data)
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
-        self.data = GLData(positions=positions,
-                              uv_buffers=uv_buffers)
+        self.data = GLData(positions=positions, uv_buffers=uv_buffers)
         print(self.context)
         print(self.data)
 
-        super().__init__( width, height,*args, **kwargs)
-        self.renderer = TextureObjectRenderer(context=self.context,
-                                              data=self.data,
-                                              base_dir=GLSL_DIR)
+        super().__init__(width, height, *args, **kwargs)
+        self.renderer = TextureRenderer(
+            context=self.context, data=self.data, base_dir=GLSL_DIR
+        )
 
     def initializeGL(self):
         """Initial OpenGL configuration."""
@@ -50,7 +49,6 @@ class TextureWindow(PicoGLWindow):
 
 
 if __name__ == "__main__":
-
     win = TextureWindow(width=800, height=600)
     win.initializeGL()
     win.run()
