@@ -6,7 +6,7 @@ from OpenGL.GL import *  # pylint: disable=W0614
 
 from pyglm import glm
 from utils.textureLoader import textureLoader
-from utils.glutWindow import GlutWindow
+from picogl.ui.backend.glut.window.glut import GlutWindow
 from utils.shaderLoader import Shader
 
 g_vertex_buffer_data = [

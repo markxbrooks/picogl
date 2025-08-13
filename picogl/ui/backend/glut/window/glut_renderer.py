@@ -1,13 +1,13 @@
 from pyglm import glm
 from OpenGL.raw.GL.VERSION.GL_1_0 import glViewport
 
-from examples.utils.glutWindow import GlutWindow
+from picogl.ui.backend.glut.window.glut import GlutWindow
 from picogl.logger import setup_logging, Logger as log
 from picogl.utils.gl_init import execute_gl_tasks, gl_init_list, paintgl_list
 
 
-class PicoGLWindow(GlutWindow):
-    """PicoGL Rendered Window"""
+class GlutRendererWindow(GlutWindow):
+    """Glut Rendered Window"""
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.renderer = None
@@ -90,5 +90,5 @@ class PicoGLWindow(GlutWindow):
 
 if __name__ == "__main__":
 
-    win = PicoGLWindow(width=1024, height=768)
+    win = GlutRendererWindow(width=1024, height=768)
     win.run()

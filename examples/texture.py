@@ -5,11 +5,11 @@ Demonstrating textures - compare to tu02_texture_without_normal.py
 import os
 
 from picogl.renderer import GLContext, MeshData
+from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from picogl.utils.reshape import float32_row
 from examples import (
     g_vertex_buffer_data,
     g_uv_buffer_data,
-    PicoGLWindow,
     TextureRenderer,
 )
 
@@ -17,7 +17,7 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
 
 
-class TextureWindow(PicoGLWindow):
+class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
 
     def __init__(self, width, height, *args, **kwargs):

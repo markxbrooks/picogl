@@ -4,7 +4,7 @@ from OpenGL.GL import *  # pylint: disable=W0614
 from OpenGL.GLUT import *  # pylint: disable=W0614
 
 import glm
-from glutWindow import GlutWindow
+from picogl.ui.backend.glut.window.glut import GlutWindow
 from MVPControl import MVPController
 from utils.shaderLoader import Shader
 

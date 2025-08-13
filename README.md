@@ -43,13 +43,13 @@ import os
 from picogl.renderer import GLContext, MeshData
 from picogl.utils.reshape import float32_row
 from examples.object_renderer import ObjectRenderer
-from examples.picogl_window import PicoGLWindow
+from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from examples.data import g_vertex_buffer_data, g_color_buffer_data
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 
-class CubeWindow(PicoGLWindow):
+class CubeWindow(GlutRendererWindow):
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(width, height, *args, **kwargs)
         self.context = GLContext()
