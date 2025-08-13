@@ -5,11 +5,16 @@ compare to tu_01_color_cube
 """
 
 import os
+
 from pyglm import glm
 
 from examples.object_renderer import BasicObjectRenderer
 from examples.picogl_window import PicoGLWindow
+from picogl.renderer.glcontext import GLContext
+from picogl.renderer.gldata import GLData
 from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
+from examples.data import g_vertex_buffer_data, g_color_buffer_data
+from picogl.utils.reshape import to_float32_row
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
@@ -17,20 +22,23 @@ GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu01")
 
 class CubeWindow(PicoGLWindow):
 
-    class GLContext:
-        """Holds OpenGL-related state objects."""
-        pass
-
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(width, height,*args, **kwargs)
-        self.renderer = BasicObjectRenderer(self.context)
-        self.renderer.show_model = True # set here whether or not to show the cube
+        self.context = GLContext()
+        positions = to_float32_row(g_vertex_buffer_data)
+        colors = to_float32_row(g_color_buffer_data)
+        self.data = GLData(positions=positions,
+                      colors=colors)
+        self.renderer = BasicObjectRenderer(context=self.context,
+                                            data=self.data,
+                                            base_dir=GLSL_DIR)
+        self.renderer.show_model = True # set here whether to show the cube
 
     def initializeGL(self):
         """Initial OpenGL configuration."""
         super().initializeGL()
         self.renderer.initialize_shaders()
-        self.renderer.initialize_rendering_buffers()
+        self.renderer.initialize_buffers()
 
     def resizeGL(self, width: int, height: int):
         """Adjust viewport and recalculate MVP matrix."""

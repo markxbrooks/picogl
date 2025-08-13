@@ -7,8 +7,12 @@ import os
 
 from pyglm import glm
 
+from picogl.renderer.glcontext import GLContext
+from picogl.renderer.gldata import GLData
+from examples.data import g_vertex_buffer_data, g_uv_buffer_data
 from examples.picogl_window import PicoGLWindow
 from examples.texture_renderer import TextureObjectRenderer
+from picogl.utils.reshape import to_float32_row
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
@@ -17,14 +21,24 @@ GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
 class TextureWindow(PicoGLWindow):
     """ file with stubs for actions """
     def __init__(self, width, height, *args, **kwargs):
+        positions = to_float32_row(g_vertex_buffer_data)
+        uv_buffers = to_float32_row(g_uv_buffer_data)
+        self.context = GLContext()
+        self.data = GLData(positions=positions,
+                              uv_buffers=uv_buffers)
+        print(self.context)
+        print(self.data)
+
         super().__init__( width, height,*args, **kwargs)
-        self.renderer = TextureObjectRenderer(self.context)
+        self.renderer = TextureObjectRenderer(context=self.context,
+                                              data=self.data,
+                                              base_dir=GLSL_DIR)
 
     def initializeGL(self):
         """Initial OpenGL configuration."""
         super().initializeGL()
         self.renderer.initialize_shaders()
-        self.renderer.initialize_rendering_buffers()
+        self.renderer.initialize_buffers()
 
     def resizeGL(self, width: int, height: int):
         """resizeGL"""

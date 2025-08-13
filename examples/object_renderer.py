@@ -1,42 +1,43 @@
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from examples.data import g_vertex_buffer_data, g_color_buffer_data
+from picogl.renderer.glcontext import GLContext
+from picogl.renderer.gldata import GLData
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer.base import RendererBase
-from picogl.shaders.mvp import set_mvp_matrix_to_uniform_id
-from picogl.utils.reshape import to_float32_row
 
 
 class BasicObjectRenderer(RendererBase):
     """ Basic renderer class """
 
-    def __init__(self, context):
+    def __init__(self,
+                 context: GLContext,
+                 data: GLData,
+                 base_dir: str):
         super().__init__()
         self.context = context
-        self.context.cube_data_positions = to_float32_row(g_vertex_buffer_data)
-        self.context.cube_color_data = to_float32_row(g_color_buffer_data)
-        self.context.vertex_count = len(self.context.cube_data_positions.flatten()) // 3
+        self.data = data
+        self.data.vertex_count = len(self.data.positions.flatten()) // 3
+        self.base_dir = base_dir
 
     def initialize_shaders(self):
         """Load and compile shaders."""
         log.message("Loading shaders...")
-        from examples.cube import GLSL_DIR
         from picogl.backend.modern.core.shader.shader import PicoGLShader
         self.context.shader = PicoGLShader(vertex_source_file="vertex.glsl",
                                            fragment_source_file="fragment.glsl",
-                                           base_dir=GLSL_DIR)
+                                           base_dir=self.base_dir)
         self.context.mvp_id = self.context.shader.get_uniform_location(uniform_name="mvp_matrix")
         log.parameter("MVP uniform ID: ", self.context.mvp_id)
 
-    def initialize_rendering_buffers(self):
+    def initialize_buffers(self):
         """Create VAO and VBOs once."""
         log.message("Creating VAO and VBOs...")
         cube_vao = VertexArrayObject()
-        cube_vao.add_vbo(index=0, data=self.context.cube_data_positions, size=3)
-        cube_vao.add_vbo(index=1, data=self.context.cube_color_data, size=3)
-        self.context.cube_vao = cube_vao
-        log.message(f"Buffers initialized with {self.context.vertex_count} vertices.")
+        cube_vao.add_vbo(index=0, data=self.data.positions, size=3)
+        cube_vao.add_vbo(index=1, data=self.data.colors, size=3)
+        self.context.vertex_array = cube_vao
+        log.message(f"Buffers initialized with {self.data.vertex_count} vertices.")
 
     def render(self) -> None:
         """
@@ -50,6 +51,6 @@ class BasicObjectRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model"""
-        with self.context.shader, self.context.cube_vao:
+        with self.context.shader, self.context.vertex_array:
             self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
-            self.context.cube_vao.draw(mode=GL_TRIANGLES, index_count=self.context.vertex_count)
+            self.context.vertex_array.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
