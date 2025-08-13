@@ -2,7 +2,7 @@ import numpy as np
 from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
 from OpenGL.raw.GL._types import GL_FALSE
 from pyglm import glm
-from picogl.backend.modern.core.shader.shader import PicoGLShader
+from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.backend.modern.core.uniform.location import get_uniform_location
 from picogl.logger import Logger as log
 

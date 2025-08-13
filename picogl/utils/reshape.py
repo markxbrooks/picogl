@@ -3,7 +3,7 @@ from typing import Any
 import numpy as np
 
 
-def to_float32_row(array_like: Any) -> np.ndarray:
+def float32_row(array_like: Any) -> np.ndarray:
     """
     Reshape input to a single row and convert to np.float32.
 

@@ -28,6 +28,8 @@ class PicoGLWindow(GlutWindow):
         """Initial OpenGL configuration."""
         log.message("Initializing OpenGL context...")
         execute_gl_tasks(gl_init_list)
+        self.renderer.initialize_shaders()
+        self.renderer.initialize_buffers()
 
     def calculate_mvp_matrix(self, width=1920, height=1080):
         """calculate_mvp_matrix"""

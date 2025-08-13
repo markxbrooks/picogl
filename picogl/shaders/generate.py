@@ -1,6 +1,6 @@
 from typing import Optional
 
-from picogl.backend.modern.core.shader.shader import PicoGLShader
+from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 

@@ -12,7 +12,7 @@ from picogl.renderer.gldata import GLData
 from examples.data import g_vertex_buffer_data, g_uv_buffer_data
 from examples.picogl_window import PicoGLWindow
 from examples.texture_renderer import TextureObjectRenderer
-from picogl.utils.reshape import to_float32_row
+from picogl.utils.reshape import float32_row
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
@@ -21,8 +21,8 @@ GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
 class TextureWindow(PicoGLWindow):
     """ file with stubs for actions """
     def __init__(self, width, height, *args, **kwargs):
-        positions = to_float32_row(g_vertex_buffer_data)
-        uv_buffers = to_float32_row(g_uv_buffer_data)
+        positions = float32_row(g_vertex_buffer_data)
+        uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
         self.data = GLData(positions=positions,
                               uv_buffers=uv_buffers)

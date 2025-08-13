@@ -2,7 +2,7 @@ from pyglm import glm
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from picogl.renderer.glcontext import GLContext
-from picogl.backend.modern.core.shader.shader import PicoGLShader
+from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer.base import RendererBase

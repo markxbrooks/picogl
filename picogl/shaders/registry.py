@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Optional
 
 from picogl.backend.modern.core.shader.load import load_shader
-from picogl.backend.modern.core.shader.shader import PicoGLShader
+from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.logger import Logger as log
 from picogl.shaders.type import ShaderType
 
