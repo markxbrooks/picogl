@@ -8,7 +8,7 @@ from picogl.backend.modern.core.shader.helpers import log_gl_error, read_shader_
 from picogl.logger import Logger as log
 
 
-class PicoGLShader:
+class ShaderProgram:
     """OpenGL Shader program manager for vertex and fragment shaders."""
 
     def __init__(self,

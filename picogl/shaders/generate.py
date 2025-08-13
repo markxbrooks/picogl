@@ -1,13 +1,13 @@
 from typing import Optional
 
-from picogl.backend.modern.core.shader.program import PicoGLShader
+from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 
 
 def generate_shader_programs(
     vertex_shader_src: str, fragment_shader_src: str, shader_name: str = "default"
-) -> Optional[PicoGLShader]:
+) -> Optional[ShaderProgram]:
     """
     generate_shader_programs
 

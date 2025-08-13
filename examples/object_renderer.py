@@ -1,5 +1,4 @@
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
-
 from picogl.renderer import RendererBase, GLContext, GLData
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 
@@ -18,10 +17,9 @@ class ObjectRenderer(RendererBase):
 
     def initialize_shaders(self):
         """Load and compile shaders."""
-        from picogl.backend.modern.core.shader.program import PicoGLShader
-        self.context.shader = PicoGLShader(vertex_source_file="vertex.glsl",
-                                           fragment_source_file="fragment.glsl",
-                                           base_dir=self.base_dir)
+        self.context.create_shader_program(vertex_source_file="vertex.glsl",
+                                            fragment_source_file="fragment.glsl",
+                                            base_dir=self.base_dir)
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""

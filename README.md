@@ -87,10 +87,10 @@ class ObjectRenderer(RendererBase):
 
     def initialize_shaders(self):
         """Load and compile shaders."""
-        from picogl.backend.modern.core.shader.program import PicoGLShader
-        self.context.shader = PicoGLShader(vertex_source_file="vertex.glsl",
-                                           fragment_source_file="fragment.glsl",
-                                           base_dir=self.base_dir)
+        from picogl.backend.modern.core.shader.program import ShaderProgram
+        self.context.create_shader_program(vertex_source_file="vertex.glsl",
+                                            fragment_source_file="fragment.glsl",
+                                            base_dir=self.base_dir)
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""

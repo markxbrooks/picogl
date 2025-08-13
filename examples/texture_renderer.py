@@ -1,7 +1,6 @@
 """ Texture Renderer class """
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from picogl.backend.modern.core.shader.program import PicoGLShader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer import RendererBase, GLData, GLContext
@@ -25,11 +24,9 @@ class TextureRenderer(RendererBase):
     def initialize_shaders(self):
         """Load and compile shaders."""
         log.message("Loading shaders...")
-        self.context.shader = PicoGLShader(
-            vertex_source_file="vertex.glsl",
-            fragment_source_file="fragment.glsl",
-            base_dir=self.base_dir,
-        )
+        self.context.create_shader_program(vertex_source_file="vertex.glsl",
+                                            fragment_source_file="fragment.glsl",
+                                            base_dir=self.base_dir)
 
     def initialize_buffers(self):
         """initialize buffers"""

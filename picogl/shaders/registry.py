@@ -30,7 +30,7 @@ from dataclasses import dataclass, field
 from typing import Dict, Optional
 
 from picogl.backend.modern.core.shader.load import load_shader
-from picogl.backend.modern.core.shader.program import PicoGLShader
+from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.logger import Logger as log
 from picogl.shaders.type import ShaderType
 
@@ -39,9 +39,9 @@ from picogl.shaders.type import ShaderType
 class ShaderRegistry:
     """ShaderRegistry"""
 
-    shaders: Dict[ShaderType, PicoGLShader] = field(default_factory=dict)
+    shaders: Dict[ShaderType, ShaderProgram] = field(default_factory=dict)
 
-    def load_and_add(self, shader_type: ShaderType) -> Optional[PicoGLShader]:
+    def load_and_add(self, shader_type: ShaderType) -> Optional[ShaderProgram]:
         """
         Load, compile, and register a shader_manager.current_shader_program for the given ShaderType.
         """
@@ -58,7 +58,7 @@ class ShaderRegistry:
             )
             return None
 
-    def get(self, shader_type: ShaderType) -> Optional[PicoGLShader]:
+    def get(self, shader_type: ShaderType) -> Optional[ShaderProgram]:
         return self.shaders.get(shader_type)
 
     def has(self, shader_type: ShaderType) -> bool:

@@ -11,7 +11,6 @@ class PicoGLWindow(GlutWindow):
     def __init__(self, width, height, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.renderer = None
-        self.context = self.GLContext()
         self.width = width
         self.height = height
         # Mouse interaction state
@@ -20,9 +19,6 @@ class PicoGLWindow(GlutWindow):
         self.rotation_x = 0.0
         self.rotation_y = 0.0
         setup_logging()
-
-    class GLContext(object):
-        pass
 
     def initializeGL(self):
         """Initial OpenGL configuration."""
