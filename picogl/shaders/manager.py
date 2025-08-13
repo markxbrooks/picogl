@@ -39,7 +39,7 @@ import numpy as np
 from pyglm import glm
 
 from picogl.backend.modern.core.shader.shader import PicoGLShader
-from picogl.backend.modern.core.uniform import (shader_uniform_set_mvp)
+from picogl.backend.modern.core.uniform.mvp import shader_uniform_set_mvp
 from picogl.backend.modern.core.uniform.set_location import set_uniform_name_value
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
