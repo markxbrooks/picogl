@@ -1,12 +1,12 @@
 """Minimal PicoGL Teapot."""
 import os
 
-from picogl.utils.loader.object import OBJLoader, ObjectData
 from examples.object_renderer import ObjectRenderer
 from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from picogl.utils.normal import compute_vertex_normals, compute_normals_from_vbo
 from picogl.utils.reshape import float32_row
+from picogl.utils.loader.object import OBJLoader, ObjectData
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
@@ -32,7 +32,7 @@ class TeapotWindow(GlutRendererWindow):
             texcoords=raw_data.texcoords or [],
             normals=normals,
             indices=indices
-        )
+
 
         # Convert to float32 arrays for OpenGL
         self.data_vbo = float32_row(self.data.vertices)
