@@ -27,7 +27,7 @@ Example usage:
 >>>vao = VertexArrayObject()
 ...vao.add_attribute(index=0, vbo=vbo, size=3)
 ...vao.add_attribute(index=1, vbo=cbo, size=3)
-...vao.draw(index_count=100)
+...vao.update(index_count=100)
 
 Intended for OpenGL 3.0+ with VAO support.
 

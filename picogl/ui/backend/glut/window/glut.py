@@ -52,7 +52,7 @@ class GlutWindow(AbstractGlutWindow):
         GLUT.glutSolidTeapot(1)
         print("please override paintGL")
 
-    def draw(self):
+    def update(self):
         """draw"""
         GLUT.glutPostRedisplay()
 

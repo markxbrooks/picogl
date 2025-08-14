@@ -1,10 +1,12 @@
 import os
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
+
+from picogl.logger import Logger as log
 
 
 @dataclass
-class MeshData:
+class ObjectData:
     vertices: List[float]
     texcoords: List[float]
     normals: List[float]
@@ -77,8 +79,29 @@ class OBJLoader:
 
                 else:
                     print(f"Skipping unknown line: {line.strip()}")
+        self.log_properties()
 
-    def to_array_style(self) -> MeshData:
+    def log_properties(self):
+        """ log object properties """
+        print(f"Loaded OBJ file successfully")
+        print(f"Total vertices: {len(self.vertices) // 3}")
+        print(f"Total normals: {len(self.normals) // 3}")
+        print(f"Total texcoords: {len(self.texcoords) // 2}")
+        print(f"Total face indices: {len(self.indices) // 3}")
+
+        print("\nFirst few vertices:", self.vertices[:9])
+        print("First few indices:", self.indices[:9])
+        print("First few normals:", self.normals[:9])
+        print("First few texcoords:", self.texcoords[:6])
+
+        single_index_obj = self.to_single_index_style()
+        print(f"\nSingle Index Style:")
+        print(f"Vertices: {len(single_index_obj.vertices) // 3}")
+        print(f"Indices: {len(single_index_obj.indices)}")
+        print(f"Normals: {len(single_index_obj.normals) // 3}")
+        print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
+
+    def to_array_style(self) -> ObjectData:
         """Convert to array-style where each vertex attribute is stored separately"""
         vertices, texcoords, normals = [], [], []
         
@@ -106,9 +129,10 @@ class OBJLoader:
             else:
                 normals.extend([0.0, 0.0, 1.0])  # Default normal
 
-        return MeshData(vertices, texcoords, normals)
+        data = ObjectData(vertices, texcoords, normals)
+        return data
 
-    def to_single_index_style(self) -> MeshData:
+    def to_single_index_style(self) -> ObjectData:
         """Convert to single-index style where each unique vertex attribute combination is stored once"""
         vertices, texcoords, normals, indices = [], [], [], []
         combinations = {}
@@ -143,31 +167,33 @@ class OBJLoader:
 
             indices.append(combinations[key])
 
-        return MeshData(vertices, texcoords, normals, indices)
+        return ObjectData(vertices, texcoords, normals, indices)
 
+def log_properties(obj):
+    """ log object properties """
+    print(f"Loaded OBJ file successfully")
+    print(f"Total vertices: {len(obj.vertices) // 3}")
+    print(f"Total normals: {len(obj.normals) // 3}")
+    print(f"Total texcoords: {len(obj.texcoords) // 2}")
+    print(f"Total face indices: {len(obj.indices) // 3}")
+
+    print("\nFirst few vertices:", obj.vertices[:9])
+    print("First few indices:", obj.indices[:9])
+    print("First few normals:", obj.normals[:9])
+    print("First few texcoords:", obj.texcoords[:6])
+
+    single_index_obj = obj.to_single_index_style()
+    print(f"\nSingle Index Style:")
+    print(f"Vertices: {len(single_index_obj.vertices) // 3}")
+    print(f"Indices: {len(single_index_obj.indices)}")
+    print(f"Normals: {len(single_index_obj.normals) // 3}")
+    print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
 
 if __name__ == "__main__":
     # Test with the teapot model
     try:
         obj = OBJLoader("data/teapot.obj")
-        print(f"Loaded OBJ file successfully")
-        print(f"Total vertices: {len(obj.vertices) // 3}")
-        print(f"Total normals: {len(obj.normals) // 3}")
-        print(f"Total texcoords: {len(obj.texcoords) // 2}")
-        print(f"Total face indices: {len(obj.indices) // 3}")
-        
-        print("\nFirst few vertices:", obj.vertices[:9])
-        print("First few indices:", obj.indices[:9])
-        print("First few normals:", obj.normals[:9])
-        print("First few texcoords:", obj.texcoords[:6])
-
-        single_index_obj = obj.to_single_index_style()
-        print(f"\nSingle Index Style:")
-        print(f"Vertices: {len(single_index_obj.vertices) // 3}")
-        print(f"Indices: {len(single_index_obj.indices)}")
-        print(f"Normals: {len(single_index_obj.normals) // 3}")
-        print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
-        
+        log_properties(obj)
     except FileNotFoundError as e:
         print(f"Error: {e}")
         print("Make sure the teapot.obj file exists in the data/ directory")

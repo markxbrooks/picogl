@@ -72,7 +72,7 @@ def execute_gl_tasks(task_list: list[tuple[str, Callable]]):
             raise
 
 
-gl_init_list = [
+init_gl_list = [
     ("✅ Initializing OpenGL context...", lambda: None),  # Message only
     ("✅ Setting clear color", lambda: glClearColor(0.0, 0.0, 0.4, 0.0)),
     ("✅ Setting depth function", lambda: glDepthFunc(GL_LESS)),
@@ -80,9 +80,9 @@ gl_init_list = [
     ("✅ Enabling face culling", lambda: glEnable(GL_CULL_FACE)),
 ]
 
-paintgl_list = [
+paint_gl_list = [
     (
-        "Initialising PaintGl",
+        None,
         lambda: glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT),
     ),
 ]

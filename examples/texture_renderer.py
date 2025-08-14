@@ -7,7 +7,7 @@ from picogl.utils.loader.texture import TextureLoader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer import GLContext, MeshData, RendererBase
-from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
+from picogl.utils.gl_init import execute_gl_tasks, paint_gl_list
 from picogl.utils.texture import bind_texture_array
 
 
@@ -58,7 +58,7 @@ class TextureRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model"""
-        execute_gl_tasks(paintgl_list)
+        execute_gl_tasks(paint_gl_list)
         cube_vao = self.context.vaos["cube"]
         shader = self.context.shader
         with shader, cube_vao:

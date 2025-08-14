@@ -26,9 +26,9 @@ class GLContext:
         default_factory=lambda: np.identity(4, dtype=np.float32)
     )
 
-    def create_shader_program(
-        self, vertex_source_file: str, fragment_source_file: str, base_dir: str
-    ):
+    def create_shader_program(self, vertex_source_file: str,
+                                    fragment_source_file: str,
+                                    base_dir: str) -> None:
         """
         create_shader_program
 

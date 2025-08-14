@@ -8,7 +8,7 @@ layout(location = 1) in vec3 vertexColor;
 out vec3 fragmentColor;
 // Values that stay constant for the whole mesh.
 uniform mat4 mvp_matrix;
-void main(){	
+void main(){
 
 	// Output position of the vertex, in clip space : MVP * position
 	gl_Position =  mvp_matrix * vec4(vertexPosition_modelspace,1);
