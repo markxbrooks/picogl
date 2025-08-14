@@ -1,5 +1,6 @@
 import os
 import struct
+from pathlib import Path
 
 from OpenGL.GL import *
 from OpenGL.GL.EXT import texture_compression_s3tc
@@ -30,8 +31,8 @@ class TextureLoader:
         self.format: str = mode
         self.buffer: Optional[bytes] = None
         self.inversed_v_coords: bool = False
-
-        file_name = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", file_name))
+        if not os.path.isabs(file_name):
+            file_name = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", file_name))
         if file_name.lower().endswith(".dds"):
             self.load_dds(file_name)
         else:
@@ -143,3 +144,15 @@ class TextureLoader:
 
     def __len__(self) -> int:
         return len(self.buffer) if self.buffer else 0
+    
+
+if __name__ == "__main__":
+    texture = TextureLoader(file_name=os.path.join(str(Path.home()),
+                                                   "projects/PicoGL/examples/resources/tu02/uvtemplate.tga"))
+    print(texture.texture_glid)
+    print(texture.width)
+    print(texture.height)
+    print(texture.format)
+    print(texture.buffer)
+    print(texture.inversed_v_coords)
+    texture.delete()
