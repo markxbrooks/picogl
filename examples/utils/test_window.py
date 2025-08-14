@@ -6,7 +6,8 @@ from picogl.ui.abc_window import AbstractGlutWindow
 
 
 class GLWindow(AbstractGlutWindow):
-    """ GLWindow """
+    """GLWindow"""
+
     def initializeGL(self) -> None:
         gl.glClearColor(0.0, 0.0, 0.0, 1.0)
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -22,7 +23,7 @@ class GLWindow(AbstractGlutWindow):
         # GLU.gluPerspective(...)
 
     def on_keyboard(self, key, x, y) -> None:
-        if key == b'\x1b':  # Escape
+        if key == b"\x1b":  # Escape
             sys.exit(0)
 
     def on_special_key(self, key, x, y) -> None:
@@ -33,6 +34,7 @@ class GLWindow(AbstractGlutWindow):
 
     def on_mousemove(self, x, y) -> None:
         pass
+
 
 if __name__ == "__main__":
     win = GLWindow()

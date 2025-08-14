@@ -101,6 +101,5 @@ class GlutWindow(object):
 
 
 if __name__ == "__main__":
-
     win = GlutWindow()
     win.run()

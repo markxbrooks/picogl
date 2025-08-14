@@ -42,6 +42,8 @@ class ObjectRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model"""
-        with self.context.shader, self.context.vaos["cube"]:
-            self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
-            self.context.vaos["cube"].draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
+        cube_vao = self.context.vaos["cube"]
+        shader = self.context.shader
+        with shader, cube_vao:
+            shader.uniform("mvp_matrix", self.context.mvp_matrix)
+            cube_vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
