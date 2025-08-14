@@ -68,7 +68,7 @@ def upload_geometry_buffers(
     *,
     element_data: np.ndarray = None,
     ebo_target: str = None,
-    usage: int = GL_STATIC_DRAW
+    usage: int = GL_STATIC_DRAW,
 ) -> None:
     """
     upload_geometry_buffers
@@ -109,9 +109,7 @@ def upload_geometry_buffers(
         ebo = glGenBuffers(1)
         setattr(render_buffers, ebo_target, ebo)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     element_data.nbytes,
-                     element_data, usage)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, element_data.nbytes, element_data, usage)
 
     glBindVertexArray(0)
 

@@ -1,6 +1,9 @@
 import sys
+
 from OpenGL import GL as gl
+
 from picogl.ui.abc_window import AbstractGlutWindow
+
 
 class GLWindow(AbstractGlutWindow):
     """ GLWindow """

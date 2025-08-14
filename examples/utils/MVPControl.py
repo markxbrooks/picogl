@@ -1,7 +1,10 @@
 
 
-import glm
 import math
+
+import glm
+
+
 class MVPControl:
 
     def __init__(self,width=800,height=480,*args,**kwargs):

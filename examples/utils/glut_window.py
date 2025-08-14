@@ -1,9 +1,10 @@
-from OpenGL.GLUT import GLUT as GLUT
 import sys
+from typing import Optional
+
 from OpenGL import GL as gl
 from OpenGL.GLU import gluLookAt, gluPerspective  # optional, for readability
+from OpenGL.GLUT import GLUT as GLUT
 
-from typing import Optional
 
 class GlutWindow(object):
     def __init__(self, *args, **kwargs):

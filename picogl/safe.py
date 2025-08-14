@@ -3,15 +3,17 @@ glGenSafe
 
 Example Usage:
 ==============
->>>self.hetatm_buffers_vao = glGenSafe(glGenVertexArrays)
-...self.hetatm_buffers_vbo_pos = glGenSafe(glGenBuffers)
+>>>self.hetatm_buffers_vao = gl_gen_safe(glGenVertexArrays)
+...self.hetatm_buffers_vbo_pos = gl_gen_safe(glGenBuffers)
 
 """
 
 from typing import Callable, Sequence, Union
 
+import numpy as np
 
-def glGenSafe(
+
+def gl_gen_safe(
     gen_func: Callable[[int], Union[int, list[int], tuple[int], "np.ndarray"]],
     count: int = 1,
 ) -> int:
@@ -26,7 +28,7 @@ def glGenSafe(
     result = gen_func(count)
     if isinstance(result, (list, tuple)):
         return result[0]
-    elif hasattr(result, "__getitem__") and not isinstance(result, (int, float, str)):
+    if hasattr(result, "__getitem__") and not isinstance(result, (int, float, str)):
         try:
             return result[0]
         except Exception:
@@ -34,7 +36,7 @@ def glGenSafe(
     return int(result)
 
 
-def glDeleteSafe(
+def gl_delete_safe(
     delete_func: Callable[[int, Union[int, Sequence[int]]], None],
     handle: Union[int, Sequence[int]],
 ) -> None:

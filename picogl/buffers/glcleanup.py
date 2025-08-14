@@ -37,7 +37,6 @@ Usage Example:
     delete_dict_buffers(buffer_map)
 """
 
-
 from typing import Dict, Optional
 
 from OpenGL.GL import glDeleteBuffers, glDeleteVertexArrays

@@ -5,7 +5,6 @@ Open GL shader_manager.current_shader_program compilation
 
 from typing import Optional
 
-
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.logger import Logger as log
 
@@ -38,7 +37,7 @@ def compile_shaders(
     :param fragment_src: Fragment shader_manager.current_shader_program GLSL code.
     :return: Linked PicoGLShader or None on failure.
     """
-    
+
     picogl_program = ShaderProgram(shader_name=shader_name)
     picogl_program.init_shader_from_glsl(vertex_src, fragment_src)
     return picogl_program

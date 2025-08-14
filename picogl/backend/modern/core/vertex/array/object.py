@@ -32,24 +32,26 @@ Example usage:
 Intended for OpenGL 3.0+ with VAO support.
 
 """
+
 import ctypes
 
 import numpy as np
-
 from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
-from OpenGL.raw.GL.VERSION.GL_1_1 import glDrawArrays
 from OpenGL.raw.GL._types import GL_FLOAT, GL_UNSIGNED_INT
 from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS
+from OpenGL.raw.GL.VERSION.GL_1_1 import glDrawArrays
 from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW
 
-from picogl.backend.modern.core.vertex.array.helpers import enable_points_rendering_state
+from picogl.backend.modern.core.vertex.array.helpers import \
+    enable_points_rendering_state
 from picogl.backend.modern.core.vertex.base import VertexBase
 from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
+from picogl.buffers.glcleanup import delete_buffer
 from picogl.buffers.vao.draw import vao_draw_with_attributes
 from picogl.logger import Logger as log
-from picogl.safe import glGenSafe
+from picogl.safe import gl_gen_safe
 
 
 class VertexArrayObject(VertexBase):
@@ -65,7 +67,7 @@ class VertexArrayObject(VertexBase):
         """
         if not handle or handle is None:
             if glGenVertexArrays:
-                handle = glGenSafe(glGenVertexArrays)
+                handle = gl_gen_safe(glGenVertexArrays)
             else:
                 raise RuntimeError(
                     "glGenVertexArrays not available — OpenGL context not ready"
@@ -177,9 +179,7 @@ class VertexArrayObject(VertexBase):
         """
         ebo = ModernEBO(data=data)
         ebo.bind()
-        ebo.set_element_attributes(
-            data=data, size=data.nbytes, dtype=GL_STATIC_DRAW
-        )
+        ebo.set_element_attributes(data=data, size=data.nbytes, dtype=GL_STATIC_DRAW)
         ebo.configure()
         self.ebo = ebo
         return ebo
@@ -210,10 +210,13 @@ class VertexArrayObject(VertexBase):
         except Exception as ex:
             log.error(f"error {ex} occurred")
 
-    def draw(self, index_count: int = None,
-             dtype: int = GL_UNSIGNED_INT,
-             mode: int = GL_POINTS,
-             pointer: int = ctypes.c_void_p(0)):
+    def draw(
+        self,
+        index_count: int = None,
+        dtype: int = GL_UNSIGNED_INT,
+        mode: int = GL_POINTS,
+        pointer: int = ctypes.c_void_p(0),
+    ):
         """
         draw
 
@@ -227,4 +230,4 @@ class VertexArrayObject(VertexBase):
         if mode == GL_POINTS:
             enable_points_rendering_state()
         glDrawArrays(mode, 0, atom_count)
-        #vao_draw_with_attributes(self.attributes, atom_count, mode)
+        # vao_draw_with_attributes(self.attributes, atom_count, mode)

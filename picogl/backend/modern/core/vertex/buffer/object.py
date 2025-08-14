@@ -21,4 +21,6 @@ class ModernVBO(VertexBase):
         """ """
         if handle is None:
             handle = glGenBuffers(1)
-        super().__init__(handle=handle, size=size, data=data, target=target, index=index)
+        super().__init__(
+            handle=handle, size=size, data=data, target=target, index=index
+        )

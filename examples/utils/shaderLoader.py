@@ -8,6 +8,8 @@ def printOpenGLError():
         print('GLERROR: ', gl.gluErrorString(err)) # pylint: disable=E1101
 
 import os
+
+
 # sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 class Shader(object):
 

@@ -2,10 +2,11 @@
 Glut Window
 """
 
-import OpenGL.GLUT as GLUT
 import sys
+
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
+import OpenGL.GLUT as GLUT
 
 from picogl.ui.abc_window import AbstractGlutWindow
 
@@ -89,14 +90,14 @@ class GlutWindow(AbstractGlutWindow):
             print("please overrider on_mouse")
 
     def on_mousemove(self, *args, **kwargs):
-        """ on_mousemove"""
+        """on_mousemove"""
         if self.controller is not None:
             self.controller.on_mousemove(*args, **kwargs)
         else:
             print("please overrider on_mousemove")
 
     def run(self):
-        """ run """
+        """run"""
         GLUT.glutMainLoop()
 
 

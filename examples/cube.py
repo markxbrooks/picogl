@@ -1,10 +1,12 @@
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
 import os
-from picogl.renderer import GLContext, MeshData
-from picogl.utils.reshape import float32_row
+
+from examples.data import g_color_buffer_data, g_vertex_buffer_data
 from examples.object_renderer import ObjectRenderer
+from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
-from examples.data import g_vertex_buffer_data, g_color_buffer_data
+from picogl.utils.reshape import float32_row
+
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 class CubeWindow(GlutRendererWindow):

@@ -1,4 +1,4 @@
-""" log message """
+"""log message"""
 
 import json
 import logging
@@ -67,7 +67,7 @@ def setup_logging():
         logger.info("Logging setup complete")
         logger.info(f"{__project__} starting up...")
         logger.debug(f"Log file: {log_file}")
-        logging.getLogger('OpenGL').setLevel(logging.WARNING)
+        logging.getLogger("OpenGL").setLevel(logging.WARNING)
         return logger
 
     except Exception as ex:
@@ -93,7 +93,13 @@ def get_qc_tag(msg: str) -> str:
     msg = f"{msg}".lower()
     if "success rate" in msg:
         return "📊"
-    if "updat" in msg or "success" in msg or "passed" in msg or "Enabl" in msg or "Setting up" in msg:
+    if (
+        "updat" in msg
+        or "success" in msg
+        or "passed" in msg
+        or "Enabl" in msg
+        or "Setting up" in msg
+    ):
         return "✅"
     if "fail" in msg or "error" in msg:
         return "❌"

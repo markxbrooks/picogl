@@ -24,7 +24,6 @@ Usage Example:
     rotation_matrix = create_rotation_matrix(angle_x=0.5, angle_y=1.0)
 """
 
-
 from pyglm import glm
 
 

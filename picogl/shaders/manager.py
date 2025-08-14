@@ -40,7 +40,8 @@ from pyglm import glm
 
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.backend.modern.core.uniform.mvp import shader_uniform_set_mvp
-from picogl.backend.modern.core.uniform.set_location import set_uniform_name_value
+from picogl.backend.modern.core.uniform.set_location import \
+    set_uniform_name_value
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 from picogl.shaders.generate import generate_shader_programs
@@ -166,7 +167,10 @@ class ShaderManager:
 
         failed = []
         for shader_number, shader_type in enumerate(ShaderType):
-            log.message(f"Loading shader type: '{shader_type.value} from {self.shader_directory}'", silent=True)
+            log.message(
+                f"Loading shader type: '{shader_type.value} from {self.shader_directory}'",
+                silent=True,
+            )
             self.load_shader(shader_type, shader_number)
             if self.shaders[shader_type] is self.fallback_shader:
                 failed.append(shader_type)
@@ -194,9 +198,13 @@ class ShaderManager:
             fragment_src, vertex_src = load_fragment_and_vertex_for_shader_type(
                 shader_type.value, self.shader_directory
             )
-            picogl_shader_program = generate_shader_programs(vertex_src, fragment_src, shader_type)
+            picogl_shader_program = generate_shader_programs(
+                vertex_src, fragment_src, shader_type
+            )
             if picogl_shader_program:
-                log.message(f"[{shader_number}/{len(ShaderType)}] ✅ Shader type `{shader_type}` compiled and registered")
+                log.message(
+                    f"[{shader_number}/{len(ShaderType)}] ✅ Shader type `{shader_type}` compiled and registered"
+                )
                 self.shaders[shader_type] = picogl_shader_program
             else:
                 log.warning(f"⚠️ Falling back for {shader_type}")

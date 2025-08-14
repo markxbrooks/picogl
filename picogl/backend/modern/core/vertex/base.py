@@ -70,7 +70,7 @@ class VertexBase(AbstractVertexBuffer):
         stride: int = 0,
         dtype: int = GL_FLOAT,
         index: int = None,
-        pointer: ctypes.c_void_p = ctypes.c_void_p(0)
+        pointer: ctypes.c_void_p = ctypes.c_void_p(0),
     ):
         super().__init__(handle=handle)
         self.index = index

@@ -1,7 +1,8 @@
 import numpy as np
-from OpenGL.GL import glGetUniformLocation, glUniformMatrix4fv
+from OpenGL.GL import glUniformMatrix4fv
 from OpenGL.raw.GL._types import GL_FALSE
 from pyglm import glm
+
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.backend.modern.core.uniform.location import get_uniform_location
 from picogl.logger import Logger as log
@@ -20,9 +21,7 @@ def set_mvp_uniform(shader: ShaderProgram = None, mvp: glm.mat4 = None) -> None:
     glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm.value_ptr(mvp))
 
 
-def shader_uniform_set_mvp(shader_program: int,
-                           mvp_matrix: np.ndarray | glm.mat4
-):
+def shader_uniform_set_mvp(shader_program: int, mvp_matrix: np.ndarray | glm.mat4):
     """
     shader_uniform_set_mvp
 

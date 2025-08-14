@@ -1,12 +1,11 @@
 
 
 from OpenGL.GL import *  # pylint: disable=W0614
-
 from pyglm import glm
-
-from examples.data import g_vertex_buffer_data, g_color_buffer_data
-from picogl.ui.backend.glut.window.glut import GlutWindow
 from utils.shaderLoader import Shader
+
+from examples.data import g_color_buffer_data, g_vertex_buffer_data
+from picogl.ui.backend.glut.window.glut import GlutWindow
 
 
 class Tu01Win(GlutWindow):

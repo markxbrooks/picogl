@@ -1,13 +1,13 @@
 """ Texture Renderer class """
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
-from picogl.logger import Logger as log
-from picogl.renderer import RendererBase, MeshData, GLContext
-from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
-from picogl.utils.texture import bind_texture_array
 from examples import g_uv_buffer_data
 from examples.utils.textureLoader import textureLoader
+from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
+from picogl.logger import Logger as log
+from picogl.renderer import GLContext, MeshData, RendererBase
+from picogl.utils.gl_init import execute_gl_tasks, paintgl_list
+from picogl.utils.texture import bind_texture_array
 
 
 class TextureRenderer(RendererBase):

@@ -1,9 +1,9 @@
-
-
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional, Union, Sequence, Any
+from typing import Any, Optional, Sequence, Union
+
 import numpy as np
+
 
 class UniformKind(Enum):
     INT = "int"
@@ -14,6 +14,7 @@ class UniformKind(Enum):
     VEC4 = "vec4"
     MAT3 = "mat3"
     MAT4 = "mat4"
+
 
 @dataclass
 class ShaderUniform:
@@ -82,7 +83,9 @@ class ShaderUniform:
             try:
                 from OpenGL import GL as gl
             except Exception as e:
-                raise RuntimeError("PyOpenGL is required to upload uniforms (pass gl_module or install PyOpenGL)") from e
+                raise RuntimeError(
+                    "PyOpenGL is required to upload uniforms (pass gl_module or install PyOpenGL)"
+                ) from e
         else:
             gl = gl_module
 
@@ -107,13 +110,21 @@ class ShaderUniform:
             gl.glUniform3f(self.location, float(arr[0]), float(arr[1]), float(arr[2]))
         elif t == UniformKind.VEC4:
             arr = np.asarray(v, dtype=np.float32)
-            gl.glUniform4f(self.location, float(arr[0]), float(arr[1]), float(arr[2]), float(arr[3]))
+            gl.glUniform4f(
+                self.location,
+                float(arr[0]),
+                float(arr[1]),
+                float(arr[2]),
+                float(arr[3]),
+            )
         elif t == UniformKind.MAT3:
             mat = np.asarray(v, dtype=np.float32)
             if mat.shape == (3, 3):
                 gl.glUniformMatrix3fv(self.location, 1, gl.GL_FALSE, mat)
             elif mat.size == 9:
-                gl.glUniformMatrix3fv(self.location, 1, gl.GL_FALSE, mat.reshape((3, 3)))
+                gl.glUniformMatrix3fv(
+                    self.location, 1, gl.GL_FALSE, mat.reshape((3, 3))
+                )
             else:
                 raise ValueError("mat3 must be a 3x3 matrix or a 9-element vector")
         elif t == UniformKind.MAT4:
@@ -121,7 +132,9 @@ class ShaderUniform:
             if mat.shape == (4, 4):
                 gl.glUniformMatrix4fv(self.location, 1, gl.GL_FALSE, mat)
             elif mat.size == 16:
-                gl.glUniformMatrix4fv(self.location, 1, gl.GL_FALSE, mat.reshape((4, 4)))
+                gl.glUniformMatrix4fv(
+                    self.location, 1, gl.GL_FALSE, mat.reshape((4, 4))
+                )
             else:
                 raise ValueError("mat4 must be a 4x4 matrix or a 16-element vector")
         else:

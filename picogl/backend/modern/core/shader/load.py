@@ -29,7 +29,6 @@ def load_shader(shader_type: ShaderType):
                 shader_type=shader_type, mvp_matrix=mvp_matrix, zoom_scale=zoom_scale
             )
 
-
             # Execute the original function
             return func(*args, **kwargs)
 

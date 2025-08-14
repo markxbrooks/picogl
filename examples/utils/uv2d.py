@@ -1,6 +1,7 @@
-from OpenGL.GL import *
-from .shaderLoader import Shader
 import glm
+from OpenGL.GL import *
+
+from .shaderLoader import Shader
 
 
 class UV2D(object):

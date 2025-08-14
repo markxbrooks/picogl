@@ -1,16 +1,19 @@
 from typing import Union
 
 import numpy as np
-from OpenGL.GL import *
+from OpenGL.GL import * # pylint: disable=W0614
 from OpenGL.GL import glUniformMatrix4fv
 from pyglm import glm
 
 from picogl.logger import Logger as log
 
 
-def set_uniform_location_value(location: int, uniform_value: Union[
+def set_uniform_location_value(
+    location: int,
+    uniform_value: Union[
         float, int, glm.vec2, glm.vec3, glm.vec4, glm.mat4, np.ndarray
-    ]):
+    ],
+):
     """
     set_uniform_value
 
@@ -46,6 +49,4 @@ def set_uniform_location_value(location: int, uniform_value: Union[
                 f"Unsupported ndarray shape {uniform_value.shape} for uniform '{location}'"
             )
     else:
-        log.warning(
-            f"Unsupported uniform type for '{location}': {type(uniform_value)}"
-        )
+        log.warning(f"Unsupported uniform type for '{location}': {type(uniform_value)}")

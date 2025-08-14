@@ -5,8 +5,6 @@ Shader utilities
 import os
 from typing import Optional
 
-from picogl.logger import Logger as log
-
 
 def load_shader_source_string(file_name: str, directory: Optional[str] = None) -> str:
     """

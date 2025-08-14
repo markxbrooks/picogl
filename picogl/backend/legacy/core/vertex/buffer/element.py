@@ -19,10 +19,7 @@ class LegacyEBO(LegacyVBO):
         size: int = 3,
     ):
         """constructor"""
-        super().__init__(handle=handle,
-                         data=data,
-                         target=target,
-                         size=size)
+        super().__init__(handle=handle, data=data, target=target, size=size)
 
     def draw(
         self,

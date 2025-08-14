@@ -6,7 +6,7 @@ from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 
 
 def vao_configure_attributes(
-    attributes: list[tuple[int, int, int, int, bool, int, int]]
+    attributes: list[tuple[int, int, int, int, bool, int, int]],
 ):
     """
     Enable all vertex attributes associated with this VAO.
@@ -30,12 +30,14 @@ def vao_configure_attributes(
         index, vbo, size, dtype, normalized, stride, offset = attribute
         try:
             with ModernVBO(vbo) as vbo_object:
-                vbo_object.set_vertex_attributes(index=index,
-                                                 size=size,
-                                                 dtype=dtype,
-                                                 normalized=normalized,
-                                                 stride=stride,
-                                                 offset=offset)
+                vbo_object.set_vertex_attributes(
+                    index=index,
+                    size=size,
+                    dtype=dtype,
+                    normalized=normalized,
+                    stride=stride,
+                    offset=offset,
+                )
                 vbo_object.configure()
         except Exception as ex:
             # Log or re-raise the exception with more context

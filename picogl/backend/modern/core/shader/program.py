@@ -1,22 +1,25 @@
-
 from OpenGL import GL as gl
 
 from picogl.backend.modern.core.shader.compile import compile_shader
-from picogl.backend.modern.core.uniform.location_value import set_uniform_location_value
-from picogl.shaders.uniform import get_uniform_location
-from picogl.backend.modern.core.shader.helpers import log_gl_error, read_shader_source
+from picogl.backend.modern.core.shader.helpers import (log_gl_error,
+                                                       read_shader_source)
+from picogl.backend.modern.core.uniform.location_value import \
+    set_uniform_location_value
 from picogl.logger import Logger as log
+from picogl.shaders.uniform import get_uniform_location
 
 
 class ShaderProgram:
     """OpenGL Shader program manager for vertex and fragment shaders."""
 
-    def __init__(self,
-                 shader_name: str = None,
-                 vertex_source_file: str = None,
-                 fragment_source_file: str = None,
-                 base_dir: str = None):
-        """ constructor """
+    def __init__(
+        self,
+        shader_name: str = None,
+        vertex_source_file: str = None,
+        fragment_source_file: str = None,
+        base_dir: str = None,
+    ):
+        """constructor"""
         self.shader_name = shader_name
         self.vertex_source_file = vertex_source_file
         self.fragment_source_file = fragment_source_file
@@ -27,9 +30,11 @@ class ShaderProgram:
         self.uniforms = {}
 
         if vertex_source_file is not None and vertex_source_file is not None:
-            self.init_shader_from_glsl_files(vertex_source_file=vertex_source_file,
-                                             fragment_source_file=fragment_source_file,
-                                             base_dir=base_dir)
+            self.init_shader_from_glsl_files(
+                vertex_source_file=vertex_source_file,
+                fragment_source_file=fragment_source_file,
+                base_dir=base_dir,
+            )
 
     def __str__(self):
         return f"PicoGLShader(name={self.shader_name}, program={self.program})"
@@ -43,10 +48,9 @@ class ShaderProgram:
     def program_id(self):
         return self.program
 
-    def init_shader_from_glsl_files(self,
-                                    vertex_source_file: str,
-                                    fragment_source_file: str,
-                                    base_dir: str = None) -> None:
+    def init_shader_from_glsl_files(
+        self, vertex_source_file: str, fragment_source_file: str, base_dir: str = None
+    ) -> None:
         """
         init_shader_from_glsl_files
 
@@ -59,9 +63,7 @@ class ShaderProgram:
         fragment_sources = read_shader_source(fragment_source_file, base_dir=base_dir)
         self.init_shader_from_glsl(vertex_sources, fragment_sources)
 
-    def init_shader_from_glsl(self,
-                              vertex_source: str,
-                              fragment_source: str) -> None:
+    def init_shader_from_glsl(self, vertex_source: str, fragment_source: str) -> None:
         """
         init_shader_from_glsl
 
@@ -71,9 +73,7 @@ class ShaderProgram:
         """
         self.init_shader(vertex_source, fragment_source)
 
-    def init_shader(self,
-                    vertex_source: str,
-                    fragment_source: str):
+    def init_shader(self, vertex_source: str, fragment_source: str):
         """
         init_shader
 
@@ -87,10 +87,13 @@ class ShaderProgram:
         log.parameter("self.program", self.program, silent=True)
         log.parameter("vertex_source", vertex_source, silent=True)
         log.parameter("fragment_source", fragment_source, silent=True)
-        self.vertex_shader = compile_shader(self.program, gl.GL_VERTEX_SHADER, vertex_source)
-        self.fragment_shader = compile_shader(self.program, gl.GL_FRAGMENT_SHADER, fragment_source)
+        self.vertex_shader = compile_shader(
+            self.program, gl.GL_VERTEX_SHADER, vertex_source
+        )
+        self.fragment_shader = compile_shader(
+            self.program, gl.GL_FRAGMENT_SHADER, fragment_source
+        )
         self.link_shader_program()
-
 
     def uniform(self, name: str, value):
         """
@@ -118,7 +121,7 @@ class ShaderProgram:
         """
         link_shader_program
         """
-        log.message('Linking shader program...', silent=True)
+        log.message("Linking shader program...", silent=True)
         gl.glLinkProgram(self.program)
         if gl.GL_TRUE != gl.glGetProgramiv(self.program, gl.GL_LINK_STATUS):
             err = gl.glGetProgramInfoLog(self.program)
@@ -128,21 +131,21 @@ class ShaderProgram:
     def get_uniform_location(self, uniform_name):
         """get_uniform_location"""
         mvp_id = get_uniform_location(
-            shader_program=self.program,
-            uniform_name=uniform_name)
+            shader_program=self.program, uniform_name=uniform_name
+        )
         return mvp_id
 
     def begin(self):
-        """ begin"""
+        """begin"""
         gl.glUseProgram(self.program)
         log_gl_error()
 
     def end(self):
-        """ end"""
+        """end"""
         gl.glUseProgram(0)
 
     def bind(self):
-        """ begin"""
+        """begin"""
         gl.glUseProgram(self.program)
         log_gl_error()
 

@@ -4,14 +4,10 @@ Demonstrating textures - compare to tu02_texture_without_normal.py
 
 import os
 
+from examples import TextureRenderer, g_uv_buffer_data, g_vertex_buffer_data
 from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from picogl.utils.reshape import float32_row
-from examples import (
-    g_vertex_buffer_data,
-    g_uv_buffer_data,
-    TextureRenderer,
-)
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")

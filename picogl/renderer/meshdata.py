@@ -7,12 +7,15 @@ import numpy as np
 
 class MeshData:
     """Holds OpenGL-related state objects for rendering."""
-    def __init__(self,
-                 vbo: np.ndarray = None,
-                 nbo: np.ndarray = None,
-                 uvs: np.ndarray = None,
-                 cbo: np.ndarray = None, ):
-        """ set up the OpenGL context """
+
+    def __init__(
+        self,
+        vbo: np.ndarray = None,
+        nbo: np.ndarray = None,
+        uvs: np.ndarray = None,
+        cbo: np.ndarray = None,
+    ):
+        """set up the OpenGL context"""
         self.vbo = vbo
         self.nbo = nbo
         self.uvs = uvs

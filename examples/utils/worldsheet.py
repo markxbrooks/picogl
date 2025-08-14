@@ -1,7 +1,6 @@
-from OpenGL.GL import * # pylint: disable=W0614
-
 import glm
 from meshViewer import meshWithRender
+from OpenGL.GL import *  # pylint: disable=W0614
 
 from .shaderLoader import Shader
 

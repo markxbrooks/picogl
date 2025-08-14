@@ -18,7 +18,6 @@ class RendererBase:
         self.parent = parent
         self.initialized = False
 
-
     @property
     def dispatch_list(self):
         dispatch_list = [
@@ -60,7 +59,7 @@ class RendererBase:
         raise NotImplementedError("Subclasses must implement the method.")
 
     def initialize_rendering_buffers(self):
-        """ For back compatibility"""
+        """For back compatibility"""
         self.initialize_buffers()
 
     def _finalize_render(self):
@@ -68,7 +67,7 @@ class RendererBase:
         Finalize the rendering (e.g., flush or swap atoms_buffers).
         """
         glFlush()
-        
+
     def _draw_model(self):
         """
         draw_model

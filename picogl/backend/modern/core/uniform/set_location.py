@@ -1,9 +1,11 @@
 from typing import Union
-from pyglm import glm
+
 import numpy as np
+from pyglm import glm
 
 from picogl.backend.modern.core.uniform.location import get_uniform_location
-from picogl.backend.modern.core.uniform.location_value import set_uniform_location_value
+from picogl.backend.modern.core.uniform.location_value import \
+    set_uniform_location_value
 from picogl.logger import Logger as log
 
 

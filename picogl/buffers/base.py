@@ -39,8 +39,7 @@ Usage Example:
     buffers.delete()  # Safely release OpenGL resources
 """
 
-
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
@@ -60,4 +59,3 @@ class RenderBuffersBase:
         self.vao.delete()
         self.vbo.delete()
         self.index_count = 0
-

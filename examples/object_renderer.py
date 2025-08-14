@@ -1,6 +1,7 @@
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
-from picogl.renderer import RendererBase, GLContext, MeshData
+
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
+from picogl.renderer import GLContext, MeshData, RendererBase
 
 
 class ObjectRenderer(RendererBase):

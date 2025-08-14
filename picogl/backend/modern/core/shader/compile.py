@@ -3,9 +3,7 @@ from OpenGL import GL as gl
 from picogl.backend.modern.core.shader.helpers import log_gl_error
 
 
-def compile_shader(shader_program: int,
-                   shader_type: int,
-                   source: str):
+def compile_shader(shader_program: int, shader_type: int, source: str):
     """
     compile_vertex_shader
 
