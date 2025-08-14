@@ -35,6 +35,7 @@ class GlutWindow(AbstractGlutWindow):
         GLUT.glutSpecialFunc(self.on_special_key)
         GLUT.glutMouseFunc(self.mousePressEvent)
         GLUT.glutMotionFunc(self.mouseMoveEvent)
+        GLUT.glutMouseWheelFunc(self.wheelEvent)
 
     def initializeGL(self):
         """initialize_gl"""
@@ -50,6 +51,10 @@ class GlutWindow(AbstractGlutWindow):
         # built in model
         GLUT.glutSolidTeapot(1)
         print("please override paintGL")
+
+    def draw(self):
+        """draw"""
+        GLUT.glutPostRedisplay()
 
     def display(self):
         """display"""
