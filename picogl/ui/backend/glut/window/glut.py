@@ -33,8 +33,8 @@ class GlutWindow(AbstractGlutWindow):
         GLUT.glutReshapeFunc(self.resizeGL)
         GLUT.glutKeyboardFunc(self.on_keyboard)
         GLUT.glutSpecialFunc(self.on_special_key)
-        GLUT.glutMouseFunc(self.on_mouse)
-        GLUT.glutMotionFunc(self.on_mousemove)
+        GLUT.glutMouseFunc(self.mousePressEvent)
+        GLUT.glutMotionFunc(self.mouseMoveEvent)
 
     def initializeGL(self):
         """initialize_gl"""
@@ -82,17 +82,17 @@ class GlutWindow(AbstractGlutWindow):
         else:
             print("please overrider on_keyboard")
 
-    def on_mouse(self, *args, **kwargs):
+    def mousePressEvent(self, *args, **kwargs):
         """on_mouse"""
         if self.controller is not None:
-            self.controller.on_mouse(*args, **kwargs)
+            self.controller.mousePressEvent(*args, **kwargs)
         else:
             print("please overrider on_mouse")
 
-    def on_mousemove(self, *args, **kwargs):
+    def mouseMoveEvent(self, *args, **kwargs):
         """on_mousemove"""
         if self.controller is not None:
-            self.controller.on_mousemove(*args, **kwargs)
+            self.controller.mouseMoveEvent(*args, **kwargs)
         else:
             print("please overrider on_mousemove")
 

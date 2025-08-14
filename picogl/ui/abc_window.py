@@ -60,11 +60,11 @@ class AbstractGlutWindow(ABC):
         """Handle special keys (arrows, function keys). Must be implemented by subclass."""
 
     @abstractmethod
-    def on_mouse(self, *args, **kwargs) -> None:
+    def mousePressEvent(self, *args, **kwargs) -> None:
         """Handle mouse button events. Must be implemented by subclass."""
 
     @abstractmethod
-    def on_mousemove(self, *args, **kwargs) -> None:
+    def mouseMoveEvent(self, *args, **kwargs) -> None:
         """Handle mouse movement events. Must be implemented by subclass."""
 
     def run(self) -> None:

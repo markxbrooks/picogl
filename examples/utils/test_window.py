@@ -29,10 +29,10 @@ class GLWindow(AbstractGlutWindow):
     def on_special_key(self, key, x, y) -> None:
         pass
 
-    def on_mouse(self, button, state, x, y) -> None:
+    def mousePressEvent(self, button, state, x, y) -> None:
         pass
 
-    def on_mousemove(self, x, y) -> None:
+    def mouseMoveEvent(self, x, y) -> None:
         pass
 
 

@@ -77,14 +77,14 @@ class GlutRendererWindow(GlutWindow):
 
         self.paintGL()  # Trigger repaint
 
-    def on_mouse(self, button, state, x, y):
-        """on mouse"""
+    def mousePressEvent(self, button, state, x, y):
+        """mousePressEvent"""
         if state == 0:  # Mouse button pressed
             self.last_mouse_x = x
             self.last_mouse_y = y
 
-    def on_mousemove(self, x, y):
-        """on mouse move"""
+    def mouseMoveEvent(self, x, y):
+        """ mouseMoveEvent """
         if self.last_mouse_x is not None and self.last_mouse_y is not None:
             dx = x - self.last_mouse_x
             dy = y - self.last_mouse_y
