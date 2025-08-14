@@ -5,7 +5,7 @@
 from OpenGL.GL import *  # pylint: disable=W0614
 from pyglm import glm
 from utils.shaderLoader import Shader
-from utils.textureLoader import textureLoader
+from picogl.utils.loader.texture import TextureLoader
 
 from picogl.ui.backend.glut.window.glut import GlutWindow
 
@@ -110,15 +110,15 @@ class Tu01Win(GlutWindow):
 		self.context.TextureID =  glGetUniformLocation(shader.program, "myTextureSampler")
 
 
-		texture = textureLoader("resources/tu02/uvtemplate.tga")
+		texture = TextureLoader("resources/tu02/uvtemplate.tga")
 
-		self.context.textureGLID = texture.textureGLID
+		self.context.textureGLID = texture.texture_glid
 
 		self.context.vertexbuffer  = glGenBuffers(1)
 		glBindBuffer(GL_ARRAY_BUFFER,self.context.vertexbuffer)
 		glBufferData(GL_ARRAY_BUFFER,len(g_vertex_buffer_data)*4,(GLfloat * len(g_vertex_buffer_data))(*g_vertex_buffer_data),GL_STATIC_DRAW)
 
-		if(texture.inversedVCoords):
+		if(texture.inversed_v_coords):
 			for index in range(0,len(g_uv_buffer_data)):
 				if(index % 2):
 					g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]

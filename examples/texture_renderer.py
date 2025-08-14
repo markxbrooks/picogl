@@ -1,8 +1,9 @@
 """ Texture Renderer class """
+import os
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from examples import g_uv_buffer_data
-from examples.utils.textureLoader import textureLoader
+from picogl.utils.loader.texture import TextureLoader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
 from picogl.renderer import GLContext, MeshData, RendererBase
@@ -15,24 +16,30 @@ class TextureRenderer(RendererBase):
 
     def __init__(self, context: GLContext, data: MeshData, base_dir: str = None):
         super().__init__()
+        self.texture = None
         self.context = context
         self.data = data
         self.data.vertex_count = len(self.data.vbo.flatten()) // 3
         self.show_model = True
         self.base_dir = base_dir
+        self.glsl_dir = os.path.join(base_dir, "glsl", "tu02")
 
     def initialize_shaders(self):
         """Load and compile shaders."""
         log.message("Loading shaders...")
+        if not self.context:
+            self.context = GLContext()
         self.context.create_shader_program(vertex_source_file="vertex.glsl",
                                             fragment_source_file="fragment.glsl",
-                                            base_dir=self.base_dir)
+                                            base_dir=self.glsl_dir)
 
     def initialize_buffers(self):
-        """initialize buffers"""
-        texture = textureLoader("resources/tu02/uvtemplate.tga")
-        self.context.texture_id = texture.textureGLID
-        if texture.inversedVCoords:
+        """ Initialize Buffers """
+        resource_dir = os.path.join(self.base_dir, "resources", "tu02")  # adjust relative to script
+        texture_path = os.path.join(resource_dir, "uvtemplate.tga")  # or .tga if preferred
+        self.texture = texture = TextureLoader(texture_path)
+        self.context.texture_id = texture.texture_glid
+        if texture.inversed_v_coords:
             for index, _ in enumerate(g_uv_buffer_data):
                 if index % 2:
                     g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]

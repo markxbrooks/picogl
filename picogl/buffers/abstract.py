@@ -12,7 +12,7 @@ from OpenGL.GL import (GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_FLOAT,
                        glDisableVertexAttribArray, glEnableVertexAttribArray,
                        glGenVertexArrays, glVertexAttribPointer)
 
-from picogl.buffers.glcleanup import delete_buffer
+#from picogl.buffers.glcleanup import delete_buffer
 
 
 @dataclass

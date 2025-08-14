@@ -1,8 +1,7 @@
-"""Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
+"""Minimal PicoGL Teapot."""
 import os
 
-from examples.utils.object_loader import OBJLoader
-from examples.data import g_color_buffer_data, g_vertex_buffer_data
+from picogl.utils.loader.object import OBJLoader
 from examples.object_renderer import ObjectRenderer
 from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
@@ -15,10 +14,12 @@ class TeapotWindow(GlutRendererWindow):
         super().__init__(width, height, *args, **kwargs)
         self.context = GLContext()
         obj_loader = OBJLoader("data/teapot.obj")
+        #obj_loader = OBJLoader("data/utah-teapot.obj")
         self.data = obj_loader.to_array_style()
         self.data = MeshData(
             vbo=float32_row(self.data.vertices),
-            cbo=float32_row(self.data.normals),
+            cbo=float32_row([[1.0, 0.0, 0.0]] * len(self.data.vertices)),
+            nbo=float32_row(self.data.normals),
         )
         self.renderer = ObjectRenderer(
             context=self.context,

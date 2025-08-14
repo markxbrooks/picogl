@@ -9,8 +9,7 @@ from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from picogl.utils.reshape import float32_row
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-GLSL_DIR = os.path.join(CURRENT_DIR, "glsl", "tu02")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 class TextureWindow(GlutRendererWindow):
@@ -21,12 +20,9 @@ class TextureWindow(GlutRendererWindow):
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
         self.data = MeshData(vbo=positions, uvs=uv_buffers)
-        print(self.context)
-        print(self.data)
-
-        super().__init__(width, height, *args, **kwargs)
+        super().__init__(width, height, context=self.context, *args, **kwargs)
         self.renderer = TextureRenderer(
-            context=self.context, data=self.data, base_dir=GLSL_DIR
+            context=self.context, data=self.data, base_dir=BASE_DIR
         )
 
     def initializeGL(self):
