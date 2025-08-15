@@ -11,13 +11,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
-    def __init__(self, width, height, *args, **kwargs):
-        self.title = "texture window"
+    def __init__(self, width, height, title, *args, **kwargs):
         positions = float32_row(g_vertex_buffer_data)
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
         self.data = MeshData(vbo=positions, uvs=uv_buffers)
-        super().__init__(width, height, context=self.context, *args, **kwargs)
+        super().__init__(width, height, title, context=self.context, *args, **kwargs)
         self.renderer = TextureRenderer(
             context=self.context, data=self.data, base_dir=BASE_DIR
         )
@@ -28,16 +27,12 @@ class TextureWindow(GlutRendererWindow):
         self.renderer.initialize_shaders()
         self.renderer.initialize_buffers()
 
-    def resizeGL(self, width: int, height: int):
-        """resizeGL"""
-        super().resizeGL(width, height)
-
     def paintGL(self):
         """paintGL"""
         self.renderer.render()
 
 
 if __name__ == "__main__":
-    win = TextureWindow(width=800, height=600)
+    win = TextureWindow(width=800, height=600, title="texture window")
     win.initializeGL()
     win.run()

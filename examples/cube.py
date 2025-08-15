@@ -10,8 +10,8 @@ from picogl.utils.reshape import float32_row
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 class CubeWindow(GlutRendererWindow):
-    def __init__(self, width, height, title="Cube",  *args, **kwargs):
-        self.title = "cube window"
+    """colored cube with no texture"""
+    def __init__(self, width, height, title,  *args, **kwargs):
         super().__init__(width=width, height=height, title=title, *args, **kwargs)
         self.context = GLContext()
         self.data = MeshData(
@@ -25,6 +25,6 @@ class CubeWindow(GlutRendererWindow):
         )
         self.renderer.show_model = True  # set here whether to show the cube
 
-win = CubeWindow(width=800, height=600)
+win = CubeWindow(width=800, height=600,title = "cube window")
 win.initializeGL()
 win.run()

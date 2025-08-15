@@ -40,18 +40,19 @@ Found in the Examples directory, with mouse control
 ```python
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
 import os
-from picogl.renderer import GLContext, MeshData
-from picogl.utils.reshape import float32_row
+
+from examples.data import g_color_buffer_data, g_vertex_buffer_data
 from examples.object_renderer import ObjectRenderer
+from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
-from examples.data import g_vertex_buffer_data, g_color_buffer_data
+from picogl.utils.reshape import float32_row
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
-
 class CubeWindow(GlutRendererWindow):
-    def __init__(self, width, height, *args, **kwargs):
-        super().__init__(width, height, *args, **kwargs)
+    """colored cube with no texture"""
+    def __init__(self, width, height, title,  *args, **kwargs):
+        super().__init__(width=width, height=height, title=title, *args, **kwargs)
         self.context = GLContext()
         self.data = MeshData(
             vbo=float32_row(g_vertex_buffer_data),
@@ -64,8 +65,7 @@ class CubeWindow(GlutRendererWindow):
         )
         self.renderer.show_model = True  # set here whether to show the cube
 
-
-win = CubeWindow(width=800, height=600)
+win = CubeWindow(width=800, height=600,title = "cube window")
 win.initializeGL()
 win.run()
 ```
@@ -135,13 +135,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
-    def __init__(self, width, height, *args, **kwargs):
-        self.title = "texture window"
+    def __init__(self, width, height, title, *args, **kwargs):
         positions = float32_row(g_vertex_buffer_data)
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()
         self.data = MeshData(vbo=positions, uvs=uv_buffers)
-        super().__init__(width, height, context=self.context, *args, **kwargs)
+        super().__init__(width, height, title, context=self.context, *args, **kwargs)
         self.renderer = TextureRenderer(
             context=self.context, data=self.data, base_dir=BASE_DIR
         )
@@ -152,17 +151,13 @@ class TextureWindow(GlutRendererWindow):
         self.renderer.initialize_shaders()
         self.renderer.initialize_buffers()
 
-    def resizeGL(self, width: int, height: int):
-        """resizeGL"""
-        super().resizeGL(width, height)
-
     def paintGL(self):
         """paintGL"""
         self.renderer.render()
 
 
 if __name__ == "__main__":
-    win = TextureWindow(width=800, height=600)
+    win = TextureWindow(width=800, height=600, title="texture window")
     win.initializeGL()
     win.run()
 ```
