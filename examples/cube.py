@@ -8,7 +8,7 @@ from picogl.ui.backend.glut.window.colored_object import ColoredObjectWindow
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 if __name__ == "__main__":
-    """ Set up the colored object dat and show it"""
+    # Set up the colored object dat and show it
     data = MeshData.from_raw(vertices=g_vertex_buffer_data,
                                   colors=g_color_buffer_data)
     window = ColoredObjectWindow(width=800,

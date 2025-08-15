@@ -1,6 +1,6 @@
 from picogl.renderer import GLContext, MeshData
 from picogl.renderer.object import ObjectRenderer
-from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
+from picogl.ui.backend.glut.renderer.glut import GlutRendererWindow
 from picogl.utils.loader.object import OBJLoader
 
 

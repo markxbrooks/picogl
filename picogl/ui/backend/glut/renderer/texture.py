@@ -14,7 +14,7 @@ from picogl.utils.texture import bind_texture_array
 class TextureRenderer(RendererBase):
     """Basic renderer class"""
 
-    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None):
+    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None, glsl_dir: str = None):
         super().__init__()
         self.texture = None
         self.context = context
@@ -22,7 +22,7 @@ class TextureRenderer(RendererBase):
         self.data.vertex_count = len(self.data.vbo.flatten()) // 3
         self.show_model = True
         self.base_dir = base_dir
-        self.glsl_dir = os.path.join(base_dir, "glsl", "tu02")
+        self.glsl_dir = glsl_dir
 
     def initialize_shaders(self):
         """Load and compile shaders."""

@@ -1,6 +1,6 @@
 from picogl.renderer import GLContext
 from picogl.renderer.object import ObjectRenderer
-from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
+from picogl.ui.backend.glut.renderer.glut import GlutRendererWindow
 
 
 class ColoredObjectWindow(GlutRendererWindow):
