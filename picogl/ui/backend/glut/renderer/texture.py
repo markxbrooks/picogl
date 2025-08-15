@@ -30,8 +30,8 @@ class TextureRenderer(RendererBase):
         if not self.context:
             self.context = GLContext()
         self.context.create_shader_program(vertex_source_file="vertex.glsl",
-                                            fragment_source_file="fragment.glsl",
-                                            base_dir=self.glsl_dir)
+                                           fragment_source_file="fragment.glsl",
+                                           glsl_dir=self.glsl_dir)
 
     def initialize_buffers(self):
         """ Initialize Buffers """

@@ -30,18 +30,18 @@ class GLContext:
     )
 
     def create_shader_program(self, vertex_source_file: str,
-                                    fragment_source_file: str,
-                                    base_dir: str) -> None:
+                              fragment_source_file: str,
+                              glsl_dir: str) -> None:
         """
         create_shader_program
 
         :param vertex_source_file: str
         :param fragment_source_file: str
-        :param base_dir: str
+        :param glsl_dir: str
         :return: None
         """
         self.shader = ShaderProgram(
             vertex_source_file=vertex_source_file,
             fragment_source_file=fragment_source_file,
-            base_dir=base_dir,
+            base_dir=glsl_dir,
         )

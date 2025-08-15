@@ -13,14 +13,14 @@ class ObjectRenderer(RendererBase):
                  glsl_dir: str):
         super().__init__()
         self.context, self.data = context, data
-        self.base_dir = glsl_dir
+        self.glsl_dir = glsl_dir
         self.show_model = True
 
     def initialize_shaders(self):
         """Load and compile shaders."""
         self.context.create_shader_program(vertex_source_file="vertex.glsl",
-                                            fragment_source_file="fragment.glsl",
-                                            base_dir=self.base_dir)
+                                           fragment_source_file="fragment.glsl",
+                                           glsl_dir=self.glsl_dir)
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""
