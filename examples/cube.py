@@ -21,7 +21,7 @@ class CubeWindow(GlutRendererWindow):
         self.renderer = ObjectRenderer(
             context=self.context,
             data=self.data,
-            base_dir=GLSL_DIR
+            glsl_dir=GLSL_DIR
         )
         self.renderer.show_model = True  # set here whether to show the cube
 

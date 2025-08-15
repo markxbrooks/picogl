@@ -19,10 +19,10 @@ class GlutWindow(AbstractGlutWindow):
         self.window = None
         self.width = None
         self.height = None
+        self.title = title
         self.init_glut()
         self.controller = None
         self.update_if = GLUT.glutPostRedisplay
-        self.title = title if title is not None else "window"
 
     def init_glut(self):
         """init_glut"""

@@ -10,10 +10,10 @@ class ObjectRenderer(RendererBase):
     def __init__(self,
                  context: GLContext,
                  data: MeshData,
-                 base_dir: str):
+                 glsl_dir: str):
         super().__init__()
         self.context, self.data = context, data
-        self.base_dir = base_dir
+        self.base_dir = glsl_dir
         self.show_model = True
 
     def initialize_shaders(self):

@@ -1,41 +1,13 @@
+"""
+Object Loader
+Loader of object data from an .loader file.
+"""
+
 import os
-from dataclasses import dataclass
-from typing import List, Tuple
 
 from picogl.logger import Logger as log
-
-
-@dataclass
-class ObjectData:
-    vertices: List[float]
-    texcoords: List[float] = field(default_factory=list)
-    normals: List[float] = field(default_factory=list)
-    indices: Optional[List[int]] = None
-
-    def __post_init__(self):
-        # If indices not provided, generate 0..(vertex_count-1)
-        if self.indices is None:
-            vertex_count = len(self.vertices) // 3
-            self.indices = list(range(vertex_count))
-
-"""
-Example Usage:
-
-# If raw_data.indices exists, keep it; otherwise ObjectData will generate it
-self.data = ObjectData(
-    vertices=raw_data.vertices,
-    texcoords=raw_data.texcoords or [],
-    normals=raw_data.normals,
-    indices=getattr(raw_data, "indices", None)
-)
-"""
-
-@dataclass
-class ObjectDataOld:
-    vertices: List[float]
-    texcoords: List[float]
-    normals: List[float]
-    indices: List[int] = None
+from picogl.utils.loader.helpers import log_properties
+from picogl.utils.loader.object_data import ObjectData
 
 
 class OBJLoader:
@@ -178,33 +150,14 @@ class OBJLoader:
 
         return ObjectData(vertices, texcoords, normals, indices)
 
-def log_properties(obj):
-    """ log object properties """
-    log.message(f"Loaded OBJ file successfully")
-    log.message(f"Total vertices: {len(obj.vertices) // 3}")
-    log.message(f"Total normals: {len(obj.normals) // 3}")
-    log.message(f"Total texcoords: {len(obj.texcoords) // 2}")
-    log.message(f"Total face indices: {len(obj.indices) // 3}")
-
-    log.message(f"First few vertices: {obj.vertices[:9]}")
-    log.message(f"First few indices: {obj.indices[:9]}")
-    log.message(f"First few normals: {obj.normals[:9]}")
-    log.message(f"First few texcoords: {obj.texcoords[:6]}")
-
-    single_index_obj = obj.to_single_index_style()
-    log.message(f"Single Index Style:")
-    log.message(f"Vertices: {len(single_index_obj.vertices) // 3}")
-    log.message(f"Indices: {len(single_index_obj.indices)}")
-    log.message(f"Normals: {len(single_index_obj.normals) // 3}")
-    log.message(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
 
 if __name__ == "__main__":
     # Test with the teapot model_matrix
     try:
-        obj = OBJLoader("data/teapot.obj")
+        obj = OBJLoader("data/teapot.loader")
         log_properties(obj)
     except FileNotFoundError as e:
         log.message(f"Error: {e}")
-        log.message("Make sure the teapot.obj file exists in the data/ directory")
+        log.message("Make sure the teapot.loader file exists in the data/ directory")
     except Exception as e:
         log.message(f"Error loading OBJ file: {e}")

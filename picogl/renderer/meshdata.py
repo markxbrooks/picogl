@@ -64,7 +64,7 @@ class MeshData:
         vertices,
         normals=None,
         uvs=None,
-        cbo=None,
+        colors=None,
         indices=None,
         color_per_vertex=None,  # optional override for generated colors
     ):
@@ -75,8 +75,8 @@ class MeshData:
         - normals: optional, list/array of x,y,z triplets
         - uvs: optional, list/array of u,v pairs
         - indices: optional int indices
-        - cbo: optional per-vertex colors (flat float32 array)
-        - color_per_vertex: if provided and cbo is None, generate per-vertex colors
+        - colors: optional per-vertex colors (flat float32 array)
+        - color_per_vertex: if provided and colors is None, generate per-vertex colors
         """
         vbo = cls._to_float32_flat(vertices, "vertices", required=True)
         vertex_count = len(vbo) // 3 if vbo is not None else 0
@@ -89,7 +89,7 @@ class MeshData:
         if uvs_arr is not None and len(uvs_arr) // 2 != vertex_count:
             raise ValueError("uvs length must be 2 * vertex_count (if provided)")
 
-        cbo_arr = cls._to_float32_flat_or_none(cbo, "cbo")
+        cbo_arr = cls._to_float32_flat_or_none(colors, "colors")
 
         if cbo_arr is None:
             if color_per_vertex is not None:

@@ -1,9 +1,7 @@
 """
 Demonstrating textures - compare to tu02_texture_without_normal.py
 """
-
 import os
-
 from examples import TextureRenderer, g_uv_buffer_data, g_vertex_buffer_data
 from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
@@ -11,10 +9,8 @@ from picogl.utils.reshape import float32_row
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
 class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
-
     def __init__(self, width, height, *args, **kwargs):
         self.title = "texture window"
         positions = float32_row(g_vertex_buffer_data)

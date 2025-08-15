@@ -14,6 +14,7 @@ class GlutRendererWindow(GlutWindow):
     def __init__(self, width, height, title: str = None, context=None, *args, **kwargs):
         super().__init__(title=title, *args, **kwargs)
         self.context = GLContext() if context is None else context
+        self.title = title
         self.renderer = None
         self.width = width
         self.height = height
