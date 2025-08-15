@@ -39,6 +39,7 @@ Found in the Examples directory, with mouse control
 
 ```python
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
+
 import os
 
 from examples.data import g_color_buffer_data, g_vertex_buffer_data
@@ -49,13 +50,10 @@ GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 if __name__ == "__main__":
     # Set up the colored object dat and show it
-    data = MeshData.from_raw(vertices=g_vertex_buffer_data,
-                                  colors=g_color_buffer_data)
-    window = ColoredObjectWindow(width=800,
-                                 height=600,
-                                 title ="Cube window",
-                                 data=data,
-                                 glsl_dir=GLSL_DIR)
+    data = MeshData.from_raw(vertices=g_vertex_buffer_data, colors=g_color_buffer_data)
+    window = ColoredObjectWindow(
+        width=800, height=600, title="Cube window", data=data, glsl_dir=GLSL_DIR
+    )
     window.initializeGL()
     window.run()
 ```
@@ -115,6 +113,7 @@ class ObjectRenderer(RendererBase):
 """
 Demonstrating textures - compare to tu02_texture_without_normal.py
 """
+
 import os
 
 from examples import g_vertex_buffer_data, g_uv_buffer_data
@@ -126,14 +125,15 @@ GLSL_DIR = os.path.join(BASE_DIR, "glsl", "tu02")
 
 if __name__ == "__main__":
     # set up the cube and draw it
-    cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data,
-                                  uvs=g_uv_buffer_data)
-    win = TextureWindow(width=800,
-                        height=600,
-                        title="texture window",
-                        data=cube_data,
-                        base_dir=BASE_DIR,
-                        glsl_dir=GLSL_DIR)
+    cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
+    win = TextureWindow(
+        width=800,
+        height=600,
+        title="texture window",
+        data=cube_data,
+        base_dir=BASE_DIR,
+        glsl_dir=GLSL_DIR,
+    )
     win.initializeGL()
     win.run()
 ```
@@ -143,16 +143,19 @@ if __name__ == "__main__":
 
 ```python
 """Minimal PicoGL Teapot."""
+
 import os
 from picogl.ui.backend.glut.window.object import ObjectWindow
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "teapot")
 
-win = ObjectWindow(width=800,
-                   height=600,
-                   title="Newell Teapot",
-                   object_file_name="data/teapot.obj",
-                   glsl_dir=GLSL_DIR)
+win = ObjectWindow(
+    width=800,
+    height=600,
+    title="Newell Teapot",
+    object_file_name="data/teapot.obj",
+    glsl_dir=GLSL_DIR,
+)
 win.initializeGL()
 win.run()
 ```
