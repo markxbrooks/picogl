@@ -57,7 +57,7 @@ if __name__ == "__main__":
     window.initializeGL()
     window.run()
 ```
-# With a corresponding renderer
+### With a corresponding renderer
 
 ```python
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
