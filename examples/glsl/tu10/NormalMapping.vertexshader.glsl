@@ -43,7 +43,7 @@ void main(){
 	// UV of the vertex. No special space for this one.
 	UV = vertexUV;
 	
-	// model to camera = ModelView
+	// model_matrix to camera = ModelView
 	vec3 vertexTangent_cameraspace = MV3x3 * vertexTangent_modelspace;
 	vec3 vertexBitangent_cameraspace = MV3x3 * vertexBitangent_modelspace;
 	vec3 vertexNormal_cameraspace = MV3x3 * vertexNormal_modelspace;

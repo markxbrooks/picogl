@@ -15,7 +15,7 @@ def update_camera_matrix(
     :param view_zoom_parameter_value: float
     :return: np.ndarray
 
-    Returns a 4x4 model matrix combining zoom, pan, and rotation.
+    Returns a 4x4 model_matrix matrix combining zoom, pan, and rotation.
     """
     # Translation (pan + zoom)
     translate = np.identity(4, dtype=np.float32)
@@ -49,6 +49,6 @@ def update_camera_matrix(
     rz[1, 0] = np.sin(theta)
     rz[1, 1] = np.cos(theta)
 
-    # Final model matrix: Translate * Rz * Ry * Rx
+    # Final model_matrix matrix: Translate * Rz * Ry * Rx
     model = translate @ rz @ ry @ rx
     return model

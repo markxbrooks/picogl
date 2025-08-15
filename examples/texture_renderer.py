@@ -57,7 +57,7 @@ class TextureRenderer(RendererBase):
         self._finalize_render()
 
     def _draw_model(self):
-        """Draw the model"""
+        """Draw the model_matrix"""
         execute_gl_tasks(paint_gl_list)
         cube_vao = self.context.vaos["cube"]
         shader = self.context.shader

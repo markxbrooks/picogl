@@ -26,7 +26,7 @@ def unproject(
     :param x: X screen coordinate
     :param y: Y screen coordinate
     :param depth: Depth value from depth buffer (range 0.0 - 1.0)
-    :param model_view: 4x4 model-view matrix
+    :param model_view: 4x4 model_matrix-view matrix
     :param projection: 4x4 projection matrix
     :param viewport: Viewport tuple (x, y, width, height)
     :return: (x, y, z) in world space, or None if invalid

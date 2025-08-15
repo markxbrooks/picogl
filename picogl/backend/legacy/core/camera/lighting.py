@@ -157,7 +157,7 @@ def setup_lighting(mode: int = 0) -> None:
         glLightfv(GL_LIGHT0, GL_SPECULAR, [1.0, 1.0, 1.0, 1.0])
         glLightfv(GL_LIGHT0, GL_AMBIENT, [0.2, 0.2, 0.2, 1.0])
 
-        # Call this *after* your model/view transforms (e.g., after gl_update_camera_matrix)
+        # Call this *after* your model_matrix/view transforms (e.g., after gl_update_camera_matrix)
         light_pos = [
             10.0,
             10.0,

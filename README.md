@@ -112,7 +112,7 @@ class ObjectRenderer(RendererBase):
         self._finalize_render()
 
     def _draw_model(self):
-        """Draw the model"""
+        """Draw the model_matrix"""
         with self.context.shader, self.context.vertex_array:
             self.context.shader.uniform("mvp_matrix", self.context.mvp_matrix)
             self.context.vertex_array.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)

@@ -25,6 +25,9 @@ class GLContext:
     mvp_matrix: np.ndarray = field(
         default_factory=lambda: np.identity(4, dtype=np.float32)
     )
+    model_matrix: np.ndarray = field(
+        default_factory=lambda: np.identity(4, dtype=np.float32)
+    )
 
     def create_shader_program(self, vertex_source_file: str,
                                     fragment_source_file: str,

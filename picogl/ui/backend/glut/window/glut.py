@@ -48,7 +48,7 @@ class GlutWindow(AbstractGlutWindow):
         GL.glPolygonMode(GL.GL_FRONT_AND_BACK, GL.GL_LINE)
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         GLU.gluLookAt(4.0, 3.0, -3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
-        # built in model
+        # built in model_matrix
         GLUT.glutSolidTeapot(1)
         print("please override paintGL")
 

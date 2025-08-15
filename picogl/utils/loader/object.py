@@ -190,7 +190,7 @@ def log_properties(obj):
     print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
 
 if __name__ == "__main__":
-    # Test with the teapot model
+    # Test with the teapot model_matrix
     try:
         obj = OBJLoader("data/teapot.obj")
         log_properties(obj)

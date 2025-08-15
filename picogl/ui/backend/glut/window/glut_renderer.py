@@ -44,9 +44,9 @@ class GlutRendererWindow(GlutWindow):
             glm.vec3(0, 0, 0),
             glm.vec3(0, 1, 0)
         )
-        self.context.model = glm.mat4(1.0)
+        self.context.model_matrix = glm.mat4(1.0)
         self.context.mvp_matrix = (
-                self.context.projection * self.context.view * self.context.model
+                self.context.projection * self.context.view * self.context.model_matrix
         )
 
     def resizeGL(self, width, height):

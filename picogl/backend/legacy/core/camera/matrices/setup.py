@@ -50,4 +50,4 @@ def setup_matrices(aspect: float):
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
     gluPerspective(45.0, aspect, 0.1, 1000.0)
-    # Set up model view matrix with camera and user transforms
+    # Set up model_matrix view matrix with camera and user transforms

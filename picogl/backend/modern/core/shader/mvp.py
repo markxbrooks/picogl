@@ -1,5 +1,5 @@
 """
-Set up model view projection (MVP) matrix for 3D rendering.
+Set up model_matrix view projection (MVP) matrix for 3D rendering.
 
     This function constructs a combined projection and view matrix based on camera orbit angles,
     zoom level, and viewport aspect ratio. It simulates a camera orbiting around the origin

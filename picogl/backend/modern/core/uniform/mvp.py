@@ -15,7 +15,7 @@ def set_mvp_uniform(shader: ShaderProgram = None, mvp: glm.mat4 = None) -> None:
     :param shader:
     :param mvp:
     :return: None
-    Set the model-view-projection matrix uniform in the shader program.
+    Set the model_matrix-view-projection matrix uniform in the shader program.
     """
     mvp_loc = get_uniform_location(shader.program, "mvp_matrix")
     glUniformMatrix4fv(mvp_loc, 1, GL_FALSE, glm.value_ptr(mvp))
@@ -25,7 +25,7 @@ def shader_uniform_set_mvp(shader_program: int, mvp_matrix: np.ndarray | glm.mat
     """
     shader_uniform_set_mvp
 
-    :param mvp_matrix: np.ndarray or glm.mat4 - model-view-projection matrix
+    :param mvp_matrix: np.ndarray or glm.mat4 - model_matrix-view-projection matrix
     :param shader_program: int
     :return: None
     """
