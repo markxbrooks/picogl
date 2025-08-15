@@ -6,7 +6,7 @@ in vec3 fragPosition;
 
 out vec4 color;
 
-uniform vec3 lightPos = vec3(1.0, 1.0, 2.0);
+uniform vec3 lightPos = vec3(1.0, 1.0, 4.0);
 uniform vec3 viewPos = vec3(1.0, 1.0, 2.0); // Camera position in world space
 
 void main()

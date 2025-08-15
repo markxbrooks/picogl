@@ -4,11 +4,11 @@ from pyglm import glm
 from picogl.logger import Logger as log
 from picogl.logger import setup_logging
 from picogl.renderer import GLContext
-from picogl.ui.backend.glut.window.glut import GlutWindow
+from picogl.ui.backend.glut.window.glut import GLWindow
 from picogl.utils.gl_init import execute_gl_tasks, init_gl_list, paint_gl_list
 
 
-class GlutRendererWindow(GlutWindow):
+class GlutRendererWindow(GLWindow):
     """Glut Rendered Window"""
 
     def __init__(self, width, height, title: str = None, context=None, *args, **kwargs):

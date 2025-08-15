@@ -29,9 +29,9 @@ def shader_uniform_set_mvp(shader_program: int, mvp_matrix: np.ndarray | glm.mat
     :param shader_program: int
     :return: None
     """
-    mvp_loc = get_uniform_location(shader_program, "mvp")
+    mvp_loc = get_uniform_location(shader_program, "mvp_parameters")
     if mvp_loc == -1:
-        log.warning("Uniform 'mvp' not found in shader.")
+        log.warning("Uniform 'mvp_parameters' not found in shader.")
     else:
         # Convert numpy data or glm.mat4 to float pointer
         if isinstance(mvp_matrix, np.ndarray):

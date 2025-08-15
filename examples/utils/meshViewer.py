@@ -6,10 +6,10 @@ from OpenGL.GL import *  # pylint: disable=W0614
 from OpenGL.GLUT import *  # pylint: disable=W0614
 from utils.shaderLoader import Shader
 
-from picogl.ui.backend.glut.window.glut import GlutWindow
+from picogl.ui.backend.glut.window.glut import GLWindow
 
 
-class MeshViewWindow(GlutWindow):
+class MeshViewWindow(GLWindow):
 
 
     def initializeGL(self):

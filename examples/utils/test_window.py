@@ -2,10 +2,10 @@ import sys
 
 from OpenGL import GL as gl
 
-from picogl.ui.abc_window import AbstractGlutWindow
+from picogl.ui.abc_window import AbstractGLWindow
 
 
-class GLWindow(AbstractGlutWindow):
+class GLWindow(AbstractGLWindow):
     """GLWindow"""
 
     def initializeGL(self) -> None:

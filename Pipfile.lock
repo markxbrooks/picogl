@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6597527fc9abc58b3b0a1c65266e12d3ced96ed1ce22cb8bbd0a40a076d9aa9f"
+            "sha256": "04c4f850cd43445c1566a4c86a516cbc24b3f087efaab4be4396db5a1f414ee7"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -241,6 +241,10 @@
             "index": "pypi",
             "markers": "python_version >= '3.9'",
             "version": "==2.3.1"
+        },
+        "picogl": {
+            "editable": true,
+            "file": "."
         },
         "pyglm": {
             "hashes": [

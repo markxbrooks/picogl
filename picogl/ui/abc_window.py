@@ -9,7 +9,7 @@ from typing import Optional
 from OpenGL.GLUT import ( glutMainLoop, glutSwapBuffers)
 
 
-class AbstractGlutWindow(ABC):
+class AbstractGLWindow(ABC):
     """
     A strict ABC base class for a GLUT/OpenGL window.
 

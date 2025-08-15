@@ -10,7 +10,7 @@ Set up model_matrix view projection (MVP) matrix for 3D rendering.
 
     .. code-block:: python
 
-        mvp = setup_mvp(angle_x=0.5, angle_y=1.0, zoom=1.2, aspect=16/9)
+        mvp_parameters = setup_mvp(angle_x=0.5, angle_y=1.0, zoom=1.2, aspect=16/9)
 """
 
 import numpy as np

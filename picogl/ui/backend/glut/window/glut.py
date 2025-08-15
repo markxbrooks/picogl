@@ -8,10 +8,10 @@ import OpenGL.GL as GL
 import OpenGL.GLU as GLU
 import OpenGL.GLUT as GLUT
 
-from picogl.ui.abc_window import AbstractGlutWindow
+from picogl.ui.abc_window import AbstractGLWindow
 
 
-class GlutWindow(AbstractGlutWindow):
+class GLWindow(AbstractGLWindow):
 
     def __init__(self, title: str = "window", *args, **kwargs):
         """__init__"""
@@ -113,5 +113,5 @@ class GlutWindow(AbstractGlutWindow):
 
 if __name__ == "__main__":
 
-    win = GlutWindow()
+    win = GLWindow()
     win.run()

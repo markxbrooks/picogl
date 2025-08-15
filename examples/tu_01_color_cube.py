@@ -5,10 +5,10 @@ from pyglm import glm
 from utils.shaderLoader import Shader
 
 from examples.data.cube_data import g_color_buffer_data, g_vertex_buffer_data
-from picogl.ui.backend.glut.window.glut import GlutWindow
+from picogl.ui.backend.glut.window.glut import GLWindow
 
 
-class Tu01Win(GlutWindow):
+class Tu01Win(GLWindow):
 
     class GLContext(object):
         pass
