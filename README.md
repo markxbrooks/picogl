@@ -124,7 +124,7 @@ Demonstrating textures - compare to tu02_texture_without_normal.py
 
 import os
 
-from examples import g_vertex_buffer_data, g_uv_buffer_data
+from examples.data.cube_data import g_vertex_buffer_data, g_uv_buffer_data
 from picogl.renderer import MeshData
 from picogl.ui.backend.glut.window.texture import TextureWindow
 
