@@ -22,14 +22,18 @@ class GlutWindow(AbstractGlutWindow):
         self.init_glut()
         self.controller = None
         self.update_if = GLUT.glutPostRedisplay
-        self.title = title
+        self.title = title if title is not None else "window"
+
 
     def init_glut(self):
         """init_glut"""
         GLUT.glutInit(sys.argv)
         GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA | GLUT.GLUT_DOUBLE | GLUT.GLUT_DEPTH)
         GLUT.glutInitWindowSize(800, 480)
-        title_bytes = self.title.encode("utf-8")
+        if self.title is not None:
+            title_bytes = self.title.encode("utf-8")
+        else:
+            title_bytes = b"Window Title"
         self.window = GLUT.glutCreateWindow(title_bytes)
         GLUT.glutDisplayFunc(self.display)
         GLUT.glutReshapeFunc(self.resizeGL)

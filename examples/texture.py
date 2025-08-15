@@ -16,6 +16,7 @@ class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
 
     def __init__(self, width, height, *args, **kwargs):
+        self.title = "texture window"
         positions = float32_row(g_vertex_buffer_data)
         uv_buffers = float32_row(g_uv_buffer_data)
         self.context = GLContext()

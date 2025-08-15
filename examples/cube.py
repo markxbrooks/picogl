@@ -10,8 +10,9 @@ from picogl.utils.reshape import float32_row
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
 class CubeWindow(GlutRendererWindow):
-    def __init__(self, width, height, *args, **kwargs):
-        super().__init__(width, height, *args, **kwargs)
+    def __init__(self, width, height, title="Cube",  *args, **kwargs):
+        self.title = "cube window"
+        super().__init__(width=width, height=height, title=title, *args, **kwargs)
         self.context = GLContext()
         self.data = MeshData(
             vbo=float32_row(g_vertex_buffer_data),
