@@ -1,7 +1,10 @@
+from idlelib.rpc import objecttable
+
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.renderer import GLContext, MeshData, RendererBase
+from picogl.logger import Logger as log
 
 
 class ObjectRenderer(RendererBase):
@@ -26,11 +29,11 @@ class ObjectRenderer(RendererBase):
         """Create VAO and VBOs once."""
         if self.context.vaos is None:
             self.context.vaos = {}
-        self.context.vaos["cube"] = cube_vao = VertexArrayObject()
-        cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
-        cube_vao.add_vbo(index=1, data=self.data.cbo, size=3)
+        self.context.vaos["object"] = object_vao = VertexArrayObject()
+        object_vao.add_vbo(index=0, data=self.data.vbo, size=3)
+        object_vao.add_vbo(index=1, data=self.data.cbo, size=3)
         if self.data.nbo is not None:
-            cube_vao.add_vbo(index=2, data=self.data.nbo, size=3)
+            object_vao.add_vbo(index=2, data=self.data.nbo, size=3)
 
     def render(self) -> None:
         """
@@ -44,9 +47,11 @@ class ObjectRenderer(RendererBase):
 
     def _draw_model(self):
         """Draw the model_matrix"""
-        cube_vao = self.context.vaos["cube"]
+        object_vao = self.context.vaos["object"]
         shader = self.context.shader
-        with shader, cube_vao:
+        with shader, object_vao:
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
             shader.uniform("model_matrix", self.context.model_matrix)
-            cube_vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
+            shader.uniform("viewPos", self.context.eye_np)
+            log.parameter("eye_np", self.context.eye_np)
+            object_vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)

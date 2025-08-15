@@ -1,3 +1,4 @@
+import numpy as np
 from OpenGL.raw.GL.VERSION.GL_1_0 import glViewport
 from pyglm import glm
 
@@ -36,16 +37,20 @@ class GlutRendererWindow(GLWindow):
         self.renderer.initialize_buffers()
 
     def calculate_mvp_matrix(self, width: int = 1920, height: int = 1080):
-        """calculate_mvp_matrix with hybrid zoom"""
+        """ calculate_mvp_matrix """
         self.context.projection = glm.perspective(
             glm.radians(self.zoom_fov), float(width) / float(height), 0.1, 1000.0
         )
-        self.context.view = glm.lookAt(
-            glm.vec3(4, 3, self.zoom_distance),
-            glm.vec3(0, 0, 0),
-            glm.vec3(0, 1, 0)
-        )
+        self.context.eye = glm.vec3(4, 3, self.zoom_distance)
+        self.context.center = glm.vec3(0, 0, 0)
+        self.context.up = glm.vec3(0, 1, 0)
+
+        self.context.view = glm.lookAt(self.context.eye, self.context.center, self.context.up)
         self.context.model_matrix = glm.mat4(1.0)
+
+        # The camera position in world space is just the eye
+        self.context.eye_np = np.array(self.context.eye.to_list(), dtype=np.float32)
+
         self.context.mvp_matrix = (
                 self.context.projection * self.context.view * self.context.model_matrix
         )
