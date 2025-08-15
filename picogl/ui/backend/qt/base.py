@@ -1,7 +1,7 @@
 """
 GLBase Qt Widget
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
@@ -46,7 +46,7 @@ class CameraParameters:
     translation: np.ndarray = field(
         default_factory=lambda: np.array([0.0, 0.0], dtype=np.float32)
     )  # x_pan, y_pan
-    zoom: CameraParameterZoom = field(default_factory=CameraParameterZoom)
+    # zoom: CameraParameterZoom = field(default_factory=CameraParameterZoom)
 
 class GLBase(QOpenGLWidget, QOpenGLFunctions):
     """
@@ -109,11 +109,11 @@ class GLBase(QOpenGLWidget, QOpenGLFunctions):
         glMatrixMode(GL_MODELVIEW)
         glLoadIdentity()
         # Update camera matrix using legacy pipeline
-        update_camera_matrix(
+        """update_camera_matrix(
             translation=self.camera_parameters.translation,
             rotation=self.camera_parameters.rotation,
             zoom_value=self.camera_parameters.zoom.value,
-        )
+        )"""
         log.message(
             f"✅ Resized OpenGL viewport to {w}x{h}, aspect {self.aspect_ratio:.2f}"
         )
