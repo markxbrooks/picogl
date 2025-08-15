@@ -99,29 +99,29 @@ class OBJLoader:
         print(f"Vertices: {len(single_index_obj.vertices) // 3}")
         print(f"Indices: {len(single_index_obj.indices)}")
         print(f"Normals: {len(single_index_obj.normals) // 3}")
-        print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
+        log.message(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
 
     def to_array_style(self) -> ObjectData:
         """Convert to array-style where each vertex attribute is stored separately"""
         vertices, texcoords, normals = [], [], []
-        
+
         for i in range(0, len(self.indices), 3):
             v_idx, t_idx, n_idx = self.indices[i:i + 3]
-            
+
             # Get vertex position (1-based to 0-based)
             if v_idx > 0:
                 v_start = 3 * (v_idx - 1)
                 vertices.extend(self.vertices[v_start:v_start + 3])
             else:
                 vertices.extend([0.0, 0.0, 0.0])  # Default vertex
-            
+
             # Get texture coordinates (1-based to 0-based)
             if t_idx > 0 and self.texcoords:
                 t_start = 2 * (t_idx - 1)
                 texcoords.extend(self.texcoords[t_start:t_start + 2])
             else:
                 texcoords.extend([0.0, 0.0])  # Default texcoord
-            
+
             # Get normal (1-based to 0-based)
             if n_idx > 0 and self.normals:
                 n_start = 3 * (n_idx - 1)
@@ -140,7 +140,7 @@ class OBJLoader:
         for i in range(0, len(self.indices), 3):
             v_idx, t_idx, n_idx = self.indices[i:i + 3]
             key = (v_idx, t_idx, n_idx)
-            
+
             if key not in combinations:
                 combinations[key] = len(combinations)
 
@@ -171,23 +171,23 @@ class OBJLoader:
 
 def log_properties(obj):
     """ log object properties """
-    print(f"Loaded OBJ file successfully")
-    print(f"Total vertices: {len(obj.vertices) // 3}")
-    print(f"Total normals: {len(obj.normals) // 3}")
-    print(f"Total texcoords: {len(obj.texcoords) // 2}")
-    print(f"Total face indices: {len(obj.indices) // 3}")
+    log.message(f"Loaded OBJ file successfully")
+    log.message(f"Total vertices: {len(obj.vertices) // 3}")
+    log.message(f"Total normals: {len(obj.normals) // 3}")
+    log.message(f"Total texcoords: {len(obj.texcoords) // 2}")
+    log.message(f"Total face indices: {len(obj.indices) // 3}")
 
-    print("\nFirst few vertices:", obj.vertices[:9])
-    print("First few indices:", obj.indices[:9])
-    print("First few normals:", obj.normals[:9])
-    print("First few texcoords:", obj.texcoords[:6])
+    log.message("\nFirst few vertices:", obj.vertices[:9])
+    log.message("First few indices:", obj.indices[:9])
+    log.message("First few normals:", obj.normals[:9])
+    log.message("First few texcoords:", obj.texcoords[:6])
 
     single_index_obj = obj.to_single_index_style()
-    print(f"\nSingle Index Style:")
-    print(f"Vertices: {len(single_index_obj.vertices) // 3}")
-    print(f"Indices: {len(single_index_obj.indices)}")
-    print(f"Normals: {len(single_index_obj.normals) // 3}")
-    print(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
+    log.message(f"\nSingle Index Style:")
+    log.message(f"Vertices: {len(single_index_obj.vertices) // 3}")
+    log.message(f"Indices: {len(single_index_obj.indices)}")
+    log.message(f"Normals: {len(single_index_obj.normals) // 3}")
+    log.message(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
 
 if __name__ == "__main__":
     # Test with the teapot model_matrix
