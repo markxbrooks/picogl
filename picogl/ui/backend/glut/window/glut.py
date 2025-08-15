@@ -13,7 +13,7 @@ from picogl.ui.abc_window import AbstractGlutWindow
 
 class GlutWindow(AbstractGlutWindow):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, title: str = "window", *args, **kwargs):
         """__init__"""
         super().__init__()
         self.window = None
@@ -22,13 +22,15 @@ class GlutWindow(AbstractGlutWindow):
         self.init_glut()
         self.controller = None
         self.update_if = GLUT.glutPostRedisplay
+        self.title = title
 
     def init_glut(self):
         """init_glut"""
         GLUT.glutInit(sys.argv)
         GLUT.glutInitDisplayMode(GLUT.GLUT_RGBA | GLUT.GLUT_DOUBLE | GLUT.GLUT_DEPTH)
         GLUT.glutInitWindowSize(800, 480)
-        self.window = GLUT.glutCreateWindow(b"window")
+        title_bytes = self.title.encode("utf-8")
+        self.window = GLUT.glutCreateWindow(title_bytes)
         GLUT.glutDisplayFunc(self.display)
         GLUT.glutReshapeFunc(self.resizeGL)
         GLUT.glutKeyboardFunc(self.on_keyboard)

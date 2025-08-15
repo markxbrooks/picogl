@@ -11,8 +11,8 @@ from picogl.utils.gl_init import execute_gl_tasks, init_gl_list, paint_gl_list
 class GlutRendererWindow(GlutWindow):
     """Glut Rendered Window"""
 
-    def __init__(self, width, height, context=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, width, height, title, context=None, *args, **kwargs):
+        super().__init__(title=title, *args, **kwargs)
         self.context = GLContext() if context is None else context
         self.renderer = None
         self.width = width

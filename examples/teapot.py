@@ -12,8 +12,9 @@ GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "teapot")
 
 
 class TeapotWindow(GlutRendererWindow):
-    def __init__(self, width, height, *args, **kwargs):
-        super().__init__(width, height, *args, **kwargs)
+    def __init__(self, width, height, title="Newell Teapot", *args, **kwargs):
+        self.title = "Newell Teapot"
+        super().__init__(width, height, title, *args, **kwargs)
         self.context = GLContext()
 
         obj_loader = OBJLoader("data/teapot.obj")
