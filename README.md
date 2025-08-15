@@ -5,7 +5,7 @@
 Whether you’re building interactive visualizations, scientific simulations, or games for fun, PicoGL gives you a clean, high-level API to work with shaders, buffers, and pipelines — while still letting you drop down to raw OpenGL when you need it.
 
 ---
-![teapot](newell_teapot.png)
+![teapot](newell_teapot.PNG)
 
 
 ## ✨ Features
