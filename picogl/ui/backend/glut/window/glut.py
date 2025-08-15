@@ -24,7 +24,6 @@ class GlutWindow(AbstractGlutWindow):
         self.update_if = GLUT.glutPostRedisplay
         self.title = title if title is not None else "window"
 
-
     def init_glut(self):
         """init_glut"""
         GLUT.glutInit(sys.argv)
