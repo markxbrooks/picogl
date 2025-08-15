@@ -83,23 +83,7 @@ class OBJLoader:
 
     def log_properties(self):
         """ log object properties """
-        print(f"Loaded OBJ file successfully")
-        print(f"Total vertices: {len(self.vertices) // 3}")
-        print(f"Total normals: {len(self.normals) // 3}")
-        print(f"Total texcoords: {len(self.texcoords) // 2}")
-        print(f"Total face indices: {len(self.indices) // 3}")
-
-        print("\nFirst few vertices:", self.vertices[:9])
-        print("First few indices:", self.indices[:9])
-        print("First few normals:", self.normals[:9])
-        print("First few texcoords:", self.texcoords[:6])
-
-        single_index_obj = self.to_single_index_style()
-        print(f"\nSingle Index Style:")
-        print(f"Vertices: {len(single_index_obj.vertices) // 3}")
-        print(f"Indices: {len(single_index_obj.indices)}")
-        print(f"Normals: {len(single_index_obj.normals) // 3}")
-        log.message(f"Texcoords: {len(single_index_obj.texcoords) // 2}")
+        log_properties(self)
 
     def to_array_style(self) -> ObjectData:
         """Convert to array-style where each vertex attribute is stored separately"""
@@ -177,13 +161,13 @@ def log_properties(obj):
     log.message(f"Total texcoords: {len(obj.texcoords) // 2}")
     log.message(f"Total face indices: {len(obj.indices) // 3}")
 
-    log.message("\nFirst few vertices:", obj.vertices[:9])
-    log.message("First few indices:", obj.indices[:9])
-    log.message("First few normals:", obj.normals[:9])
-    log.message("First few texcoords:", obj.texcoords[:6])
+    log.message(f"First few vertices: {obj.vertices[:9]}")
+    log.message(f"First few indices: {obj.indices[:9]}")
+    log.message(f"First few normals: {obj.normals[:9]}")
+    log.message(f"First few texcoords: {obj.texcoords[:6]}")
 
     single_index_obj = obj.to_single_index_style()
-    log.message(f"\nSingle Index Style:")
+    log.message(f"Single Index Style:")
     log.message(f"Vertices: {len(single_index_obj.vertices) // 3}")
     log.message(f"Indices: {len(single_index_obj.indices)}")
     log.message(f"Normals: {len(single_index_obj.normals) // 3}")
@@ -195,7 +179,7 @@ if __name__ == "__main__":
         obj = OBJLoader("data/teapot.obj")
         log_properties(obj)
     except FileNotFoundError as e:
-        print(f"Error: {e}")
-        print("Make sure the teapot.obj file exists in the data/ directory")
+        log.message(f"Error: {e}")
+        log.message("Make sure the teapot.obj file exists in the data/ directory")
     except Exception as e:
-        print(f"Error loading OBJ file: {e}")
+        log.message(f"Error loading OBJ file: {e}")
