@@ -2,7 +2,7 @@
 
 import os
 
-from examples.data import g_color_buffer_data, g_vertex_buffer_data
+from examples.data.cube_data import g_color_buffer_data, g_vertex_buffer_data
 from picogl.renderer import MeshData
 from picogl.ui.backend.glut.window.colored_object import ColoredObjectWindow
 
