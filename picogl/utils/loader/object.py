@@ -18,7 +18,8 @@ class ObjectData:
             vertex_count = len(self.vertices) // 3
             self.indices = list(range(vertex_count))
 
-Usage (your existing flow):
+"""
+Example Usage:
 
 # If raw_data.indices exists, keep it; otherwise ObjectData will generate it
 self.data = ObjectData(
@@ -27,7 +28,7 @@ self.data = ObjectData(
     normals=raw_data.normals,
     indices=getattr(raw_data, "indices", None)
 )
-
+"""
 
 @dataclass
 class ObjectDataOld:
