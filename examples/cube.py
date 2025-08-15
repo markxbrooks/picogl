@@ -2,7 +2,7 @@
 import os
 
 from examples.data import g_color_buffer_data, g_vertex_buffer_data
-from examples.object_renderer import ObjectRenderer
+from picogl.renderer.object import ObjectRenderer
 from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
 from picogl.utils.reshape import float32_row
