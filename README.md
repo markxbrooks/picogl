@@ -42,35 +42,22 @@ Found in the Examples directory, with mouse control
 import os
 
 from examples.data import g_color_buffer_data, g_vertex_buffer_data
-from picogl.renderer.object import ObjectRenderer
-from picogl.renderer import GLContext, MeshData
-from picogl.ui.backend.glut.window.glut_renderer import GlutRendererWindow
-from picogl.utils.reshape import float32_row
+from picogl.renderer import MeshData
+from picogl.ui.backend.glut.window.colored_object import ColoredObjectWindow
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
 
-
-class CubeWindow(GlutRendererWindow):
-    """colored cube with no texture"""
-
-    def __init__(self, width, height, title, *args, **kwargs):
-        super().__init__(width=width, height=height, title=title, *args, **kwargs)
-        self.context = GLContext()
-        self.data = MeshData(
-            vbo=float32_row(g_vertex_buffer_data),
-            cbo=float32_row(g_color_buffer_data),
-        )
-        self.renderer = ObjectRenderer(
-            context=self.context,
-            data=self.data,
-            glsl_dir=GLSL_DIR
-        )
-        self.renderer.show_model = True  # set here whether to show the cube
-
-
-win = CubeWindow(width=800, height=600, title="cube window")
-win.initializeGL()
-win.run()
+if __name__ == "__main__":
+    """ Set up the colored object dat and show it"""
+    data = MeshData.from_raw(vertices=g_vertex_buffer_data,
+                                  colors=g_color_buffer_data)
+    window = ColoredObjectWindow(width=800,
+                                 height=600,
+                                 title ="Cube window",
+                                 data=data,
+                                 glsl_dir=GLSL_DIR)
+    window.initializeGL()
+    window.run()
 ```
 *With a corresponding renderer
 
@@ -138,9 +125,9 @@ from picogl.utils.reshape import float32_row
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 if __name__ == "__main__":
-    positions = float32_row(g_vertex_buffer_data)
-    uv_buffers = float32_row(g_uv_buffer_data)
-    cube_data = MeshData(vbo=positions, uvs=uv_buffers)
+    """set up the cube and draw it"""
+    cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, 
+                                  uvs=g_uv_buffer_data)
     win = TextureWindow(width=800,
                         height=600,
                         title="texture window",
@@ -156,7 +143,7 @@ if __name__ == "__main__":
 ```python
 """Minimal PicoGL Teapot."""
 import os
-from picogl.ui.backend.glut.window.object_window import ObjectWindow
+from picogl.ui.backend.glut.window.object import ObjectWindow
 
 GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "teapot")
 
