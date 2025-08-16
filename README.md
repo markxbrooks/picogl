@@ -40,22 +40,27 @@ Found in the Examples directory, with mouse control
 ```python
 """Minimal PicoGL Cube. Compare to tu_01_color_cube.py"""
 
-import os
-
+from pathlib import Path
+from typing import NoReturn
 from examples.data.cube_data import g_color_buffer_data, g_vertex_buffer_data
 from picogl.renderer import MeshData
-from picogl.ui.backend.glut.window.colored_object import ColoredObjectWindow
+from picogl.ui.backend.glut.window.object import ObjectWindow
 
-GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "tu01")
+GLSL_DIR = Path(__file__).parent / "glsl" / "tu01"
 
-if __name__ == "__main__":
-    # Set up the colored object dat and show it
+
+def main() -> NoReturn:
+    """Set up the colored object dat and show it"""
     data = MeshData.from_raw(vertices=g_vertex_buffer_data, colors=g_color_buffer_data)
-    window = ColoredObjectWindow(
+    window = ObjectWindow(
         width=800, height=600, title="Cube window", data=data, glsl_dir=GLSL_DIR
     )
     window.initializeGL()
     window.run()
+
+
+if __name__ == "__main__":
+    main()
 ```
 ### With a corresponding renderer
 
@@ -122,17 +127,19 @@ class ObjectRenderer(RendererBase):
 Demonstrating textures - compare to tu02_texture_without_normal.py
 """
 
-import os
+from pathlib import Path
+from typing import NoReturn
 
-from examples.data.cube_data import g_vertex_buffer_data, g_uv_buffer_data
+from examples import g_vertex_buffer_data, g_uv_buffer_data
 from picogl.renderer import MeshData
 from picogl.ui.backend.glut.window.texture import TextureWindow
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-GLSL_DIR = os.path.join(BASE_DIR, "glsl", "tu02")
+BASE_DIR = Path(__file__).resolve().parent
+GLSL_DIR = BASE_DIR / "glsl" / "tu02"
 
-if __name__ == "__main__":
-    # set up the cube and draw it
+
+def main() -> NoReturn:
+    """Set up the cube and draw it with texture."""
     cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
     win = TextureWindow(
         width=800,
@@ -144,6 +151,10 @@ if __name__ == "__main__":
     )
     win.initializeGL()
     win.run()
+
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## Teapot object
@@ -153,17 +164,37 @@ if __name__ == "__main__":
 """Minimal PicoGL Teapot."""
 
 import os
+from pathlib import Path
+
+from picogl.renderer import MeshData
 from picogl.ui.backend.glut.window.object import ObjectWindow
+from picogl.utils.loader.object import OBJLoader
 
-GLSL_DIR = os.path.join(os.path.dirname(__file__), "glsl", "teapot")
+GLSL_DIR = Path(__file__).parent / "glsl" / "teapot"
 
-win = ObjectWindow(
-    width=800,
-    height=600,
-    title="Newell Teapot",
-    object_file_name="data/teapot.obj",
-    glsl_dir=GLSL_DIR,
-)
-win.initializeGL()
-win.run()
+
+def main():
+    """Set up the teapot object and show it."""
+    object_file_name = "data/teapot.obj"
+    obj_loader = OBJLoader(object_file_name)
+    teapot_data = obj_loader.to_array_style()
+    data = MeshData.from_raw(
+        vertices=teapot_data.vertices,
+        normals=teapot_data.normals,
+        colors=([[1.0, 0.0, 0.0]] * (len(teapot_data.vertices) // 3))
+    )
+    win = ObjectWindow(
+        width=800,
+        height=600,
+        title="Newell Teapot",
+        glsl_dir=GLSL_DIR,
+        data=data,
+    )
+    win.initializeGL()
+    win.run()
+
+
+if __name__ == "__main__":
+    """Run the main function."""
+    main()
 ```

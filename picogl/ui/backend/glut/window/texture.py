@@ -1,7 +1,7 @@
 
 from picogl.renderer import GLContext
-from picogl.ui.backend.glut.renderer.glut import GlutRendererWindow
-from picogl.ui.backend.glut.renderer.texture import TextureRenderer
+from picogl.ui.backend.glut.window.glut import GlutRendererWindow
+from picogl.renderer.texture import TextureRenderer
 
 
 class TextureWindow(GlutRendererWindow):
@@ -17,13 +17,3 @@ class TextureWindow(GlutRendererWindow):
             base_dir=self.base_dir,
             glsl_dir=glsl_dir,
         )
-
-    def initializeGL(self):
-        """Initial OpenGL configuration."""
-        super().initializeGL()
-        self.renderer.initialize_shaders()
-        self.renderer.initialize_buffers()
-
-    def paintGL(self):
-        """paintGL"""
-        self.renderer.render()

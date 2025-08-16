@@ -7,7 +7,7 @@ from pyglm import glm
 from utils.shaderLoader import Shader
 from picogl.utils.loader.texture import TextureLoader
 
-from picogl.ui.backend.glut.window.glut import GLWindow
+from picogl.ui.backend.glut.window.gl import GLWindow
 
 g_vertex_buffer_data = [
 		-1.0,-1.0,-1.0,

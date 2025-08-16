@@ -5,7 +5,7 @@ from pyglm import glm
 from utils.shaderLoader import Shader
 
 from examples.data.cube_data import g_color_buffer_data, g_vertex_buffer_data
-from picogl.ui.backend.glut.window.glut import GLWindow
+from picogl.ui.backend.glut.window.gl import GLWindow
 
 
 class Tu01Win(GLWindow):
