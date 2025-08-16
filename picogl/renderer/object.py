@@ -1,4 +1,5 @@
-from idlelib.rpc import objecttable
+"""Object renderer module."""
+from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
@@ -13,7 +14,7 @@ class ObjectRenderer(RendererBase):
     def __init__(self,
                  context: GLContext,
                  data: MeshData,
-                 glsl_dir: str):
+                 glsl_dir: str | Path | None = None):
         super().__init__()
         self.context, self.data = context, data
         self.glsl_dir = glsl_dir

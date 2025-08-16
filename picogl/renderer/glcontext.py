@@ -3,6 +3,7 @@ GL Context Class
 """
 
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Optional
 
 import numpy as np
@@ -34,9 +35,10 @@ class GLContext:
     eye_np: np.ndarray = field(
         default_factory=lambda: np.identity(3, dtype=np.float32)
     )
+
     def create_shader_program(self, vertex_source_file: str,
                               fragment_source_file: str,
-                              glsl_dir: str) -> None:
+                              glsl_dir: str | Path | None = None) -> None:
         """
         create_shader_program
 
@@ -48,5 +50,5 @@ class GLContext:
         self.shader = ShaderProgram(
             vertex_source_file=vertex_source_file,
             fragment_source_file=fragment_source_file,
-            base_dir=glsl_dir,
+            glsl_dir=glsl_dir,
         )

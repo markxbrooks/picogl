@@ -22,7 +22,7 @@ class WorldSheet(meshWithRender):
         self.shader = ShaderProgram(
             "glsl/utils/worldsheet/vertex.glsl",
             "glsl/utils/worldsheet/fragment.glsl",
-            base_dir=self.base_dir
+            glsl_dir=self.base_dir
         )
         self.mvp_id = glGetUniformLocation(self.shader.program, "MVP")
         if self.mvp_id == -1:
@@ -59,7 +59,7 @@ class WorldSheet(meshWithRender):
 
 class worldSheet(meshWithRender):
     def loadShader(self):
-        self.shader = ShaderProgram("glsl/utils/worldsheet/vertex.glsl","glsl/utils/worldsheet/fragment.glsl", base_dir=self.base_dir)
+        self.shader = ShaderProgram("glsl/utils/worldsheet/vertex.glsl","glsl/utils/worldsheet/fragment.glsl", glsl_dir=self.base_dir)
         self.mvp_id = glGetUniformLocation(self.shader.program, "MVP")
 
     def loadObject(self):

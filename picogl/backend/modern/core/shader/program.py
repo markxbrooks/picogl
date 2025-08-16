@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from OpenGL import GL as gl
 
 from picogl.backend.modern.core.shader.compile import compile_shader
@@ -17,13 +19,13 @@ class ShaderProgram:
         shader_name: str = None,
         vertex_source_file: str = None,
         fragment_source_file: str = None,
-        base_dir: str = None,
+        glsl_dir: str | Path | None = None,
     ):
         """constructor"""
         self.shader_name = shader_name
         self.vertex_source_file = vertex_source_file
         self.fragment_source_file = fragment_source_file
-        self.base_dir = base_dir
+        self.base_dir = glsl_dir
         self.vertex_shader = None
         self.fragment_shader = None
         self.program = None
@@ -33,7 +35,7 @@ class ShaderProgram:
             self.init_shader_from_glsl_files(
                 vertex_source_file=vertex_source_file,
                 fragment_source_file=fragment_source_file,
-                base_dir=base_dir,
+                glsl_dir=glsl_dir,
             )
 
     def __str__(self):
@@ -49,18 +51,18 @@ class ShaderProgram:
         return self.program
 
     def init_shader_from_glsl_files(
-        self, vertex_source_file: str, fragment_source_file: str, base_dir: str = None
+        self, vertex_source_file: str, fragment_source_file: str, glsl_dir: str | Path | None = None
     ) -> None:
         """
         init_shader_from_glsl_files
 
-        :param base_dir: directory containing vertex shaders
+        :param glsl_dir: directory containing vertex shaders
         :param vertex_source_file: list of paths to vertex shaders
         :param fragment_source_file: list of paths to fragment shaders
         :return: None
         """
-        vertex_sources = read_shader_source(vertex_source_file, base_dir=base_dir)
-        fragment_sources = read_shader_source(fragment_source_file, base_dir=base_dir)
+        vertex_sources = read_shader_source(vertex_source_file, glsl_dir=glsl_dir)
+        fragment_sources = read_shader_source(fragment_source_file, glsl_dir=glsl_dir)
         self.init_shader_from_glsl(vertex_sources, fragment_sources)
 
     def init_shader_from_glsl(self, vertex_source: str, fragment_source: str) -> None:

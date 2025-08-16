@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from OpenGL import GL as gl
 
@@ -30,18 +31,23 @@ def compile_shader(program: int, shader: int, shader_source_list: str):
     gl.glAttachShader(program, shader)
 
 
-def read_shader_source(shader_file_name: str, base_dir: str) -> str:
+def read_shader_source(shader_file_name: str, glsl_dir: str | Path | None = None) -> str:
     """
-    read_shader_source
+    Read shader source from a file.
 
-    :param base_dir: str
-    :param shader_file_name: str
-
-    Read shader source from shader_paths
+    :param shader_file_name: Name of the shader file
+    :param glsl_dir: Base directory (str or Path). Defaults to project root.
+    :return: Shader source as a string
     """
-    if not base_dir:
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    abs_path = os.path.join(base_dir, shader_file_name)
-    with open(abs_path, "r") as f:
-        source = f.read()
-    return source
+    if glsl_dir is None or glsl_dir == "":
+        glsl_dir = Path(__file__).resolve().parent.parent
+    else:
+        glsl_dir = Path(glsl_dir)
+
+    abs_path = glsl_dir / shader_file_name
+
+    try:
+        return abs_path.read_text()
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Shader file not found: {abs_path}") from e
+
