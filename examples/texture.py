@@ -24,3 +24,33 @@ if __name__ == "__main__":
     )
     win.initializeGL()
     win.run()
+    
+"""
+:
+
+  from pathlib import Path
+  from typing import NoReturn
+
+  from examples import g_vertex_buffer_data, g_uv_buffer_data
+  from picogl.renderer import MeshData
+  from picogl.ui.backend.glut.window.texture import TextureWindow
+
+  BASE_DIR = Path(__file__).resolve().parent
+  GLSL_DIR = BASE_DIR / "glsl" / "tu02"
+
+  def main() -> NoReturn:
+      cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
+      win = TextureWindow(
+          width=800,
+          height=600,
+          title="texture window",
+          data=cube_data,
+          base_dir=str(BASE_DIR),
+          glsl_dir=str(GLSL_DIR),
+      )
+      win.initializeGL()
+      win.run()
+
+  if __name__ == "__main__":
+      main()
+"""
