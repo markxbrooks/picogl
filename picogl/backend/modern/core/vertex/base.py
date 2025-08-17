@@ -96,6 +96,11 @@ class VertexBase(AbstractVertexBuffer):
             raise RuntimeError(f"Invalid buffer handle: {self.handle}")
         glBindBuffer(self.target, 0)
 
+    def update(self, data: np.ndarray):
+        self.data = data
+        if data is not None:
+            self.set_data(data)
+
     # ----------------------------
     # Data upload
     # ----------------------------

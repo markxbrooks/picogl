@@ -2,8 +2,9 @@
 OpenGL Render Buffer Base Class
 ===============================
 
-This module defines a dataclass for managing OpenGL render buffers, including
-Vertex Array Objects (VAOs), Vertex Buffer Objects (VBOs), and associated metadata
+This module defines a dataclass for managing OpenGL render buffers, including 'Modern'
+Vertex Array Objects (VAOs), Vertex Buffer Objects (VBOs), and also encapsulates Legacy Vertex Buffer Objects
+(VBOs) to group them and their associated metadata
 such as index counts. It provides a unified structure for buffer management and
 includes cleanup functionality to safely delete OpenGL resources.
 
@@ -16,7 +17,7 @@ Dependencies:
 Classes:
 --------
 
-.. autoclass:: RenderBuffersBase
+.. autoclass:: VertexBufferGroup
     :members:
     :undoc-members:
 
@@ -35,7 +36,7 @@ Usage Example:
 
 .. code-block:: python
 
-    buffers = RenderBuffersBase()
+    buffers = VertexBufferGroup()
     buffers.delete()  # Safely release OpenGL resources
 """
 
@@ -47,8 +48,8 @@ from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 
 
 @dataclass
-class RenderBuffersBase:
-    """OpenGL render buffer base class"""
+class VertexBufferGroup:
+    """OpenGL vertex buffer base class"""
 
     vao: Optional[VertexArrayObject] = None
     vbo: Optional[LegacyVBO] = None

@@ -12,7 +12,7 @@ from picogl.utils.gl_init import execute_gl_tasks, init_gl_list, paint_gl_list
 class GlutRendererWindow(GLWindow):
     """Glut Rendered Window"""
 
-    def __init__(self, width, height, title: str = None, context=None, *args, **kwargs):
+    def __init__(self, width, height, title: str = None, context: GLContext = None, *args, **kwargs):
         super().__init__(title=title, *args, **kwargs)
         self.context = GLContext() if context is None else context
         self.title = title
