@@ -4,10 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["picogl*"]
 
 [project]
 name = "picogl"
-version = "0.1.0"
+version = "0.2.0"
 description = "A Python OpenGL library aiming to be simple, fully abstracted, with a modern API."
 readme = "README.md"
 authors = [

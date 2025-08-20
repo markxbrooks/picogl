@@ -10,7 +10,7 @@ from picogl.utils.loader.helpers import log_properties
 from picogl.utils.loader.object_data import ObjectData
 
 
-class OBJLoader:
+class ObjectLoader:
     def __init__(self, path: str):
         # Resolve the path relative to the current working directory
         if not os.path.isabs(path):
@@ -154,7 +154,7 @@ class OBJLoader:
 if __name__ == "__main__":
     # Test with the teapot model_matrix
     try:
-        obj = OBJLoader("data/teapot.loader")
+        obj = ObjectLoader("data/teapot.loader")
         log_properties(obj)
     except FileNotFoundError as e:
         log.message(f"Error: {e}")

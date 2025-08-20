@@ -1,8 +1,8 @@
 from picogl.logger import Logger as log
-#from picogl.utils.loader.object import OBJLoader
+#from picogl.utils.loader.object import ObjectLoader
 
 
-def log_properties(loader: "OBJLoader"):
+def log_properties(loader: "ObjectLoader"):
     """ log object properties """
     log.message(f"Loaded OBJ file successfully")
     log.message(f"Total vertices: {len(loader.vertices) // 3}")
