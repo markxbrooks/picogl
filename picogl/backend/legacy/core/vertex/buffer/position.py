@@ -68,4 +68,4 @@ class LegacyPositionVBO(LegacyVBO):
         glEnableClientState(GL_VERTEX_ARRAY)
         glVertexPointer(self.size, self.dtype, self.stride, self.pointer)
 
-        self.unbind()  # Fixed typo
+        self.unbind()
