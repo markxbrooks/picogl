@@ -10,7 +10,7 @@ class TextureWindow(GlutRendererWindow):
         self.context = GLContext()
         self.base_dir = base_dir
         self.data = data
-        super().__init__(width, height, title, context=self.context, *args, **kwargs)
+        super().__init__(width, height, title, data=self.data, context=self.context, *args, **kwargs)
         self.renderer = TextureRenderer(
             context=self.context,
             data=self.data,

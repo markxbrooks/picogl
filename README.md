@@ -44,7 +44,7 @@ from pathlib import Path
 from typing import NoReturn
 from examples.data.cube_data import g_color_buffer_data, g_vertex_buffer_data
 from picogl.renderer import MeshData
-from picogl.ui.backend.glut.window.object import ObjectWindow
+from picogl.ui.backend.glut.window.object import RenderWindow
 
 GLSL_DIR = Path(__file__).parent / "glsl" / "tu01"
 
@@ -52,7 +52,7 @@ GLSL_DIR = Path(__file__).parent / "glsl" / "tu01"
 def main() -> NoReturn:
     """Set up the colored object dat and show it"""
     data = MeshData.from_raw(vertices=g_vertex_buffer_data, colors=g_color_buffer_data)
-    window = ObjectWindow(
+    window = RenderWindow(
         width=800, height=600, title="Cube window", data=data, glsl_dir=GLSL_DIR
     )
     window.initializeGL()
@@ -61,6 +61,7 @@ def main() -> NoReturn:
 
 if __name__ == "__main__":
     main()
+
 ```
 ### With a corresponding renderer
 
@@ -163,11 +164,10 @@ if __name__ == "__main__":
 ```python
 """Minimal PicoGL Teapot."""
 
-import os
 from pathlib import Path
 
 from picogl.renderer import MeshData
-from picogl.ui.backend.glut.window.object import ObjectWindow
+from picogl.ui.backend.glut.window.object import RenderWindow
 from picogl.utils.loader.object import ObjectLoader
 
 GLSL_DIR = Path(__file__).parent / "glsl" / "teapot"
@@ -183,15 +183,15 @@ def main():
         normals=teapot_data.normals,
         colors=([[1.0, 0.0, 0.0]] * (len(teapot_data.vertices) // 3))
     )
-    win = ObjectWindow(
+    render_window = RenderWindow(
         width=800,
         height=600,
         title="Newell Teapot",
         glsl_dir=GLSL_DIR,
         data=data,
     )
-    win.initializeGL()
-    win.run()
+    render_window.initialize()
+    render_window.run()
 
 
 if __name__ == "__main__":

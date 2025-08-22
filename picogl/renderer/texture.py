@@ -5,19 +5,20 @@ from pathlib import Path
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from examples import g_uv_buffer_data
+from picogl.renderer.object import ObjectRenderer
 from picogl.utils.loader.texture import TextureLoader
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.logger import Logger as log
-from picogl.renderer import GLContext, MeshData, RendererBase
+from picogl.renderer import GLContext, MeshData
 from picogl.utils.gl_init import execute_gl_tasks, paint_gl_list
 from picogl.utils.texture import bind_texture_array
 
 
-class TextureRenderer(RendererBase):
+class TextureRenderer(ObjectRenderer):
     """Basic renderer class"""
 
-    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None, glsl_dir: str = None):
-        super().__init__()
+    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None, glsl_dir: str = None, use_texture: bool = False, texture_file: str = None, resource_subdir: str = None):
+        super().__init__(context=context, data=data, base_dir=base_dir, glsl_dir=glsl_dir, use_texture=use_texture)
         self.texture_full_path = None
         self.resource_full_path = None
         self.texture = None
@@ -30,15 +31,6 @@ class TextureRenderer(RendererBase):
         self.glsl_dir = glsl_dir
 
         self.initialize_textures()
-
-    def initialize_shaders(self):
-        """Load and compile shaders."""
-        log.message("Loading shaders...")
-        if not self.context:
-            self.context = GLContext()
-        self.context.create_shader_program(vertex_source_file="vertex.glsl",
-                                           fragment_source_file="fragment.glsl",
-                                           glsl_dir=self.glsl_dir)
 
     def initialize_buffers(self):
         """ Initialize Buffers """
@@ -86,13 +78,6 @@ class TextureRenderer(RendererBase):
         :param subdir: str
         """
         self.resource_full_path = base_path.absolute() / "resources" / subdir
-
-    def render(self) -> None:
-        """render/dispatcher"""
-        if self.show_model:
-            self._draw_model()
-        # Add more conditions and corresponding draw functions as needed
-        self._finalize_render()
 
     def _draw_model(self):
         """Draw the model_matrix"""

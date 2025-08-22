@@ -3,7 +3,6 @@ Demonstrating textures - compare to tu02_texture_without_normal.py
 """
 
 from pathlib import Path
-from typing import NoReturn
 
 from examples import g_vertex_buffer_data, g_uv_buffer_data
 from picogl.renderer import MeshData
@@ -13,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent
 GLSL_DIR = BASE_DIR / "glsl" / "tu02"
 
 
-def main() -> NoReturn:
+def main() -> None:
     """Set up the cube and draw it with texture."""
     cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
     win = TextureWindow(
