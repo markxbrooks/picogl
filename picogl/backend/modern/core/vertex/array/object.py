@@ -37,17 +37,19 @@ import ctypes
 
 import numpy as np
 from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
+from OpenGL.raw.GL.VERSION.GL_2_0 import glEnableVertexAttribArray, glVertexAttribPointer
 from OpenGL.raw.GL._types import GL_FLOAT, GL_UNSIGNED_INT
 from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS
 from OpenGL.raw.GL.VERSION.GL_1_1 import glDrawArrays
-from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW
+from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW, glBindBuffer, GL_ELEMENT_ARRAY_BUFFER
 
 from picogl.backend.modern.core.vertex.array.helpers import \
     enable_points_rendering_state
 from picogl.backend.modern.core.vertex.base import VertexBase
 from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
+from picogl.buffers.abstract import LayoutDescriptor
 from picogl.buffers.glcleanup import delete_buffer
 from picogl.buffers.vao.draw import vao_draw_with_attributes
 from picogl.logger import Logger as log
@@ -78,6 +80,8 @@ class VertexArrayObject(VertexBase):
         self.named_vbos = {}
         self.ebo = None
         self.ebo = None
+        self.layout: Optional[LayoutDescriptor] = None
+        # self.vbos: dict[str, ModernVBO] = {}  # store by semantic name
         self.bind()
 
     def bind(self):
@@ -97,6 +101,44 @@ class VertexArrayObject(VertexBase):
         Delete the VAO from GPU memory.
         """
         glDeleteVertexArrays(1, [self.handle])
+
+    def set_layout(self, layout: LayoutDescriptor) -> None:
+        """
+        set_layout
+
+        :param layout: LayoutDescriptor: The layout descriptor to define the vertex attribute format.
+        :raises: None
+
+        Sets the layout for the rendering setup by binding the buffers and configuring the attributes.
+        The state is stored in the Vertex Array Object (VAO). This method assumes a single Vertex Buffer
+        Object (VBO) holds all position data but can be adapted as required. Handles optional usage of
+        Normal Buffer Object (NBO) and Element Buffer Object (EBO) if present.
+        """
+        self.layout = layout
+        glBindVertexArray(self.vao.handle)
+
+        if self.vbo is not None:
+            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
+        if self.nbo is not None:
+            # If you have multiple buffers, bind as needed per attribute
+            pass  # adapt as needed
+
+        if self.layout:
+            for attr in self.layout.attributes:
+                glEnableVertexAttribArray(attr.index)
+                glVertexAttribPointer(
+                    attr.index,
+                    attr.size,
+                    attr.type,
+                    attr.normalized,
+                    attr.stride,
+                    ctypes.c_void_p(attr.offset),
+                )
+        if self.ebo is not None:
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
+
+        glBindVertexArray(0)
+        self._configured = True
 
     def add_vbo(
         self,

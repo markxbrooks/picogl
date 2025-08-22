@@ -1,4 +1,4 @@
-from elmo.utils.shaderLoader import PicoGLShader
+# from picogl.examples.utils.shaderLoader import PicoGLShader
 from OpenGL.raw.GL.VERSION.GL_2_0 import glUseProgram
 
 
