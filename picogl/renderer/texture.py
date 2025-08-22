@@ -1,6 +1,5 @@
 """ Texture Renderer class """
-import os
-from idlelib.rpc import objecttable
+
 from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
@@ -8,8 +7,6 @@ from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 from examples import g_uv_buffer_data
 from picogl.renderer.object import ObjectRenderer
 from picogl.utils.loader.texture import TextureLoader
-from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
-from picogl.logger import Logger as log
 from picogl.renderer import GLContext, MeshData
 from picogl.utils.gl_init import execute_gl_tasks, paint_gl_list
 from picogl.utils.texture import bind_texture_array
@@ -90,7 +87,7 @@ class TextureRenderer(ObjectRenderer):
         with shader, model_vao:
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
             bind_texture_array(self.context.texture_id)
-            shader.uniform("myTextureSampler", 0)
+            shader.uniform("texture0", 0)
             model_vao.draw(
                 mode=GL_TRIANGLES, index_count=self.data.vertex_count
             )

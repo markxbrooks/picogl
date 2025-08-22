@@ -1,4 +1,5 @@
 """Object renderer module."""
+
 from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
@@ -55,19 +56,19 @@ class ObjectRenderer(RendererBase):
         """Create VAO and VBOs once."""
         if self.context.vaos is None:
             self.context.vaos = {}
-        vao = VertexArrayObject()
-        vao.add_vbo(index=0, data=self.data.vbo, size=3)
+        model_vao = VertexArrayObject()
+        model_vao.add_vbo(index=0, data=self.data.vbo, size=3)
 
         if self.use_texture and self.data.uvs is not None:
-            vao.add_vbo(index=1, data=self.data.uvs, size=2)
-            self.context.vaos["model"] = vao
+            model_vao.add_vbo(index=1, data=self.data.uvs, size=2)
+            self.context.vaos["model"] = model_vao
         else:
             # fall back to colors + normals
             if self.data.cbo is not None:
-                vao.add_vbo(index=1, data=self.data.cbo, size=3)
+                model_vao.add_vbo(index=1, data=self.data.cbo, size=3)
             if self.data.nbo is not None:
-                vao.add_vbo(index=2, data=self.data.nbo, size=3)
-            self.context.vaos["model"] = vao
+                model_vao.add_vbo(index=2, data=self.data.nbo, size=3)
+            self.context.vaos["model"] = model_vao
 
     def render(self) -> None:
         """Dispatch render pass."""
@@ -76,15 +77,16 @@ class ObjectRenderer(RendererBase):
         self._finalize_render()
 
     def _draw_model(self):
-        vao = self.context.vaos["model"]
+        """Draw the model"""
+        model_vao = self.context.vaos["model"]
         shader = self.context.shader
-        with shader, vao:
+        with shader, model_vao:
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
             shader.uniform("model_matrix", self.context.model_matrix)
             shader.uniform("viewPos", self.context.eye_np)
 
             if self.use_texture and self.texture:
                 bind_texture_array(self.context.texture_id)
-                shader.uniform("myTextureSampler", 0)
+                shader.uniform("texture0", 0)
 
-            vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
+            model_vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)

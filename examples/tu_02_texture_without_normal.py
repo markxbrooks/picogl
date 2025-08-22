@@ -107,7 +107,7 @@ class Tu01Win(GLWindow):
 		shader.initShaderFromGLSL(["glsl/tu02/vertex.glsl"],["glsl/tu02/fragment.glsl"])
 
 		self.context.MVP_ID   = glGetUniformLocation(shader.program,"MVP")
-		self.context.TextureID =  glGetUniformLocation(shader.program, "myTextureSampler")
+		self.context.TextureID =  glGetUniformLocation(shader.program, "texture0")
 
 
 		texture = TextureLoader("resources/tu02/uvtemplate.tga")
