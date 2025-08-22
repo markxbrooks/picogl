@@ -1,5 +1,6 @@
 """ Texture Renderer class """
 import os
+from idlelib.rpc import objecttable
 from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
@@ -17,8 +18,18 @@ from picogl.utils.texture import bind_texture_array
 class TextureRenderer(ObjectRenderer):
     """Basic renderer class"""
 
-    def __init__(self, context: GLContext, data: MeshData, base_dir: str = None, glsl_dir: str = None, use_texture: bool = False, texture_file: str = None, resource_subdir: str = None):
-        super().__init__(context=context, data=data, base_dir=base_dir, glsl_dir=glsl_dir, use_texture=use_texture)
+    def __init__(self, context: GLContext,
+                 data: MeshData,
+                 base_dir: str = None,
+                 glsl_dir: str = None,
+                 use_texture: bool = False,
+                 texture_file: str = None,
+                 resource_subdir: str = None):
+        super().__init__(context=context,
+                         data=data,
+                         base_dir=base_dir,
+                         glsl_dir=glsl_dir,
+                         use_texture=use_texture)
         self.texture_full_path = None
         self.resource_full_path = None
         self.texture = None
@@ -31,14 +42,6 @@ class TextureRenderer(ObjectRenderer):
         self.glsl_dir = glsl_dir
 
         self.initialize_textures()
-
-    def initialize_buffers(self):
-        """ Initialize Buffers """
-        if self.context.vaos is None:
-            self.context.vaos = {}
-        self.context.vaos["cube"] = cube_vao = VertexArrayObject()
-        cube_vao.add_vbo(index=0, data=self.data.vbo, size=3)
-        cube_vao.add_vbo(index=1, data=self.data.uvs, size=2)
 
     def initialize_textures(self):
         # Build paths
@@ -79,16 +82,16 @@ class TextureRenderer(ObjectRenderer):
         """
         self.resource_full_path = base_path.absolute() / "resources" / subdir
 
-    def _draw_model(self):
+    def _draw_model_old(self):
         """Draw the model_matrix"""
         execute_gl_tasks(paint_gl_list)
-        cube_vao = self.context.vaos["cube"]
+        model_vao = self.context.vaos["model"]
         shader = self.context.shader
-        with shader, cube_vao:
+        with shader, model_vao:
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
             bind_texture_array(self.context.texture_id)
             shader.uniform("myTextureSampler", 0)
-            cube_vao.draw(
+            model_vao.draw(
                 mode=GL_TRIANGLES, index_count=self.data.vertex_count
             )
 

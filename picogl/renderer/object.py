@@ -6,6 +6,7 @@ from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.renderer import GLContext, MeshData, RendererBase
 from picogl.logger import Logger as log
+from picogl.utils.texture import bind_texture_array
 
 
 class ObjectRenderer(RendererBase):
@@ -20,6 +21,9 @@ class ObjectRenderer(RendererBase):
                  texture_file: str | None = None,
                  resource_subdir: str = "tu02"):
         super().__init__()
+        self.base_dir = base_dir
+        self.resource_subdir = resource_subdir
+        self.texture_file = texture_file
         self.context = context
         self.data = data
         self.data.vertex_count = len(self.data.vbo.flatten()) // 3
@@ -28,6 +32,7 @@ class ObjectRenderer(RendererBase):
 
         # Texture-related
         self.use_texture = use_texture
+        log.parameter("Using texture", use_texture)
         self.texture = None
         if use_texture:
             base_path = Path(base_dir) if base_dir else Path(".")
@@ -55,14 +60,14 @@ class ObjectRenderer(RendererBase):
 
         if self.use_texture and self.data.uvs is not None:
             vao.add_vbo(index=1, data=self.data.uvs, size=2)
-            self.context.vaos["object"] = vao
+            self.context.vaos["model"] = vao
         else:
             # fall back to colors + normals
             if self.data.cbo is not None:
                 vao.add_vbo(index=1, data=self.data.cbo, size=3)
             if self.data.nbo is not None:
                 vao.add_vbo(index=2, data=self.data.nbo, size=3)
-            self.context.vaos["object"] = vao
+            self.context.vaos["model"] = vao
 
     def render(self) -> None:
         """Dispatch render pass."""
@@ -71,7 +76,7 @@ class ObjectRenderer(RendererBase):
         self._finalize_render()
 
     def _draw_model(self):
-        vao = self.context.vaos["object"]
+        vao = self.context.vaos["model"]
         shader = self.context.shader
         with shader, vao:
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
