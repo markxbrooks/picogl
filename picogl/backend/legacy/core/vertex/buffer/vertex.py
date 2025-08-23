@@ -3,10 +3,10 @@ import ctypes
 import numpy as np
 from OpenGL.GL import *
 
-from picogl.backend.modern.core.vertex.base import VertexBase
+from picogl.backend.modern.core.vertex.base import VertexBuffer
 
 
-class LegacyVBO(VertexBase):
+class LegacyVBO(VertexBuffer):
     """Legacy OpenGL Vertex Buffer Object (VBO) or Element Buffer Object (EBO)."""
 
     def __init__(

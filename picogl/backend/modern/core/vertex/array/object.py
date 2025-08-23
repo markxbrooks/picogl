@@ -4,7 +4,7 @@ vertex_array_object.py
 This module defines the `VertexArrayObject` class, which encapsulates the creation, management,
 and usage of OpenGL Vertex Array Objects (VAOs) in modern OpenGL rendering workflows.
 
-The `VertexArrayObject` class inherits from `VertexBase` and provides
+The `VertexArrayObject` class inherits from `VertexBuffer` and provides
 a clean, object-oriented interface for managing VAO handles and vertex
 attribute configurations.
 
@@ -47,7 +47,7 @@ from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW, glBindBuffer, GL_ELEMEN
 
 from picogl.backend.modern.core.vertex.array.helpers import \
     enable_points_rendering_state
-from picogl.backend.modern.core.vertex.base import VertexBase
+from picogl.backend.modern.core.vertex.base import VertexBuffer
 from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 from picogl.buffers.attributes import LayoutDescriptor
@@ -57,7 +57,7 @@ from picogl.logger import Logger as log
 from picogl.safe import gl_gen_safe
 
 
-class VertexArrayObject(VertexBase):
+class VertexArrayObject(VertexBuffer):
     """
     OpenGL Vertex Array Objects (VAO) class
     """
@@ -78,7 +78,7 @@ class VertexArrayObject(VertexBase):
         super().__init__(handle)
         self.attributes = []
         self.vbos = []
-        self.named_vbos : dict[str, VertexBase] = {}
+        self.named_vbos : dict[str, VertexBuffer] = {}
         self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing
         self.vbo = None  # Atom Vertex Buffer Object
         self.cbo = None  # Color Vertex Buffer Object

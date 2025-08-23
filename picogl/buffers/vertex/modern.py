@@ -12,10 +12,9 @@ from OpenGL.raw.GL.VERSION.GL_3_0 import glBindVertexArray
 from buffers.glcleanup import delete_buffer
 
 from picogl.buffers.attributes import LayoutDescriptor
-from picogl.buffers.vertex.abstract import VertexArrayGroup
 
 
-class ModernVertexArrayGroup(VertexArrayGroup):
+class ModernVertexArrayGroup(BaseVertexBuffer):
     """
     ModernVertexArrayGroup
 

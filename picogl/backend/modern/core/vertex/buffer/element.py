@@ -26,10 +26,10 @@ from OpenGL.GL import glBufferData, glGenBuffers
 from OpenGL.raw.GL.VERSION.GL_1_5 import (GL_ELEMENT_ARRAY_BUFFER,
                                           GL_STATIC_DRAW)
 
-from picogl.backend.modern.core.vertex.base import VertexBase
+from picogl.backend.modern.core.vertex.base import VertexBuffer
 
 
-class ModernEBO(VertexBase):
+class ModernEBO(VertexBuffer):
     """
     OpenGL element data buffer (also known as an index buffer)
     """

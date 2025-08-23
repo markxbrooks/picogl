@@ -1,62 +1,48 @@
 """
-OpenGL Render Buffer Base Class
-===============================
+BaseVertexBuffer
+================
 
-This module defines a dataclass for managing OpenGL render buffers, including 'Modern'
-Vertex Array Objects (VAOs), Vertex Buffer Objects (VBOs), and also encapsulates Legacy Vertex Buffer Objects
-(VBOs) to group them and their associated metadata
-such as index counts. It provides a unified structure for buffer management and
-includes cleanup functionality to safely delete OpenGL resources.
+Specializes the abstract façade into a slightly more concrete base (manages a GL handle, context manager behavior, common boilerplate).
 
-Dependencies:
--------------
-- numpy
-- PyOpenGL
-- picogl (legacy and modern OpenGL buffer abstractions)
+Leaves rendering-specific logic to subclasses like ModernVertexArrayGroup.
 
-Classes:
---------
-
-.. autoclass:: VertexBufferGroup
-    :members:
-    :undoc-members:
-
-Attributes:
------------
-- `vao`: Optional[VertexArrayObject] — Modern VAO wrapper.
-- `vbo`: Optional[LegacyVBO] — Legacy VBO wrapper.
-- `index_count`: Optional[int] — Number of indices used for rendering.
-
-Methods:
---------
-- `delete`: Cleans up VAO and VBO handles and resets internal state.
-
-Usage Example:
---------------
-
-.. code-block:: python
-
-    buffers = VertexBufferGroup()
-    buffers.delete()  # Safely release OpenGL resources
+Follows the "abstract base + partial implementation" pattern.
 """
 
-from dataclasses import dataclass
-from typing import Optional
-
-from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
-from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
+from picogl.buffers.abstract import AbstractVertexGroup
+from picogl.buffers.attributes import LayoutDescriptor
 
 
-@dataclass
-class VertexBufferGroup:
-    """OpenGL vertex buffer base class"""
+class BaseVertexBuffer(AbstractVertexGroup):
+    """
+    Generic OpenGL object interface with binding lifecycle.
 
-    vao: Optional[VertexArrayObject] = None
-    vbo: Optional[LegacyVBO] = None
-    index_count: Optional[int] = 0
+    Provides handle + context manager, leaves binding to subclasses.
+    """
+
+    def __init__(self, handle=None):
+        self.handle = handle
+
+    def bind(self):
+        raise NotImplementedError
+
+    def unbind(self):
+        raise NotImplementedError
 
     def delete(self):
-        """delete to remove atoms_buffers"""
-        self.vao.delete()
-        self.vbo.delete()
-        self.index_count = 0
+        raise NotImplementedError
+
+    def __enter__(self):
+        self.bind()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.unbind()
+
+    def attach_buffers(self, nbo=None, cbo=None, vbo=None, ebo=None) -> None:
+        """Attach the buffers that the VAO/group should coordinate."""
+        pass
+
+    def set_layout(self, layout: LayoutDescriptor) -> None:
+        """Define the attribute layout for this VAO/group."""
+        pass

@@ -43,7 +43,7 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
     def __init__(self):
         self.index_count = 0
         self.handle = 0  # Does absolutely nothing
-        self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing
+        self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing, but is needed
         self.vbo = None  # Atom Vertex Buffer Object
         self.cbo = None  # Color Vertex Buffer Object
         self.nbo = None  # Normal Vertex Buffer Object

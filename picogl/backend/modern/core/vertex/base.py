@@ -1,10 +1,10 @@
 """
 vertex_base.py
 
-This module defines the `VertexBase` class, a foundational abstraction for
+This module defines the `VertexBuffer` class, a foundational abstraction for
 OpenGL objects that require explicit binding and unbinding during rendering.
 
-`VertexBase` provides a common interface and context management protocol for derived classes such as
+`VertexBuffer` provides a common interface and context management protocol for derived classes such as
 `VertexArrayObject`, `ModernVBO`, and `ModernEBO`.
 It ensures consistent handling of OpenGL object lifetimes and usage patterns by enforcing the
 implementation of `bind()` and `unbind()` methods.
@@ -17,7 +17,7 @@ Features:
 
 Example Usage:
 ==============
-class MyBuffer(VertexBase):
+class MyBuffer(VertexBuffer):
 ...def bind(self): glBindBuffer(GL_ARRAY_BUFFER, self.handle)
 ...def unbind(self): glBindBuffer(GL_ARRAY_BUFFER, 0)
 ...
@@ -42,11 +42,13 @@ from OpenGL.raw.GL.VERSION.GL_1_5 import (GL_ARRAY_BUFFER, GL_STATIC_DRAW,
 from OpenGL.raw.GL.VERSION.GL_2_0 import (glEnableVertexAttribArray,
                                           glVertexAttribPointer)
 
-from picogl.buffers.abstract import AbstractVertexBuffer
+from picogl.buffers.base import BaseVertexBuffer
 
 
-class VertexBase(AbstractVertexBuffer):
+class VertexBuffer(BaseVertexBuffer):
     """
+    VertexBuffer
+    ============
     Base class for OpenGL vertex-related buffers (VBO, VAO, EBO).
 
     This handles:
