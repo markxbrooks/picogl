@@ -1,5 +1,5 @@
 """
-LegacyVertexArrayGroup
+VertexArrayGroup
 
 Legacy backend (no real GL VAO support)
 """
@@ -30,18 +30,19 @@ from picogl.backend.legacy.core.vertex.buffer.element import LegacyEBO
 from picogl.backend.legacy.core.vertex.buffer.normal import LegacyNormalVBO
 from picogl.backend.legacy.core.vertex.buffer.position import LegacyPositionVBO
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
+from picogl.backend.modern.core.vertex.base import VertexBuffer
 from picogl.buffers.glcleanup import delete_buffer
 
 from picogl.buffers.attributes import LayoutDescriptor
-from picogl.buffers.vertex.abstract import VertexArrayGroup
 from picogl.buffers.vertex.aliases import NAME_ALIASES
 
 
-class LegacyVertexArrayGroup(VertexArrayGroup):
+class VertexArrayGroup(VertexBuffer):
     """Container for legacy VBOs, mimicking VAO interface."""
 
     def __init__(self):
-        self.index_count = 0
+        super().__init__()
+        # self.index_count = 0
         self.handle = 0  # Does absolutely nothing
         self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing, but is needed
         self.vbo = None  # Atom Vertex Buffer Object
@@ -74,7 +75,7 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
         canonical = NAME_ALIASES.get(name, name)
         return self.named_vbos.get(canonical)
 
-    def set_index_count(self, index: int):
+    def set_index_count_broken(self, index: int):
         """Set the index count of the VBO."""
         self.index_count = index
 

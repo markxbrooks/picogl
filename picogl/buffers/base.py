@@ -20,7 +20,7 @@ class BaseVertexBuffer(AbstractVertexGroup):
     Provides handle + context manager, leaves binding to subclasses.
     """
 
-    def __init__(self, handle=None):
+    def __init__(self, handle: int = None):
         self.handle = handle
 
     def bind(self):

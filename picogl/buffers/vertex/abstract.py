@@ -20,9 +20,9 @@ Example usage
 #Public surface: keep AbstractVertexGroup as the canonical concept and hide the backend behind it.
 If you had a public class named BufferGroup, consider renaming to
  AbstractVertexGroup or VertexArrayState to reflect its intent.
-#Backends: keep two concrete implementations: LegacyVertexArrayGroup and ModernVertexArrayGroup.
+#Backends: keep two concrete implementations: VertexArrayGroup and ModernVertexArrayGroup.
 You can expose lightweight aliases during transition
-(LegacyVertexArrayGroup = LegacyVertexArrayGroupImpl, etc.) if you need to preserve import paths.
+(VertexArrayGroup = LegacyVertexArrayGroupImpl, etc.) if you need to preserve import paths.
 #Typing: if you want to be explicit, you can type vaog: Optional[AbstractVertexGroup]
  AtomBufferGroup and keep buffers as the specific legacy/modern types;
   move all buffers under the VAO façade entirely (the latter simplifies binding logic).
