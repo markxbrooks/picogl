@@ -52,6 +52,7 @@ from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.glcleanup import delete_buffer
+from picogl.buffers.vertex.aliases import NAME_ALIASES
 from picogl.logger import Logger as log
 from picogl.safe import gl_gen_safe
 
@@ -77,11 +78,17 @@ class VertexArrayObject(VertexBase):
         super().__init__(handle)
         self.attributes = []
         self.vbos = []
-        self.named_vbos = {}
+        self.named_vbos : dict[str, VertexBase] = {}
+        self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing
+        self.vbo = None  # Atom Vertex Buffer Object
+        self.cbo = None  # Color Vertex Buffer Object
+        self.nbo = None  # Normal Vertex Buffer Object
+        self.ebo = None  # Bond Index Buffer Object
+        # self.named_vbos: dict[str, LegacyVBO] = {}  # store by semantic name
         self.ebo = None
         self.ebo = None
         self.layout: Optional[LayoutDescriptor] = None
-        # self.vbos: dict[str, ModernVBO] = {}  # store by semantic name
+        # self.named_vbos: dict[str, ModernVBO] = {}  # store by semantic name
         self.bind()
 
     def bind(self):
@@ -139,6 +146,25 @@ class VertexArrayObject(VertexBase):
 
         glBindVertexArray(0)
         self._configured = True
+
+    def add_vbo_object(self, name: str, vbo: "LegacyVBO") -> "LegacyVBO":
+        """Register a VBO by semantic name or shorthand alias."""
+        # normalize to canonical key
+        canonical = NAME_ALIASES.get(name, name)
+
+        # store consistently
+        self.named_vbos[canonical] = vbo
+
+        # and assign to attribute if it exists
+        if hasattr(self, canonical):
+            setattr(self, canonical, vbo)
+
+        return vbo
+
+    def get_vbo_object(_self, name: str) -> "LegacyVBO":
+        """Retrieve a VBO by its semantic or shorthand name."""
+        canonical = NAME_ALIASES.get(name, name)
+        return self.named_vbos.get(canonical)
 
     def add_vbo(
         self,

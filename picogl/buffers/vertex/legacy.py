@@ -6,6 +6,7 @@ Legacy backend (no real GL VAO support)
 import ctypes
 from typing import Optional
 
+import numpy as np
 from OpenGL.GL import glVertexAttribPointer
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS, GL_TRIANGLES, GL_UNSIGNED_INT
 from OpenGL.raw.GL.VERSION.GL_1_1 import (
@@ -24,6 +25,11 @@ from OpenGL.raw.GL.VERSION.GL_2_0 import (
     glEnableVertexAttribArray,
 )
 from picogl.backend.legacy.core.vertex.buffer.client_states import legacy_client_states
+from picogl.backend.legacy.core.vertex.buffer.color import LegacyColorVBO
+from picogl.backend.legacy.core.vertex.buffer.element import LegacyEBO
+from picogl.backend.legacy.core.vertex.buffer.normal import LegacyNormalVBO
+from picogl.backend.legacy.core.vertex.buffer.position import LegacyPositionVBO
+from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 from picogl.buffers.glcleanup import delete_buffer
 
 from picogl.buffers.attributes import LayoutDescriptor
@@ -43,15 +49,19 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
         self.nbo = None  # Normal Vertex Buffer Object
         self.ebo = None  # Bond Index Buffer Object
         self.layout: Optional[LayoutDescriptor] = None
-        self.vbos: dict[str, LegacyVBO] = {}  # store by semantic name
+        self.named_vbos: dict[str, LegacyVBO] = {}  # store by semantic name
+        self.vbo_classes = {"vbo": LegacyPositionVBO,
+                       "cbo": LegacyColorVBO,
+                       "ebo": LegacyEBO,
+                       "nbo": LegacyNormalVBO}
 
-    def add_vbo(self, name: str, vbo: "LegacyVBO") -> "LegacyVBO":
+    def add_vbo_object(self, name: str, vbo: "LegacyVBO") -> "LegacyVBO":
         """Register a VBO by semantic name or shorthand alias."""
         # normalize to canonical key
         canonical = NAME_ALIASES.get(name, name)
 
         # store consistently
-        self.vbos[canonical] = vbo
+        self.named_vbos[canonical] = vbo
 
         # and assign to attribute if it exists
         if hasattr(self, canonical):
@@ -59,10 +69,10 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
 
         return vbo
 
-    def get_vbo(self, name: str) -> "LegacyVBO":
+    def get_vbo_object(self, name: str) -> "LegacyVBO":
         """Retrieve a VBO by its semantic or shorthand name."""
         canonical = NAME_ALIASES.get(name, name)
-        return self.vbos.get(canonical)
+        return self.named_vbos.get(canonical)
 
     def set_index_count(self, index: int):
         """Set the index count of the VBO."""
@@ -88,13 +98,40 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
             count = self.index_count
         with self:
             with legacy_client_states(GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_NORMAL_ARRAY):
-                for vbo in self.vbos.values():
+                for vbo in self.named_vbos.values():
                     vbo.bind()
                 # Issue draw call
                 glDrawArrays(mode, 0, count)
 
+    def add_vbo(self, name: str, data: np.ndarray = None, size: int = 3):
+        """
+        add_vbo
+        """
+        vbo_class = self.get_buffer_class(name)
+        self.add_vbo_object(name, vbo_class(data=data, size=size))
+
+    def get_buffer_class(self, name: str = "vbo") -> type[LegacyVBO]:
+        """
+        get_buffer_class
+
+        :param name: str
+        :return: LegacyVBO
+        """
+        vbo_class = self.vbo_classes.get(name, LegacyPositionVBO)
+        return vbo_class
+
+    def add_ebo(self, name: str = "ebo", data: np.ndarray = None):
+        """
+        add_ebo
+
+        :param name: str
+        :param data: np.ndarray
+        """
+        ebo_class = self.vbo_classes.get(name, LegacyEBO)
+        self.add_vbo_object(name, ebo_class(data=data))
+
     def draw_elements(
-        self, count: int = 0, mode=GL_TRIANGLES, dtype=GL_UNSIGNED_INT, offset=0
+        self, count: int = 0, mode: int = GL_TRIANGLES, dtype: int = GL_UNSIGNED_INT, offset: int = 0
     ):
         """
         Draw using an element buffer (EBO) with legacy client states.
@@ -115,7 +152,7 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
             # Legacy client states still required
             with legacy_client_states(GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_NORMAL_ARRAY):
                 # Bind each VBO (legacy-style)
-                for vbo in self.vbos.values():
+                for vbo in self.named_vbos.values():
                     vbo.bind()
 
                 # Bind EBO for indexed drawing
@@ -135,7 +172,7 @@ class LegacyVertexArrayGroup(VertexArrayGroup):
             return
         for attr in self.layout.attributes:
             canonical = NAME_ALIASES.get(attr.name, attr.name)
-            vbo = self.vbos.get(canonical)
+            vbo = self.named_vbos.get(canonical)
             if not vbo:
                 continue
             glBindBuffer(GL_ARRAY_BUFFER, getattr(vbo, "_id", vbo))
