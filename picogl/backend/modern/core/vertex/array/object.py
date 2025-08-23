@@ -51,7 +51,6 @@ from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
 from picogl.buffers.abstract import LayoutDescriptor
 from picogl.buffers.glcleanup import delete_buffer
-from picogl.buffers.vao.draw import vao_draw_with_attributes
 from picogl.logger import Logger as log
 from picogl.safe import gl_gen_safe
 
