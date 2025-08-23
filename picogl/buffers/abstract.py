@@ -3,31 +3,15 @@ Abstract render atoms_buffers class
 """
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import List, Optional
+from typing import Optional
 
-from OpenGL.arrays import vbo
-from OpenGL.GL import (GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER, GL_FLOAT,
+from OpenGL.GL import (GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER,
                        glBindBuffer, glBindVertexArray, glDeleteVertexArrays,
                        glDisableVertexAttribArray, glEnableVertexAttribArray,
                        glGenVertexArrays, glVertexAttribPointer)
 
-#from picogl.buffers.glcleanup import delete_buffer
-
-
-@dataclass
-class AttributeSpec:
-    index: int  # attribute location
-    size: int  # number of components (e.g., 3 for vec3)
-    type: int  # GL_FLOAT, GL_INT, etc.
-    normalized: bool
-    stride: int
-    offset: int
-
-
-@dataclass
-class LayoutDescriptor:
-    attributes: List[AttributeSpec]
+from picogl.buffers.attributes import LayoutDescriptor
+from picogl.buffers.glcleanup import delete_buffer
 
 
 # Public façade

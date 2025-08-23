@@ -52,11 +52,11 @@ GLSL_DIR = Path(__file__).parent / "glsl" / "tu01"
 def main() -> NoReturn:
     """Set up the colored object dat and show it"""
     data = MeshData.from_raw(vertices=g_vertex_buffer_data, colors=g_color_buffer_data)
-    window = RenderWindow(
+    render_window = RenderWindow(
         width=800, height=600, title="Cube window", data=data, glsl_dir=GLSL_DIR
     )
-    window.initializeGL()
-    window.run()
+    render_window.initialize()
+    render_window.run()
 
 
 if __name__ == "__main__":
@@ -142,7 +142,7 @@ GLSL_DIR = BASE_DIR / "glsl" / "tu02"
 def main() -> NoReturn:
     """Set up the cube and draw it with texture."""
     cube_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
-    win = TextureWindow(
+    render_window = TextureWindow(
         width=800,
         height=600,
         title="texture window",
@@ -150,8 +150,8 @@ def main() -> NoReturn:
         base_dir=BASE_DIR,
         glsl_dir=GLSL_DIR,
     )
-    win.initializeGL()
-    win.run()
+    render_window.initialize()
+    render_window.run()
 
 
 if __name__ == "__main__":
