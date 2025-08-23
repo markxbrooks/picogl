@@ -15,7 +15,7 @@ GLSL_DIR = BASE_DIR / "glsl" / "tu02"
 def main() -> None:
     """Set up the cube and draw it with texture."""
     mesh_data = MeshData.from_raw(vertices=g_vertex_buffer_data, uvs=g_uv_buffer_data)
-    win = TextureWindow(
+    render_window = TextureWindow(
         width=800,
         height=600,
         title="texture window",
@@ -24,8 +24,8 @@ def main() -> None:
         glsl_dir=GLSL_DIR,
         use_texture=True,
     )
-    win.initializeGL()
-    win.run()
+    render_window.initializeGL()
+    render_window.run()
 
 
 if __name__ == "__main__":

@@ -41,7 +41,7 @@ from typing import Dict, Optional
 
 from OpenGL.GL import glDeleteBuffers, glDeleteVertexArrays
 
-from picogl.backend.modern.core.vertex.base import VertexBase
+# from picogl.backend.modern.core.vertex.base import VertexBase
 
 
 def delete_dict_buffers(buffer_dict: Dict[str, int]) -> None:
@@ -56,7 +56,7 @@ def delete_dict_buffers(buffer_dict: Dict[str, int]) -> None:
     buffer_dict.clear()
 
 
-def delete_buffer_object(buffer: Optional[VertexBase]) -> None:
+def delete_buffer_object(buffer: Optional["VertexBase"]) -> None:
     """
     delete_buffer_object
 
