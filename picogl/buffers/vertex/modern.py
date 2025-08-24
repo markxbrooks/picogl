@@ -1,6 +1,7 @@
 import ctypes
 from typing import Optional
 
+from buffers.glcleanup import delete_buffer
 from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays, glVertexAttribPointer
 from OpenGL.raw.GL.VERSION.GL_1_5 import (
     GL_ARRAY_BUFFER,
@@ -9,7 +10,6 @@ from OpenGL.raw.GL.VERSION.GL_1_5 import (
 )
 from OpenGL.raw.GL.VERSION.GL_2_0 import glEnableVertexAttribArray
 from OpenGL.raw.GL.VERSION.GL_3_0 import glBindVertexArray
-from buffers.glcleanup import delete_buffer
 
 from picogl.buffers.attributes import LayoutDescriptor
 
@@ -52,7 +52,9 @@ class ModernVertexArrayGroup(BaseVertexBuffer):
         glBindVertexArray(self.vao.handle)
 
         if self.vbo is not None:
-            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo.handle, "_id", self.vbo.handle))
+            glBindBuffer(
+                GL_ARRAY_BUFFER, getattr(self.vbo.handle, "_id", self.vbo.handle)
+            )
         if self.nbo is not None:
             # If you have multiple buffers, bind as needed per attribute
             pass  # adapt as needed
@@ -69,7 +71,9 @@ class ModernVertexArrayGroup(BaseVertexBuffer):
                     ctypes.c_void_p(attr.offset),
                 )
         if self.ebo is not None:
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo.handle, "_id", self.ebo))
+            glBindBuffer(
+                GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo.handle, "_id", self.ebo)
+            )
 
         glBindVertexArray(0)
         self._configured = True

@@ -5,22 +5,24 @@ from pathlib import Path
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
-from picogl.renderer import GLContext, MeshData, RendererBase
 from picogl.logger import Logger as log
+from picogl.renderer import GLContext, MeshData, RendererBase
 from picogl.utils.texture import bind_texture_array
 
 
 class ObjectRenderer(RendererBase):
     """Unified renderer for textured and untextured objects."""
 
-    def __init__(self,
-                 context: GLContext,
-                 data: MeshData,
-                 base_dir: str | Path | None = None,
-                 glsl_dir: str | Path | None = None,
-                 use_texture: bool = False,
-                 texture_file: str | None = None,
-                 resource_subdir: str = "tu02"):
+    def __init__(
+        self,
+        context: GLContext,
+        data: MeshData,
+        base_dir: str | Path | None = None,
+        glsl_dir: str | Path | None = None,
+        use_texture: bool = False,
+        texture_file: str | None = None,
+        resource_subdir: str = "tu02",
+    ):
         super().__init__()
         self.base_dir = base_dir
         self.resource_subdir = resource_subdir
@@ -48,9 +50,11 @@ class ObjectRenderer(RendererBase):
         log.message("Loading shaders...")
         if not self.context:
             self.context = GLContext()
-        self.context.create_shader_program(vertex_source_file="vertex.glsl",
-                                           fragment_source_file="fragment.glsl",
-                                           glsl_dir=self.glsl_dir)
+        self.context.create_shader_program(
+            vertex_source_file="vertex.glsl",
+            fragment_source_file="fragment.glsl",
+            glsl_dir=self.glsl_dir,
+        )
 
     def initialize_buffers(self):
         """Create VAO and VBOs once."""

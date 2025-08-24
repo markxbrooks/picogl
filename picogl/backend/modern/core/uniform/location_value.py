@@ -1,7 +1,7 @@
 from typing import Union
 
 import numpy as np
-from OpenGL.GL import * # pylint: disable=W0614
+from OpenGL.GL import *  # pylint: disable=W0614
 from OpenGL.GL import glUniformMatrix4fv
 from pyglm import glm
 

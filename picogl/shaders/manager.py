@@ -40,8 +40,7 @@ from pyglm import glm
 
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.backend.modern.core.uniform.mvp import shader_uniform_set_mvp
-from picogl.backend.modern.core.uniform.set_location import \
-    set_uniform_name_value
+from picogl.backend.modern.core.uniform.set_location import set_uniform_name_value
 from picogl.logger import Logger as log
 from picogl.shaders.compile import compile_shaders
 from picogl.shaders.generate import generate_shader_programs

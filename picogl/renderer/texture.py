@@ -4,28 +4,33 @@ from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from picogl.renderer.object import ObjectRenderer
-from picogl.utils.loader.texture import TextureLoader
 from picogl.renderer import GLContext, MeshData
+from picogl.renderer.object import ObjectRenderer
 from picogl.utils.gl_init import execute_gl_tasks, paint_gl_list
+from picogl.utils.loader.texture import TextureLoader
 from picogl.utils.texture import bind_texture_array
 
 
 class TextureRenderer(ObjectRenderer):
     """Basic renderer class"""
 
-    def __init__(self, context: GLContext,
-                 data: MeshData,
-                 base_dir: str | Path = None,
-                 glsl_dir: str | Path = None,
-                 use_texture: bool = False,
-                 texture_file: str = None,
-                 resource_subdir: str = None):
-        super().__init__(context=context,
-                         data=data,
-                         base_dir=base_dir,
-                         glsl_dir=glsl_dir,
-                         use_texture=use_texture)
+    def __init__(
+        self,
+        context: GLContext,
+        data: MeshData,
+        base_dir: str | Path = None,
+        glsl_dir: str | Path = None,
+        use_texture: bool = False,
+        texture_file: str = None,
+        resource_subdir: str = None,
+    ):
+        super().__init__(
+            context=context,
+            data=data,
+            base_dir=base_dir,
+            glsl_dir=glsl_dir,
+            use_texture=use_texture,
+        )
         self.texture_full_path = None
         self.resource_full_path = None
         self.texture = None
@@ -87,9 +92,7 @@ class TextureRenderer(ObjectRenderer):
             shader.uniform("mvp_matrix", self.context.mvp_matrix)
             bind_texture_array(self.context.texture_id)
             shader.uniform("texture0", 0)
-            model_vao.draw(
-                mode=GL_TRIANGLES, index_count=self.data.vertex_count
-            )
+            model_vao.draw(mode=GL_TRIANGLES, index_count=self.data.vertex_count)
 
     def _draw_selection(self):
         """Draw selection"""

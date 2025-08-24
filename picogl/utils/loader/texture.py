@@ -3,19 +3,10 @@ import struct
 from pathlib import Path
 
 from OpenGL.GL import *
-from OpenGL.GL.EXT import texture_compression_s3tc
-from OpenGL.raw import GL
-from PIL import Image
-
-import os
-import struct
-import numpy as np
-from PIL import Image
-from OpenGL.GL import *
-from OpenGL.GL import shaders
 
 # Ensure an OpenGL S3TC extension loader is available
 from OpenGL.GL.EXT.texture_compression_s3tc import *
+from PIL import Image
 
 
 class TextureLoader:
@@ -32,7 +23,9 @@ class TextureLoader:
         self.buffer: Optional[bytes] = None
         self.inversed_v_coords: bool = False
         if not os.path.isabs(file_name):
-            file_name = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", file_name))
+            file_name = os.path.abspath(
+                os.path.join(os.path.dirname(__file__), "..", file_name)
+            )
         if file_name.lower().endswith(".dds"):
             self.load_dds(file_name)
         else:
@@ -89,7 +82,7 @@ class TextureLoader:
                 h,
                 0,
                 size,
-                ddsbuffer[offset:offset + size],
+                ddsbuffer[offset : offset + size],
             )
             offset += size
             w //= 2
@@ -144,11 +137,14 @@ class TextureLoader:
 
     def __len__(self) -> int:
         return len(self.buffer) if self.buffer else 0
-    
+
 
 if __name__ == "__main__":
-    texture = TextureLoader(file_name=os.path.join(str(Path.home()),
-                                                   "projects/PicoGL/examples/resources/tu02/uvtemplate.tga"))
+    texture = TextureLoader(
+        file_name=os.path.join(
+            str(Path.home()), "projects/PicoGL/examples/resources/tu02/uvtemplate.tga"
+        )
+    )
     print(texture.texture_glid)
     print(texture.width)
     print(texture.height)

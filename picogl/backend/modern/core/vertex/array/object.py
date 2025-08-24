@@ -38,15 +38,23 @@ from typing import Optional
 
 import numpy as np
 from OpenGL.GL import glDeleteVertexArrays, glGenVertexArrays
-from OpenGL.raw.GL.VERSION.GL_2_0 import glEnableVertexAttribArray, glVertexAttribPointer
 from OpenGL.raw.GL._types import GL_FLOAT, GL_UNSIGNED_INT
 from OpenGL.raw.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS
 from OpenGL.raw.GL.VERSION.GL_1_1 import glDrawArrays
-from OpenGL.raw.GL.VERSION.GL_1_5 import GL_STATIC_DRAW, glBindBuffer, GL_ELEMENT_ARRAY_BUFFER
+from OpenGL.raw.GL.VERSION.GL_1_5 import (
+    GL_ELEMENT_ARRAY_BUFFER,
+    GL_STATIC_DRAW,
+    glBindBuffer,
+)
+from OpenGL.raw.GL.VERSION.GL_2_0 import (
+    glEnableVertexAttribArray,
+    glVertexAttribPointer,
+)
 
-from picogl.backend.modern.core.vertex.array.helpers import \
-    enable_points_rendering_state
+from picogl.backend.modern.core.vertex.array.helpers import (
+    enable_points_rendering_state,
+)
 from picogl.backend.modern.core.vertex.base import VertexBuffer
 from picogl.backend.modern.core.vertex.buffer.element import ModernEBO
 from picogl.backend.modern.core.vertex.buffer.object import ModernVBO
@@ -79,7 +87,7 @@ class VertexArrayObject(VertexBase):
         super().__init__(handle)
         self.attributes = []
         self.vbos = []
-        self.named_vbos : dict[str, VertexBuffer] = {}
+        self.named_vbos: dict[str, VertexBuffer] = {}
         self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing
         self.vbo = None  # Atom Vertex Buffer Object
         self.cbo = None  # Color Vertex Buffer Object
@@ -147,7 +155,9 @@ class VertexArrayObject(VertexBase):
                         ctypes.c_void_p(attr.offset),
                     )
             if self.ebo is not None:
-                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
+                glBindBuffer(
+                    GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo)
+                )
 
             glBindVertexArray(0)
             self._configured = True
@@ -308,4 +318,3 @@ class VertexArrayObject(VertexBase):
             glDrawElements(mode, atom_count, dtype, pointer)
         else:
             glDrawArrays(mode, 0, atom_count)
-

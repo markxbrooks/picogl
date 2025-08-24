@@ -1,4 +1,5 @@
 """ reshape data to a float 32 row"""
+
 from typing import Any
 
 import numpy as np

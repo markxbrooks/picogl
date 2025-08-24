@@ -2,11 +2,10 @@
 ABC Window
 """
 
-
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from OpenGL.GLUT import ( glutMainLoop, glutSwapBuffers)
+from OpenGL.GLUT import glutMainLoop, glutSwapBuffers
 
 
 class AbstractGLWindow(ABC):

@@ -1,13 +1,14 @@
 """
 GLBase Qt Widget
 """
+
 from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
 from OpenGL.GL import glGetIntegerv
 from OpenGL.raw.GL.ARB.viewport_array import GL_VIEWPORT
-from OpenGL.raw.GL.VERSION.GL_1_0 import glViewport, GL_MODELVIEW, glLoadIdentity
+from OpenGL.raw.GL.VERSION.GL_1_0 import GL_MODELVIEW, glLoadIdentity, glViewport
 from OpenGL.raw.GLU import gluPerspective
 from PySide6.QtGui import QMouseEvent, QOpenGLFunctions, Qt, QWheelEvent
 from PySide6.QtOpenGLWidgets import QOpenGLWidget
@@ -25,15 +26,18 @@ from picogl.utils.gl_init import execute_gl_tasks, initialize_gl_list
 
 @dataclass
 class MvpParameters:
-    """ MVP Parameters """
+    """MVP Parameters"""
+
     rotation_x = None
     rotation_y = None
     pan_x = None
     pan_y = None
 
+
 @dataclass
 class CameraParameters:
-    """ camera parameters"""
+    """camera parameters"""
+
     rotation_x_axis = None
     rotation_y_axis = None
     rotation_z_axis = None
@@ -47,6 +51,7 @@ class CameraParameters:
         default_factory=lambda: np.array([0.0, 0.0], dtype=np.float32)
     )  # x_pan, y_pan
     # zoom: CameraParameterZoom = field(default_factory=CameraParameterZoom)
+
 
 class GLBase(QOpenGLWidget, QOpenGLFunctions):
     """
@@ -231,9 +236,7 @@ class GLBase(QOpenGLWidget, QOpenGLFunctions):
         glGetIntegerv(GL_VIEWPORT, viewport)
         return viewport
 
-    def _apply_camera_rotation(self,
-                               dx: float,
-                               dy: float) -> None:
+    def _apply_camera_rotation(self, dx: float, dy: float) -> None:
         """
         _apply_camera_rotation
 

@@ -13,6 +13,7 @@ self.data = ObjectData(
     indices=getattr(raw_data, "indices", None)
 )
 """
+
 from dataclasses import dataclass, field
 from typing import List, Optional
 

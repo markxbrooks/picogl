@@ -3,6 +3,7 @@ VertexArrayGroup
 
 Legacy backend (no real GL VAO support)
 """
+
 import ctypes
 from typing import Optional
 
@@ -13,7 +14,8 @@ from OpenGL.raw.GL.VERSION.GL_1_1 import (
     GL_COLOR_ARRAY,
     GL_NORMAL_ARRAY,
     GL_VERTEX_ARRAY,
-    glDrawArrays, glDrawElements,
+    glDrawArrays,
+    glDrawElements,
 )
 from OpenGL.raw.GL.VERSION.GL_1_5 import (
     GL_ARRAY_BUFFER,
@@ -24,15 +26,16 @@ from OpenGL.raw.GL.VERSION.GL_2_0 import (
     glDisableVertexAttribArray,
     glEnableVertexAttribArray,
 )
+
 from picogl.backend.legacy.core.vertex.buffer.client_states import legacy_client_states
 from picogl.backend.legacy.core.vertex.buffer.color import LegacyColorVBO
 from picogl.backend.legacy.core.vertex.buffer.element import LegacyEBO
 from picogl.backend.legacy.core.vertex.buffer.normal import LegacyNormalVBO
 from picogl.backend.legacy.core.vertex.buffer.position import LegacyPositionVBO
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
+from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.base import VertexBase
 from picogl.buffers.glcleanup import delete_buffer
-from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.vertex.aliases import NAME_ALIASES
 
 
@@ -43,17 +46,21 @@ class VertexArrayGroup(VertexBase):
         super().__init__()
         # self.index_count = 0
         self.handle = 0  # Does absolutely nothing
-        self.vao = None  # Bonds Vertex Array Object. Does absolutely nothing, but is needed
+        self.vao = (
+            None  # Bonds Vertex Array Object. Does absolutely nothing, but is needed
+        )
         self.vbo = None  # Atom Vertex Buffer Object
         self.cbo = None  # Color Vertex Buffer Object
         self.nbo = None  # Normal Vertex Buffer Object
         self.ebo = None  # Bond Index Buffer Object
         self.layout: Optional[LayoutDescriptor] = None
         self.named_vbos: dict[str, LegacyVBO] = {}  # store by semantic name
-        self.vbo_classes = {"vbo": LegacyPositionVBO,
-                       "cbo": LegacyColorVBO,
-                       "ebo": LegacyEBO,
-                       "nbo": LegacyNormalVBO}
+        self.vbo_classes = {
+            "vbo": LegacyPositionVBO,
+            "cbo": LegacyColorVBO,
+            "ebo": LegacyEBO,
+            "nbo": LegacyNormalVBO,
+        }
 
     def add_vbo_object(self, name: str, vbo: "LegacyVBO") -> "LegacyVBO":
         """Register a VBO by semantic name or shorthand alias."""
@@ -142,7 +149,11 @@ class VertexArrayGroup(VertexBase):
         self.add_vbo_object(name, ebo_class(data=data))
 
     def draw_elements(
-        self, count: int = 0, mode: int = GL_TRIANGLES, dtype: int = GL_UNSIGNED_INT, offset: int = 0
+        self,
+        count: int = 0,
+        mode: int = GL_TRIANGLES,
+        dtype: int = GL_UNSIGNED_INT,
+        offset: int = 0,
     ):
         """
         Draw using an element buffer (EBO) with legacy client states.
@@ -204,5 +215,3 @@ class VertexArrayGroup(VertexBase):
         for attr in self.layout.attributes:
             glDisableVertexAttribArray(attr.index)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
-
-

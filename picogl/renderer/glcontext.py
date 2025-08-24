@@ -29,16 +29,15 @@ class GLContext:
     model_matrix: np.ndarray = field(
         default_factory=lambda: np.identity(4, dtype=np.float32)
     )
-    view: np.ndarray = field(
-        default_factory=lambda: np.identity(4, dtype=np.float32)
-    )
-    eye_np: np.ndarray = field(
-        default_factory=lambda: np.identity(3, dtype=np.float32)
-    )
+    view: np.ndarray = field(default_factory=lambda: np.identity(4, dtype=np.float32))
+    eye_np: np.ndarray = field(default_factory=lambda: np.identity(3, dtype=np.float32))
 
-    def create_shader_program(self, vertex_source_file: str,
-                              fragment_source_file: str,
-                              glsl_dir: str | Path | None = None) -> None:
+    def create_shader_program(
+        self,
+        vertex_source_file: str,
+        fragment_source_file: str,
+        glsl_dir: str | Path | None = None,
+    ) -> None:
         """
         create_shader_program
 

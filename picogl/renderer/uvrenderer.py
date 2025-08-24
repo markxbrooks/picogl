@@ -1,6 +1,7 @@
-from pyglm import glm
-from OpenGL.GL import *
 from typing import Optional
+
+from OpenGL.GL import *
+from pyglm import glm
 
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from picogl.renderer import RendererBase
@@ -12,16 +13,19 @@ class UvRenderer(RendererBase):
     Follows the RendererBase interface.
     """
 
-    def __init__(self, parent: object = None,
-                 vertex_shader_file: str = "glsl/utils/uv2d/vertex.glsl",
-                 fragment_shader_file: str = "glsl/utils/uv2d/fragment.glsl"):
+    def __init__(
+        self,
+        parent: object = None,
+        vertex_shader_file: str = "glsl/utils/uv2d/vertex.glsl",
+        fragment_shader_file: str = "glsl/utils/uv2d/fragment.glsl",
+    ):
         super().__init__(parent)
         self.uv_buffer: Optional[int] = None
         self.indices_buffer: Optional[int] = None
         self.index_count: int = 0
         self.shader: Optional[ShaderProgram] = ShaderProgram(
             vertex_source_file=vertex_shader_file,
-            fragment_source_file=fragment_shader_file
+            fragment_source_file=fragment_shader_file,
         )
 
     def initialize(self):
@@ -34,7 +38,9 @@ class UvRenderer(RendererBase):
         # Any additional initialization logic can go here
         self.initialized = True
 
-    def initialize_buffers(self, uv_buffer: int, indices_buffer: int, index_count: int) -> None:
+    def initialize_buffers(
+        self, uv_buffer: int, indices_buffer: int, index_count: int
+    ) -> None:
         """
         Bind the UV and index buffers to the renderer.
 
@@ -42,8 +48,12 @@ class UvRenderer(RendererBase):
         :param indices_buffer: OpenGL buffer ID containing indices
         :param index_count: Number of indices to draw
         """
-        if not all(isinstance(x, int) for x in (uv_buffer, indices_buffer, index_count)):
-            raise ValueError("uv_buffer, indices_buffer, and index_count must be integers")
+        if not all(
+            isinstance(x, int) for x in (uv_buffer, indices_buffer, index_count)
+        ):
+            raise ValueError(
+                "uv_buffer, indices_buffer, and index_count must be integers"
+            )
 
         self.uv_buffer = uv_buffer
         self.indices_buffer = indices_buffer
@@ -53,7 +63,11 @@ class UvRenderer(RendererBase):
         """
         Draw the UV mesh. Called by RendererBase.render().
         """
-        if self.uv_buffer is None or self.indices_buffer is None or self.index_count == 0:
+        if (
+            self.uv_buffer is None
+            or self.indices_buffer is None
+            or self.index_count == 0
+        ):
             # Nothing to draw
             return
 
@@ -81,4 +95,3 @@ class UvRenderer(RendererBase):
         # Restore previous polygon mode
         glPolygonMode(GL_FRONT, prev_front_mode)
         glPolygonMode(GL_BACK, prev_back_mode)
-

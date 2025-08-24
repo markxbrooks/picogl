@@ -3,10 +3,8 @@ from pathlib import Path
 from OpenGL import GL as gl
 
 from picogl.backend.modern.core.shader.compile import compile_shader
-from picogl.backend.modern.core.shader.helpers import (log_gl_error,
-                                                       read_shader_source)
-from picogl.backend.modern.core.uniform.location_value import \
-    set_uniform_location_value
+from picogl.backend.modern.core.shader.helpers import log_gl_error, read_shader_source
+from picogl.backend.modern.core.uniform.location_value import set_uniform_location_value
 from picogl.logger import Logger as log
 from picogl.shaders.uniform import get_uniform_location
 
@@ -51,7 +49,10 @@ class ShaderProgram:
         return self.program
 
     def init_shader_from_glsl_files(
-        self, vertex_source_file: str, fragment_source_file: str, glsl_dir: str | Path | None = None
+        self,
+        vertex_source_file: str,
+        fragment_source_file: str,
+        glsl_dir: str | Path | None = None,
     ) -> None:
         """
         init_shader_from_glsl_files

@@ -6,8 +6,10 @@ from abc import ABC, abstractmethod
 
 from picogl.buffers.attributes import LayoutDescriptor
 
+
 class AbstractVertexGroup(ABC):
-    """ Public façade """
+    """Public façade"""
+
     @abstractmethod
     def bind(self) -> None:
         """Bind the underlying VAO/state for rendering."""
@@ -32,4 +34,3 @@ class AbstractVertexGroup(ABC):
     def attach_buffers(self, nbo=None, cbo=None, vbo=None, ebo=None) -> None:
         """Attach the buffers that the VAO/group should coordinate."""
         pass
-

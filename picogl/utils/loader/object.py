@@ -55,14 +55,14 @@ class ObjectLoader:
                         subs = ref.split("/")
                         while len(subs) < 3:
                             subs.append("")  # pad to 3 elements
-                        
+
                         # Parse indices (OBJ uses 1-based indexing)
                         v_idx = int(subs[0]) if subs[0] else 0
                         t_idx = int(subs[1]) if subs[1] else 0
                         n_idx = int(subs[2]) if subs[2] else 0
-                        
+
                         face_indices.append((v_idx, t_idx, n_idx))
-                    
+
                     # Store the face indices
                     self.indices.extend([idx for face in face_indices for idx in face])
 
@@ -79,7 +79,7 @@ class ObjectLoader:
         self.log_properties()
 
     def log_properties(self):
-        """ log object properties """
+        """log object properties"""
         log_properties(self)
 
     def to_array_style(self) -> ObjectData:
@@ -87,26 +87,26 @@ class ObjectLoader:
         vertices, texcoords, normals = [], [], []
 
         for i in range(0, len(self.indices), 3):
-            v_idx, t_idx, n_idx = self.indices[i:i + 3]
+            v_idx, t_idx, n_idx = self.indices[i : i + 3]
 
             # Get vertex position (1-based to 0-based)
             if v_idx > 0:
                 v_start = 3 * (v_idx - 1)
-                vertices.extend(self.vertices[v_start:v_start + 3])
+                vertices.extend(self.vertices[v_start : v_start + 3])
             else:
                 vertices.extend([0.0, 0.0, 0.0])  # Default vertex
 
             # Get texture coordinates (1-based to 0-based)
             if t_idx > 0 and self.texcoords:
                 t_start = 2 * (t_idx - 1)
-                texcoords.extend(self.texcoords[t_start:t_start + 2])
+                texcoords.extend(self.texcoords[t_start : t_start + 2])
             else:
                 texcoords.extend([0.0, 0.0])  # Default texcoord
 
             # Get normal (1-based to 0-based)
             if n_idx > 0 and self.normals:
                 n_start = 3 * (n_idx - 1)
-                normals.extend(self.normals[n_start:n_start + 3])
+                normals.extend(self.normals[n_start : n_start + 3])
             else:
                 normals.extend([0.0, 0.0, 1.0])  # Default normal
 
@@ -119,7 +119,7 @@ class ObjectLoader:
         combinations = {}
 
         for i in range(0, len(self.indices), 3):
-            v_idx, t_idx, n_idx = self.indices[i:i + 3]
+            v_idx, t_idx, n_idx = self.indices[i : i + 3]
             key = (v_idx, t_idx, n_idx)
 
             if key not in combinations:
@@ -128,21 +128,21 @@ class ObjectLoader:
                 # Get vertex position (1-based to 0-based)
                 if v_idx > 0:
                     v_start = 3 * (v_idx - 1)
-                    vertices.extend(self.vertices[v_start:v_start + 3])
+                    vertices.extend(self.vertices[v_start : v_start + 3])
                 else:
                     vertices.extend([0.0, 0.0, 0.0])  # Default vertex
 
                 # Get texture coordinates (1-based to 0-based)
                 if t_idx > 0 and self.texcoords:
                     t_start = 2 * (t_idx - 1)
-                    texcoords.extend(self.texcoords[t_start:t_start + 2])
+                    texcoords.extend(self.texcoords[t_start : t_start + 2])
                 else:
                     texcoords.extend([0.0, 0.0])  # Default texcoord
 
                 # Get normal (1-based to 0-based)
                 if n_idx > 0 and self.normals:
                     n_start = 3 * (n_idx - 1)
-                    normals.extend(self.normals[n_start:n_start + 3])
+                    normals.extend(self.normals[n_start : n_start + 3])
                 else:
                     normals.extend([0.0, 0.0, 1.0])  # Default normal
 

@@ -124,7 +124,6 @@ class MeshData:
         )
 
 
-
 class MeshDataOld:
     """Holds OpenGL-related state objects for rendering."""
 

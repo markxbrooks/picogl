@@ -6,9 +6,7 @@ from pyglm import glm
 from picogl.backend.modern.core.shader.helpers import log_gl_error
 
 
-def calculate_mvp_matrix(context: object,
-                         width: int = 1920,
-                         height: int = 1080):
+def calculate_mvp_matrix(context: object, width: int = 1920, height: int = 1080):
     """
     calculate_mvp_matrix
 

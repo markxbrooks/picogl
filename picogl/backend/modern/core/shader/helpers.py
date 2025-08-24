@@ -31,7 +31,9 @@ def compile_shader(program: int, shader: int, shader_source_list: str):
     gl.glAttachShader(program, shader)
 
 
-def read_shader_source(shader_file_name: str, glsl_dir: str | Path | None = None) -> str:
+def read_shader_source(
+    shader_file_name: str, glsl_dir: str | Path | None = None
+) -> str:
     """
     Read shader source from a file.
 
@@ -50,4 +52,3 @@ def read_shader_source(shader_file_name: str, glsl_dir: str | Path | None = None
         return abs_path.read_text()
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Shader file not found: {abs_path}") from e
-
