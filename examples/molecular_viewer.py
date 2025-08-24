@@ -244,7 +244,7 @@ def main():
             width=1024,
             height=768,
             title="Molecular Viewer - PDB Structure",
-            data=viewer.atom_mesh,  # Use atom mesh as base data
+            data=viewer.create_atom_mesh(),  # Create atom mesh for base data
             glsl_dir=Path(__file__).parent / "glsl" / "molecular"
         )
         
