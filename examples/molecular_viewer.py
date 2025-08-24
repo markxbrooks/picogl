@@ -6,7 +6,8 @@ This example demonstrates how to:
 2. Visualize molecular structures with PicoGL
 3. Export to MolViewSpec format for portable viewing
 """
-
+import os
+import sys
 from pathlib import Path
 import numpy as np
 from OpenGL.GL import *
@@ -18,7 +19,7 @@ from picogl.shaders.type import ShaderType
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
 from picogl.backend.modern.core.shader.program import ShaderProgram
 from utils.pdb_loader import PDBLoader
-
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 class MolecularViewer:
     """Molecular structure viewer with PDB support"""

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from examples import g_uv_buffer_data
+from examples.data.cube_data import g_uv_buffer_data
 from picogl.renderer.object import ObjectRenderer
 from picogl.utils.loader.texture import TextureLoader
 from picogl.renderer import GLContext, MeshData

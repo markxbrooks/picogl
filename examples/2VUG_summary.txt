@@ -1,0 +1,5 @@
+Structure Summary: THE STRUCTURE OF AN ARCHAEAL HOMODIMERIC RNA LIGASE
+Atoms: 6222
+Bonds: 118
+Residues: 765
+Chains: A, B
