@@ -17,7 +17,6 @@ from picogl.ui.backend.glut.window.object import RenderWindow
 from picogl.shaders.registry import ShaderRegistry
 from picogl.shaders.type import ShaderType
 from picogl.backend.modern.core.vertex.array.object import VertexArrayObject
-from picogl.backend.modern.core.shader.program import ShaderProgram
 from utils.pdb_loader import PDBLoader
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 

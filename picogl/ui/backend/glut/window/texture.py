@@ -1,12 +1,22 @@
+from pathlib import Path
 
-from picogl.renderer import GLContext
+from picogl.renderer import GLContext, MeshData
 from picogl.ui.backend.glut.window.glut import GlutRendererWindow
 from picogl.renderer.texture import TextureRenderer
 
 
 class TextureWindow(GlutRendererWindow):
     """file with stubs for actions"""
-    def __init__(self, width, height, title, data, base_dir, glsl_dir, use_texture, *args, **kwargs):
+    def __init__(self,
+                 width: int,
+                 height: int,
+                 title: str,
+                 data: MeshData,
+                 base_dir: str | Path,
+                 glsl_dir: str | Path,
+                 use_texture: bool,
+                 *args,
+                 **kwargs):
         self.context = GLContext()
         self.base_dir = base_dir
         self.data = data

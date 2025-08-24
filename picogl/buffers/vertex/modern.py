@@ -49,10 +49,10 @@ class ModernVertexArrayGroup(BaseVertexBuffer):
         Normal Buffer Object (NBO) and Element Buffer Object (EBO) if present.
         """
         self.layout = layout
-        glBindVertexArray(self.vao)
+        glBindVertexArray(self.vao.handle)
 
         if self.vbo is not None:
-            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo, "_id", self.vbo))
+            glBindBuffer(GL_ARRAY_BUFFER, getattr(self.vbo.handle, "_id", self.vbo.handle))
         if self.nbo is not None:
             # If you have multiple buffers, bind as needed per attribute
             pass  # adapt as needed
@@ -69,7 +69,7 @@ class ModernVertexArrayGroup(BaseVertexBuffer):
                     ctypes.c_void_p(attr.offset),
                 )
         if self.ebo is not None:
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo, "_id", self.ebo))
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getattr(self.ebo.handle, "_id", self.ebo))
 
         glBindVertexArray(0)
         self._configured = True

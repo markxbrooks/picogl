@@ -1,5 +1,5 @@
 """
-BaseVertexBuffer
+VertexBase
 ================
 
 Specializes the abstract façade into a slightly more concrete base (manages a GL handle, context manager behavior, common boilerplate).
@@ -13,7 +13,7 @@ from picogl.buffers.abstract import AbstractVertexGroup
 from picogl.buffers.attributes import LayoutDescriptor
 
 
-class BaseVertexBuffer(AbstractVertexGroup):
+class VertexBase(AbstractVertexGroup):
     """
     Generic OpenGL object interface with binding lifecycle.
 

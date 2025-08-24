@@ -30,14 +30,13 @@ from picogl.backend.legacy.core.vertex.buffer.element import LegacyEBO
 from picogl.backend.legacy.core.vertex.buffer.normal import LegacyNormalVBO
 from picogl.backend.legacy.core.vertex.buffer.position import LegacyPositionVBO
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
-from picogl.backend.modern.core.vertex.base import VertexBuffer
+from picogl.buffers.base import VertexBase
 from picogl.buffers.glcleanup import delete_buffer
-
 from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.vertex.aliases import NAME_ALIASES
 
 
-class VertexArrayGroup(VertexBuffer):
+class VertexArrayGroup(VertexBase):
     """Container for legacy VBOs, mimicking VAO interface."""
 
     def __init__(self):
@@ -75,16 +74,27 @@ class VertexArrayGroup(VertexBuffer):
         canonical = NAME_ALIASES.get(name, name)
         return self.named_vbos.get(canonical)
 
-    def set_index_count_broken(self, index: int):
-        """Set the index count of the VBO."""
-        self.index_count = index
-
     def delete(self) -> None:
         for buf in (self.nbo, self.cbo, self.vbo, self.ebo):
             if buf:
                 delete_buffer(buf)
         self.nbo = self.cbo = self.vbo = self.ebo = None
         self.layout = None
+
+    @property
+    def index_count(self) -> str | int | None:
+        """
+        Return the number of indices in the EBO.
+
+        :return: int
+        """
+        try:
+            if self.ebo:
+                if hasattr(self.ebo, "data"):
+                    return len(self.ebo.data)
+            return 0
+        except Exception as ex:
+            log.error(f"error {ex} occurred")
 
     def draw(self, count: int = 0, mode=GL_POINTS):
         """

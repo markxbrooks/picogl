@@ -42,10 +42,10 @@ from OpenGL.raw.GL.VERSION.GL_1_5 import (GL_ARRAY_BUFFER, GL_STATIC_DRAW,
 from OpenGL.raw.GL.VERSION.GL_2_0 import (glEnableVertexAttribArray,
                                           glVertexAttribPointer)
 
-from picogl.buffers.base import BaseVertexBuffer
+from picogl.buffers.base import VertexBase
 
 
-class VertexBuffer(BaseVertexBuffer):
+class VertexBuffer(VertexBase):
     """
     VertexBuffer
     ============

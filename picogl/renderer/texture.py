@@ -4,7 +4,6 @@ from pathlib import Path
 
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_TRIANGLES
 
-from examples.data.cube_data import g_uv_buffer_data
 from picogl.renderer.object import ObjectRenderer
 from picogl.utils.loader.texture import TextureLoader
 from picogl.renderer import GLContext, MeshData
@@ -17,8 +16,8 @@ class TextureRenderer(ObjectRenderer):
 
     def __init__(self, context: GLContext,
                  data: MeshData,
-                 base_dir: str = None,
-                 glsl_dir: str = None,
+                 base_dir: str | Path = None,
+                 glsl_dir: str | Path = None,
                  use_texture: bool = False,
                  texture_file: str = None,
                  resource_subdir: str = None):
@@ -46,9 +45,9 @@ class TextureRenderer(ObjectRenderer):
         self.texture = texture = TextureLoader(texture_path)
         self.context.texture_id = texture.texture_glid
         if texture.inversed_v_coords:
-            for index, _ in enumerate(g_uv_buffer_data):
+            for index, _ in enumerate(data.uvs):
                 if index % 2:
-                    g_uv_buffer_data[index] = 1.0 - g_uv_buffer_data[index]
+                    data.uvs[index] = 1.0 - data.uvs[index]
 
     def get_texture_filename(self):
         """
