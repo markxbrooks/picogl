@@ -229,7 +229,7 @@ class MolecularRenderWindow(RenderWindow):
 def main():
     """Main function to demonstrate molecular viewing"""
     # Example PDB file path - you'll need to provide your own PDB file
-    pdb_path = "data/example.pdb"
+    pdb_path = "data/2VUG.pdb"
     
     try:
         # Create molecular viewer
@@ -245,7 +245,7 @@ def main():
             height=768,
             title="Molecular Viewer - PDB Structure",
             data=viewer.create_atom_mesh(),  # Create atom mesh for base data
-            glsl_dir=Path(__file__).parent / "glsl" / "molecular"
+            glsl_dir=Path(__file__).parent / "glsl" / "tu01"
         )
         
         # Initialize and run
