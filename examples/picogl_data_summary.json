@@ -1,0 +1,14 @@
+{
+  "summary": {
+    "atoms_count": 9,
+    "bonds_count": 9,
+    "residues_count": 2,
+    "chains_count": 1,
+    "total_vertices": 27
+  },
+  "metadata": {
+    "file_type": "PicoGL Molecular Data",
+    "version": "1.0",
+    "description": "Molecular structure data converted from PDB format"
+  }
+}
