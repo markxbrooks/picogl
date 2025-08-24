@@ -1,0 +1,5 @@
+Structure Summary: EXAMPLE MOLECULE
+Atoms: 9
+Bonds: 9
+Residues: 2
+Chains: 
