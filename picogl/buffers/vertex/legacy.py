@@ -8,7 +8,6 @@ import ctypes
 from typing import Optional
 
 import numpy as np
-from picogl.buffers.glcleanup import delete_buffer_object
 from OpenGL.GL import glVertexAttribPointer
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS, GL_TRIANGLES, GL_UNSIGNED_INT
 from OpenGL.raw.GL.VERSION.GL_1_1 import (
@@ -36,6 +35,7 @@ from picogl.backend.legacy.core.vertex.buffer.position import LegacyPositionVBO
 from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.base import VertexBase
+from picogl.buffers.glcleanup import delete_buffer_object
 from picogl.buffers.vertex.aliases import NAME_ALIASES
 from picogl.logger import Logger as log
 
