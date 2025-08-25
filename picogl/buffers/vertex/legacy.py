@@ -44,6 +44,68 @@ class VertexArrayGroup(VertexBase):
 
     def __init__(self):
         super().__init__()
+        self,handle = None
+        self.vao = None
+        self.named_vbos: dict[str, LegacyVBO] = {}  # Store VBOs by name
+        self.vbo_classes = {
+            "vbo": LegacyPositionVBO,
+            "cbo": LegacyColorVBO,
+            "ebo": LegacyEBO,
+            "nbo": LegacyNormalVBO,
+        }
+        self.layout: Optional[LayoutDescriptor] = None
+        self.ebo = None  # Element Buffer Object (EBO)
+
+    def add_vbo_object(self, name: str, vbo: "LegacyVBO") -> "LegacyVBO":
+        """Register a VBO by name."""
+        if name in self.named_vbos:
+            raise ValueError(f"VBO with name '{name}' already exists.")
+        self.named_vbos[name] = vbo
+        if name == "ebo":
+            self.ebo = vbo  # Special case for EBO
+        return vbo
+
+    def add_vbo(self, name: str, data: np.ndarray, size: int = 3) -> None:
+        """Add a VBO by name, automatically selecting the correct type."""
+        if name not in self.vbo_classes:
+            raise ValueError(f"Unknown VBO name '{name}'.")
+        vbo_class = self.vbo_classes[name]
+        self.add_vbo_object(name, vbo_class(data=data, size=size))
+
+    def get_vbo_object(self, name: str) -> Optional["LegacyVBO"]:
+        """Retrieve a VBO by name."""
+        return self.named_vbos.get(name)
+
+    def delete(self) -> None:
+        """Delete all VBOs and release resources."""
+        for vbo in self.named_vbos.values():
+            delete_buffer(vbo)
+        self.named_vbos.clear()
+        self.layout = None
+
+    @property
+    def index_count(self) -> Optional[int]:
+        """Return the number of indices in the EBO."""
+        if self.ebo and hasattr(self.ebo, "data"):
+            return len(self.ebo.data)
+        return 0
+
+    def draw(self, count: int = 0, mode=GL_POINTS):
+        """Enable legacy client states, bind VBOs, and issue a draw call."""
+        if not count:
+            count = self.index_count
+        with self:
+            with legacy_client_states(GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_NORMAL_ARRAY):
+                for vbo in self.named_vbos.values():
+                    vbo.bind()
+                glDrawArrays(mode, 0, count)
+
+
+class VertexArrayGroupold(VertexBase):
+    """Container for legacy VBOs, mimicking VAO interface."""
+
+    def __init__(self):
+        super().__init__()
         # self.index_count = 0
         self.handle = 0  # Does absolutely nothing
         self.vao = (
