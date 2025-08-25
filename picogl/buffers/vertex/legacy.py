@@ -8,7 +8,7 @@ import ctypes
 from typing import Optional
 
 import numpy as np
-from buffers.glcleanup import delete_buffer_object
+from picogl.buffers.glcleanup import delete_buffer_object
 from OpenGL.GL import glVertexAttribPointer
 from OpenGL.raw.GL.VERSION.GL_1_0 import GL_POINTS, GL_TRIANGLES, GL_UNSIGNED_INT
 from OpenGL.raw.GL.VERSION.GL_1_1 import (
@@ -37,6 +37,7 @@ from picogl.backend.legacy.core.vertex.buffer.vertex import LegacyVBO
 from picogl.buffers.attributes import LayoutDescriptor
 from picogl.buffers.base import VertexBase
 from picogl.buffers.vertex.aliases import NAME_ALIASES
+from picogl.logger import Logger as log
 
 
 class VertexArrayGroup(VertexBase):
@@ -121,12 +122,14 @@ class VertexArrayGroup(VertexBase):
                 # Issue draw call
                 glDrawArrays(mode, 0, count)
 
-    def add_vbo(self, name: str, data: np.ndarray = None, size: int = 3):
-        """
-        add_vbo
-        """
-        vbo_class = self.get_buffer_class(name)
-        self.add_vbo_object(name, vbo_class(data=data, size=size))
+    def add_vbo(self, name: str, **kwargs):
+        """High-level shortcut: pick the right VBO subclass and delegate."""
+        try:
+            vbo_class = self.get_buffer_class(name)
+            vbo = vbo_class(**kwargs)
+            return self.add_vbo_object(name, vbo)
+        except Exception as ex:
+            log.error(f"error {ex} occurred adding vbo")
 
     def get_buffer_class(self, name: str = "vbo") -> type[LegacyVBO]:
         """
@@ -192,21 +195,24 @@ class VertexArrayGroup(VertexBase):
         """Bind buffers and upload attribute pointers per stored layout."""
         if not self.layout:
             return
-        for attr in self.layout.attributes:
-            canonical = NAME_ALIASES.get(attr.name, attr.name)
-            vbo = self.named_vbos.get(canonical)
-            if not vbo:
-                continue
-            glBindBuffer(GL_ARRAY_BUFFER, getattr(vbo, "_id", vbo))
-            glEnableVertexAttribArray(attr.index)
-            glVertexAttribPointer(
-                attr.index,
-                attr.size,
-                attr.type,
-                attr.normalized,
-                attr.stride,
-                ctypes.c_void_p(attr.offset),
-            )
+        try:
+            for attr in self.layout.attributes:
+                canonical = NAME_ALIASES.get(attr.name, attr.name)
+                vbo = self.named_vbos.get(canonical)
+                if not vbo:
+                    continue
+                glBindBuffer(GL_ARRAY_BUFFER, getattr(vbo, "_id", vbo))
+                glEnableVertexAttribArray(attr.index)
+                glVertexAttribPointer(
+                    attr.index,
+                    attr.size,
+                    attr.type,
+                    attr.normalized,
+                    attr.stride,
+                    ctypes.c_void_p(attr.offset),
+                )
+        except Exception as ex:
+            log.error(f"error {ex} occurred")
 
     def unbind(self) -> None:
         """Disable attribute arrays and unbind the array buffer."""
