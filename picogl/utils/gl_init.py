@@ -1,4 +1,4 @@
-""" execute gl task lists """
+"""execute gl task lists"""
 
 from typing import Callable
 

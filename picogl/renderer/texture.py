@@ -1,4 +1,4 @@
-""" Texture Renderer class """
+"""Texture Renderer class"""
 
 from pathlib import Path
 
